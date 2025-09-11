@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindAsset - Real World Asset Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FindAsset</h1>
+            <p>Discover and manage real-world assets</p>
+        </header>
+
+        <main>
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for assets..." />
+                    <button id="searchBtn">Search</button>
+                </div>
+                
+                <div class="filters">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="real-estate">Real Estate</option>
+                        <option value="vehicles">Vehicles</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="collectibles">Collectibles</option>
+                    </select>
+                    
+                    <select id="locationFilter">
+                        <option value="">All Locations</option>
+                        <option value="new-york">New York</option>
+                        <option value="california">California</option>
+                        <option value="texas">Texas</option>
+                        <option value="florida">Florida</option>
+                        <option value="chicago">Chicago</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="add-asset-section">
+                <button id="addAssetBtn">Add New Asset</button>
+                
+                <div id="addAssetForm" class="asset-form hidden">
+                    <h3>Add New Asset</h3>
+                    <input type="text" id="assetName" placeholder="Asset Name" required />
+                    <select id="assetCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="real-estate">Real Estate</option>
+                        <option value="vehicles">Vehicles</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="collectibles">Collectibles</option>
+                    </select>
+                    <input type="text" id="assetLocation" placeholder="Location" required />
+                    <input type="number" id="assetValue" placeholder="Estimated Value ($)" />
+                    <textarea id="assetDescription" placeholder="Description"></textarea>
+                    <div class="form-buttons">
+                        <button id="saveAssetBtn">Save Asset</button>
+                        <button id="cancelAssetBtn">Cancel</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="results-section">
+                <div id="resultsCount" class="results-count"></div>
+                <div id="assetsList" class="assets-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
