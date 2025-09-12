@@ -9,7 +9,9 @@
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; }
     .navbar { background: #2260a9; color: #fff; }
     .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
-    .nav-link { color: #fff !important; font-size: 1.1rem; }
+    .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
+    .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
+    .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
     .hero { background: #2260a9; color: #fff; padding: 46px 0 30px 0; text-align: center;}
     .hero h1 { font-weight: 700; font-size: 2.4rem;}
     .hero p { font-size: 1.13rem; opacity:.85;}
@@ -52,135 +54,138 @@
     @media (max-width: 900px) {
       .category-cards, .asset-list { flex-direction:column; align-items:center;}
       .continent-card, .asset-card { width:96vw; max-width:360px; }
+      .navbar .ml-auto { margin-left: 0 !important;}
     }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">Global RWA Asset Directory</a>
-    <div class="ml-auto">
-      <a class="nav-link d-inline" href="#">About</a>
+    <a class="navbar-brand" id="nav_title" href="#">Global RWA Asset Directory</a>
+    <div class="ml-auto d-flex align-items-center">
+      <a class="nav-link d-inline" id="nav_about" href="about.html">About RWA</a>
+      <button class="lang-btn active" id="btn-en" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中</button>
     </div>
   </nav>
 
   <div class="hero">
-    <h1>Discover Global RWA Assets</h1>
-    <p>Explore top RWA assets from all continents, including real estate, debt, equity and more.</p>
+    <h1 id="hero_title">Discover Global RWA Assets</h1>
+    <p id="hero_desc">Explore top RWA assets from all continents, including real estate, debt, equity and more.</p>
     <div class="search-bar-wrap">
       <form class="search-bar-inner" onsubmit="return false;">
-        <input type="text" placeholder="Find the asset you want" id="searchInput">
-        <button type="submit" onclick="alert('Search feature coming soon!')">Search</button>
+        <input type="text" id="searchInput" placeholder="Find the asset you want">
+        <button type="submit" id="search_btn" onclick="alert('Search feature coming soon!')">Search</button>
       </form>
     </div>
   </div>
 
   <div class="container">
     <div class="section-title">
-      <h2>Browse RWA Assets by Continent</h2>
+      <h2 id="cat_title">Browse RWA Assets by Continent</h2>
     </div>
     <div class="category-cards">
       <button class="continent-card" tabindex="0">
-        <h4>Asia</h4>
+        <h4 id="cat_asia">Asia</h4>
         <div class="count">9</div>
-        <span class="cat-link" href="#">View Asia Assets &gt;</span>
+        <span class="cat-link" id="cat_asia_link" href="#">View Asia Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>Europe</h4>
+        <h4 id="cat_europe">Europe</h4>
         <div class="count">6</div>
-        <span class="cat-link" href="#">View Europe Assets &gt;</span>
+        <span class="cat-link" id="cat_europe_link" href="#">View Europe Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>North America</h4>
+        <h4 id="cat_na">North America</h4>
         <div class="count">5</div>
-        <span class="cat-link" href="#">View North America Assets &gt;</span>
+        <span class="cat-link" id="cat_na_link" href="#">View North America Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>South America</h4>
+        <h4 id="cat_sa">South America</h4>
         <div class="count">2</div>
-        <span class="cat-link" href="#">View South America Assets &gt;</span>
+        <span class="cat-link" id="cat_sa_link" href="#">View South America Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>Africa</h4>
+        <h4 id="cat_africa">Africa</h4>
         <div class="count">1</div>
-        <span class="cat-link" href="#">View Africa Assets &gt;</span>
+        <span class="cat-link" id="cat_africa_link" href="#">View Africa Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>Oceania</h4>
+        <h4 id="cat_oceania">Oceania</h4>
         <div class="count">1</div>
-        <span class="cat-link" href="#">View Oceania Assets &gt;</span>
+        <span class="cat-link" id="cat_oceania_link" href="#">View Oceania Assets &gt;</span>
       </button>
       <button class="continent-card" tabindex="0">
-        <h4>Antarctica</h4>
+        <h4 id="cat_antarctica">Antarctica</h4>
         <div class="count">0</div>
-        <span class="cat-link" href="#">View Antarctica Assets &gt;</span>
+        <span class="cat-link" id="cat_antarctica_link" href="#">View Antarctica Assets &gt;</span>
       </button>
     </div>
   </div>
 
   <div class="container">
     <div class="section-title">
-      <h2>Featured RWA Assets</h2>
-      <p>Browse high-quality assets. Click on the name for more details.</p>
+      <h2 id="featured_title">Featured RWA Assets</h2>
+      <p id="featured_desc">Browse high-quality assets. Click on the name for more details.</p>
     </div>
     <div class="asset-list">
       <div class="asset-card">
-        <h5>Shanghai Office Building Mortgage</h5>
-        <div class="region">China · Asia</div>
-        <div class="type">Type: Real Estate</div>
-        <div class="apy">APY: 7.5%</div>
+        <h5 id="asset1_name">Shanghai Office Building Mortgage</h5>
+        <div class="region" id="asset1_region">China · Asia</div>
+        <div class="type" id="asset1_type">Type: Real Estate</div>
+        <div class="apy" id="asset1_apy">APY: 7.5%</div>
         <div class="tags">
-          <span class="tag">Medium Risk</span>
-          <span class="tag">Size ¥50M</span>
+          <span class="tag" id="asset1_risk">Medium Risk</span>
+          <span class="tag" id="asset1_size">Size ¥50M</span>
         </div>
       </div>
       <div class="asset-card">
-        <h5>US Commercial Real Estate Debt</h5>
-        <div class="region">USA · North America</div>
-        <div class="type">Type: Debt</div>
-        <div class="apy">APY: 9.0%</div>
+        <h5 id="asset2_name">US Commercial Real Estate Debt</h5>
+        <div class="region" id="asset2_region">USA · North America</div>
+        <div class="type" id="asset2_type">Type: Debt</div>
+        <div class="apy" id="asset2_apy">APY: 9.0%</div>
         <div class="tags">
-          <span class="tag" style="background:#ffeaea;color:#e35050;">High Risk</span>
-          <span class="tag">Size ¥200M</span>
+          <span class="tag" id="asset2_risk" style="background:#ffeaea;color:#e35050;">High Risk</span>
+          <span class="tag" id="asset2_size">Size ¥200M</span>
         </div>
       </div>
       <div class="asset-card">
-        <h5>Shenzhen Industrial Park Equity</h5>
-        <div class="region">China · Asia</div>
-        <div class="type">Type: Equity</div>
-        <div class="apy">APY: 6.2%</div>
+        <h5 id="asset3_name">Shenzhen Industrial Park Equity</h5>
+        <div class="region" id="asset3_region">China · Asia</div>
+        <div class="type" id="asset3_type">Type: Equity</div>
+        <div class="apy" id="asset3_apy">APY: 6.2%</div>
         <div class="tags">
-          <span class="tag" style="background:#eaffea;color:#49c87e;">Low Risk</span>
-          <span class="tag">Size ¥80M</span>
+          <span class="tag" id="asset3_risk" style="background:#eaffea;color:#49c87e;">Low Risk</span>
+          <span class="tag" id="asset3_size">Size ¥80M</span>
         </div>
       </div>
       <div class="asset-card">
-        <h5>German Industrial Real Estate</h5>
-        <div class="region">Germany · Europe</div>
-        <div class="type">Type: Real Estate</div>
-        <div class="apy">APY: 5.8%</div>
+        <h5 id="asset4_name">German Industrial Real Estate</h5>
+        <div class="region" id="asset4_region">Germany · Europe</div>
+        <div class="type" id="asset4_type">Type: Real Estate</div>
+        <div class="apy" id="asset4_apy">APY: 5.8%</div>
         <div class="tags">
-          <span class="tag">Medium Risk</span>
-          <span class="tag">Size ¥120M</span>
+          <span class="tag" id="asset4_risk">Medium Risk</span>
+          <span class="tag" id="asset4_size">Size ¥120M</span>
         </div>
       </div>
       <div class="asset-card">
-        <h5>Brazil Logistics Park Debt</h5>
-        <div class="region">Brazil · South America</div>
-        <div class="type">Type: Debt</div>
-        <div class="apy">APY: 8.4%</div>
+        <h5 id="asset5_name">Brazil Logistics Park Debt</h5>
+        <div class="region" id="asset5_region">Brazil · South America</div>
+        <div class="type" id="asset5_type">Type: Debt</div>
+        <div class="apy" id="asset5_apy">APY: 8.4%</div>
         <div class="tags">
-          <span class="tag">Medium Risk</span>
-          <span class="tag">Size ¥60M</span>
+          <span class="tag" id="asset5_risk">Medium Risk</span>
+          <span class="tag" id="asset5_size">Size ¥60M</span>
         </div>
       </div>
       <div class="asset-card">
-        <h5>Singapore Office Building Equity</h5>
-        <div class="region">Singapore · Asia</div>
-        <div class="type">Type: Equity</div>
-        <div class="apy">APY: 6.9%</div>
+        <h5 id="asset6_name">Singapore Office Building Equity</h5>
+        <div class="region" id="asset6_region">Singapore · Asia</div>
+        <div class="type" id="asset6_type">Type: Equity</div>
+        <div class="apy" id="asset6_apy">APY: 6.9%</div>
         <div class="tags">
-          <span class="tag">Low Risk</span>
-          <span class="tag">Size ¥90M</span>
+          <span class="tag" id="asset6_risk">Low Risk</span>
+          <span class="tag" id="asset6_size">Size ¥90M</span>
         </div>
       </div>
     </div>
@@ -190,13 +195,163 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-          <span>© 2025 Global RWA Asset Directory | Demo data for learning only</span>
+          <span id="footer_text">© 2025 Global RWA Asset Directory | Demo data for learning only</span>
         </div>
         <div class="col-md-5 text-right">
-          Contact: <a href="mailto:your@email.com">your@email.com</a>
+          <span id="footer_contact">Contact: <a href="mailto:your@email.com">your@email.com</a></span>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    // 多语言数据（可扩展）
+    const langData = {
+      en: {
+        nav_title: "Global RWA Asset Directory",
+        nav_about: "About RWA",
+        hero_title: "Discover Global RWA Assets",
+        hero_desc: "Explore top RWA assets from all continents, including real estate, debt, equity and more.",
+        searchInput: "Find the asset you want",
+        search_btn: "Search",
+        cat_title: "Browse RWA Assets by Continent",
+        cat_asia: "Asia",
+        cat_asia_link: "View Asia Assets >",
+        cat_europe: "Europe",
+        cat_europe_link: "View Europe Assets >",
+        cat_na: "North America",
+        cat_na_link: "View North America Assets >",
+        cat_sa: "South America",
+        cat_sa_link: "View South America Assets >",
+        cat_africa: "Africa",
+        cat_africa_link: "View Africa Assets >",
+        cat_oceania: "Oceania",
+        cat_oceania_link: "View Oceania Assets >",
+        cat_antarctica: "Antarctica",
+        cat_antarctica_link: "View Antarctica Assets >",
+        featured_title: "Featured RWA Assets",
+        featured_desc: "Browse high-quality assets. Click on the name for more details.",
+        asset1_name: "Shanghai Office Building Mortgage",
+        asset1_region: "China · Asia",
+        asset1_type: "Type: Real Estate",
+        asset1_apy: "APY: 7.5%",
+        asset1_risk: "Medium Risk",
+        asset1_size: "Size ¥50M",
+        asset2_name: "US Commercial Real Estate Debt",
+        asset2_region: "USA · North America",
+        asset2_type: "Type: Debt",
+        asset2_apy: "APY: 9.0%",
+        asset2_risk: "High Risk",
+        asset2_size: "Size ¥200M",
+        asset3_name: "Shenzhen Industrial Park Equity",
+        asset3_region: "China · Asia",
+        asset3_type: "Type: Equity",
+        asset3_apy: "APY: 6.2%",
+        asset3_risk: "Low Risk",
+        asset3_size: "Size ¥80M",
+        asset4_name: "German Industrial Real Estate",
+        asset4_region: "Germany · Europe",
+        asset4_type: "Type: Real Estate",
+        asset4_apy: "APY: 5.8%",
+        asset4_risk: "Medium Risk",
+        asset4_size: "Size ¥120M",
+        asset5_name: "Brazil Logistics Park Debt",
+        asset5_region: "Brazil · South America",
+        asset5_type: "Type: Debt",
+        asset5_apy: "APY: 8.4%",
+        asset5_risk: "Medium Risk",
+        asset5_size: "Size ¥60M",
+        asset6_name: "Singapore Office Building Equity",
+        asset6_region: "Singapore · Asia",
+        asset6_type: "Type: Equity",
+        asset6_apy: "APY: 6.9%",
+        asset6_risk: "Low Risk",
+        asset6_size: "Size ¥90M",
+        footer_text: "© 2025 Global RWA Asset Directory | Demo data for learning only",
+        footer_contact: 'Contact: <a href="mailto:your@email.com">your@email.com</a>',
+      },
+      zh: {
+        nav_title: "全球RWA资产目录",
+        nav_about: "关于资产",
+        hero_title: "全球RWA资产发现",
+        hero_desc: "探索全球各大洲优质RWA资产，涵盖不动产、债权、股权等多类型。",
+        searchInput: "发现你想要的资产",
+        search_btn: "搜索",
+        cat_title: "按大洲浏览RWA资产",
+        cat_asia: "亚洲",
+        cat_asia_link: "查看亚洲资产 >",
+        cat_europe: "欧洲",
+        cat_europe_link: "查看欧洲资产 >",
+        cat_na: "北美洲",
+        cat_na_link: "查看北美洲资产 >",
+        cat_sa: "南美洲",
+        cat_sa_link: "查看南美洲资产 >",
+        cat_africa: "非洲",
+        cat_africa_link: "查看非洲资产 >",
+        cat_oceania: "大洋洲",
+        cat_oceania_link: "查看大洋洲资产 >",
+        cat_antarctica: "南极洲",
+        cat_antarctica_link: "查看南极洲资产 >",
+        featured_title: "热门RWA资产",
+        featured_desc: "优质资产一览，点击名称可查看更多详情。",
+        asset1_name: "上海写字楼抵押贷款",
+        asset1_region: "中国 · 亚洲",
+        asset1_type: "类型：不动产",
+        asset1_apy: "年化收益：7.5%",
+        asset1_risk: "中风险",
+        asset1_size: "规模 ¥5000万",
+        asset2_name: "美国商业地产债权",
+        asset2_region: "美国 · 北美洲",
+        asset2_type: "类型：债权",
+        asset2_apy: "年化收益：9.0%",
+        asset2_risk: "高风险",
+        asset2_size: "规模 ¥2亿",
+        asset3_name: "深圳产业园股权",
+        asset3_region: "中国 · 亚洲",
+        asset3_type: "类型：股权",
+        asset3_apy: "年化收益：6.2%",
+        asset3_risk: "低风险",
+        asset3_size: "规模 ¥8000万",
+        asset4_name: "德国工业地产",
+        asset4_region: "德国 · 欧洲",
+        asset4_type: "类型：不动产",
+        asset4_apy: "年化收益：5.8%",
+        asset4_risk: "中风险",
+        asset4_size: "规模 ¥1.2亿",
+        asset5_name: "巴西物流园区债权",
+        asset5_region: "巴西 · 南美洲",
+        asset5_type: "类型：债权",
+        asset5_apy: "年化收益：8.4%",
+        asset5_risk: "中风险",
+        asset5_size: "规模 ¥6000万",
+        asset6_name: "新加坡办公楼股权",
+        asset6_region: "新加坡 · 亚洲",
+        asset6_type: "类型：股权",
+        asset6_apy: "年化收益：6.9%",
+        asset6_risk: "低风险",
+        asset6_size: "规模 ¥9000万",
+        footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
+        footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
+      }
+    };
+
+    function switchLang(lang) {
+      // 按钮样式
+      document.getElementById("btn-en").classList.toggle("active", lang === "en");
+      document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
+      // 文本切换
+      for (const key in langData[lang]) {
+        const el = document.getElementById(key);
+        if (el) {
+          if (key === "footer_contact") el.innerHTML = langData[lang][key];
+          else el.textContent = langData[lang][key];
+        }
+      }
+      // 搜索框特殊
+      document.getElementById("searchInput").placeholder = langData[lang].searchInput;
+      document.documentElement.lang = lang;
+    }
+    // 默认英文
+    switchLang('en');
+  </script>
 </body>
 </html>
