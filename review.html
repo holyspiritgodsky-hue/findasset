@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asset Review - Shanghai Office Building Mortgage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: linear-gradient(135deg, #eaf1fa 0%, #f8fafc 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .main-container {
+      max-width: 520px;
+      margin: 48px auto 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 32px #c5d5ed33;
+      padding: 36px 28px 22px 28px;
+    }
+    .asset-title {
+      font-size: 1.5rem;
+      color: #2260a9;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .asset-subtitle {
+      font-size: 1.1rem;
+      color: #6c757d;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .reviews-section {
+      margin-bottom: 30px;
+    }
+    .review-card {
+      background: #f7fafe;
+      border-radius: 9px;
+      box-shadow: 0 1px 8px #e1e9f7;
+      margin-bottom: 16px;
+      padding: 13px 15px 9px 15px;
+      position: relative;
+    }
+    .review-user {
+      font-weight: bold;
+      color: #2260a9;
+      margin-right: 10px;
+      font-size: 1.07rem;
+    }
+    .review-rating {
+      color: #fa7a2c;
+      font-size: 1.08rem;
+      margin-right: 6px;
+    }
+    .review-time {
+      color: #999;
+      font-size: 12px;
+      float: right;
+    }
+    .review-text {
+      margin-top: 2px;
+      font-size: 1rem;
+      color: #444;
+    }
+    .review-form-title {
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2260a9;
+    }
+    .review-form {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .review-form input, .review-form textarea, .review-form select {
+      border-radius: 5px;
+      border: 1px solid #b9d2ec;
+      padding: 7px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      background: #f4f8fc;
+      width: 100%;
+      transition: border .2s;
+    }
+    .review-form input:focus, .review-form textarea:focus, .review-form select:focus {
+      border-color: #2260a9;
+    }
+    .review-form textarea {
+      resize: vertical;
+      min-height: 32px;
+      max-height: 90px;
+    }
+    .review-form button {
+      align-self: flex-end;
+      background: linear-gradient(90deg, #2260a9 0%, #4979d1 100%);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 7px 26px;
+      font-size: 1.06rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2px;
+      box-shadow: 0 2px 10px #bdd3f822;
+      transition: background .2s;
+    }
+    .review-form button:hover {
+      background: linear-gradient(90deg, #19538d 0%, #305e9b 100%);
+    }
+    .empty-reviews {
+      text-align: center;
+      color: #bbb;
+      font-size: 1.01rem;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .main-container { padding: 16px 2vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="asset-title">Shanghai Office Building Mortgage</div>
+    <div class="asset-subtitle">用户吐槽区（差评专场）</div>
+    <div class="reviews-section" id="reviews"></div>
+    <div class="review-form-title">我要吐槽</div>
+    <form class="review-form" onsubmit="return submitReview(this)">
+      <input name="user" type="text" maxlength="16" placeholder="你的昵称/花名" required>
+      <select name="rating" required>
+        <option value="">选择评分</option>
+        <option value="1">★☆☆☆☆ (1分)</option>
+        <option value="2">★★☆☆☆ (2分)</option>
+        <option value="3">★★★☆☆ (3分)</option>
+      </select>
+      <textarea name="text" maxlength="100" required placeholder="请写下你的吐槽（最多100字）"></textarea>
+      <button type="submit">提交差评</button>
+    </form>
+  </div>
+  <script>
+    // 预置的搞笑差评
+    const presetReviews = [
+      {
+        user: "不想加班的老王",
+        rating: 1,
+        text: "买了这资产，每天都梦到电梯坏了，爬楼爬成健身教练，差评！",
+        time: "2025-09-13 09:02"
+      },
+      {
+        user: "资本主义小韭菜",
+        rating: 2,
+        text: "说好年化8%，结果物业费都快吃掉收益了，钱包比脸还干净。",
+        time: "2025-09-12 16:48"
+      },
+      {
+        user: "写字楼小黑屋租客",
+        rating: 1,
+        text: "房子位置堪比迷宫，送外卖的都找不到我，差点饿死在办公室！",
+        time: "2025-09-12 12:10"
+      },
+      {
+        user: "超级无敌打工仔",
+        rating: 2,
+        text: "空气质量一级差，开窗灰大，关窗闷热，建议送空气净化器。",
+        time: "2025-09-11 21:03"
+      }
+    ];
+
+    const STORAGE_KEY = "rwa_asset_review_shanghai_office";
+
+    // 读取本地+预置评论
+    function loadReviews() {
+      let fromLocal = [];
+      try {
+        fromLocal = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch(e){}
+      // 最新的排前面
+      return fromLocal.concat(presetReviews);
+    }
+
+    // 保存评论到本地
+    function saveReview(newReview) {
+      let old = [];
+      try{ old = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }catch(e){}
+      old.unshift(newReview); // 新的在前
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(old.slice(0, 10))); // 只保留最新10条用户评论
+    }
+
+    // 渲染评论
+    function renderReviews() {
+      const reviews = loadReviews();
+      const reviewsDiv = document.getElementById('reviews');
+      if (!reviews.length) {
+        reviewsDiv.innerHTML = `<div class="empty-reviews">还没有差评，快来做第一个吐槽的人！</div>`;
+        return;
+      }
+      reviewsDiv.innerHTML = reviews.map(r => `
+        <div class="review-card">
+          <span class="review-user">${escapeHTML(r.user)}</span>
+          <span class="review-rating">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
+          <span class="review-time">${r.time}</span>
+          <div class="review-text">${escapeHTML(r.text)}</div>
+        </div>
+      `).join("");
+    }
+
+    // 提交评论
+    function submitReview(form) {
+      const user = form.user.value.trim().slice(0,16);
+      const rating = Number(form.rating.value);
+      const text = form.text.value.trim().slice(0,100);
+      if(!user || !rating || !text) return false;
+      const now = new Date();
+      const time = now.getFullYear() + "-" +
+        ("0" + (now.getMonth()+1)).slice(-2) + "-" +
+        ("0" + now.getDate()).slice(-2) + " " +
+        ("0" + now.getHours()).slice(-2) + ":" +
+        ("0" + now.getMinutes()).slice(-2);
+      saveReview({ user, rating, text, time });
+      form.reset();
+      renderReviews();
+      return false; // 阻止页面刷新
+    }
+
+    // 简易HTML转义
+    function escapeHTML(str) {
+      return str.replace(/[<>"'&]/g, s => ({
+        '<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'
+      }[s]));
+    }
+
+    renderReviews();
+  </script>
+</body>
+</html>
