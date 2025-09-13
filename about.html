@@ -47,6 +47,8 @@
     .market-table td.neutral {color:#888;}
     .assetlist-card {background:#f6faff;border-radius:8px;padding:13px 12px;margin-bottom:13px;box-shadow:0 1px 6px #e0e6ef;}
     .assetlist-title {font-size:1.07rem;font-weight:600;}
+    .assetlist-title a { color: #2260a9; text-decoration: underline; transition: color 0.15s;}
+    .assetlist-title a:hover { color: #fa7a2c; }
     .assetlist-region {font-size:13px;color:#777;}
     .assetlist-tags {margin-top:6px;}
     .assetlist-tag {display:inline-block;background:#eaf1fa;color:#2260a9;border-radius:4px;font-size:13px;padding:2px 7px;margin-right:7px;}
@@ -513,15 +515,19 @@
         `;
       });
     }
-    // 渲染资产列表
+    // 渲染资产列表（每个资产名变成可点击a标签带参数跳转review.html?asset=xxx）
     function fillAssetList(list, lang) {
       const container = document.getElementById("assetlist_cards");
       container.innerHTML = "";
       list.forEach(asset => {
         let tagsStr = asset.tags.map(t=>`<span class="assetlist-tag">${t}</span>`).join("");
+        // encodeURIComponent 避免资产名有空格或中文导致url异常
+        const reviewUrl = `review.html?asset=${encodeURIComponent(asset.name)}`;
         container.innerHTML += `
           <div class="assetlist-card">
-            <div class="assetlist-title">${asset.name}</div>
+            <div class="assetlist-title">
+              <a href="${reviewUrl}" target="_blank">${asset.name}</a>
+            </div>
             <div class="assetlist-region">${asset.region} | ${asset.type}</div>
             <div class="assetlist-apy">${lang==="en"?"APY: ":"年化收益："}${asset.apy}</div>
             <div class="assetlist-tags">${tagsStr}</div>
