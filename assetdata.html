@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>RWA Asset Data - Groupon Style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc;}
+    .navbar { background: #2260a9; color: #fff; }
+    .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
+    .nav-link { color: #fff !important; font-size: 1.1rem; }
+    .main-content { max-width: 1000px; margin: 0 auto; padding: 32px 8px 40px 8px;}
+    .block-title {font-size:1.25rem;font-weight:700;color:#2260a9;margin-bottom:18px;}
+    .groupon-asset-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 32px #e7eaf1;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+      margin-bottom: 34px;
+      transition: box-shadow .2s;
+      min-height: 320px;
+      width: 100%;
+    }
+    .groupon-asset-card:hover { box-shadow: 0 8px 38px #c5d5ed44; }
+    .groupon-asset-img {
+      width: 54%;
+      min-width: 200px;
+      height: auto;
+      object-fit: cover;
+      background: #eee;
+      display: block;
+    }
+    .groupon-card-body {
+      flex: 1;
+      padding: 38px 32px 24px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .asset-title {
+      font-size: 1.42rem;
+      font-weight: bold;
+      color: #2260a9;
+      margin-bottom: 13px;
+      line-height: 1.2;
+    }
+    .asset-region {
+      color: #7a8cab;
+      font-size: 1.09rem;
+      margin-bottom: 14px;
+    }
+    .asset-desc {
+      color: #444;
+      font-size: 1.01rem;
+      margin-bottom: 18px;
+      min-height: 48px;
+    }
+    .asset-tags {
+      margin-bottom: 18px;
+    }
+    .asset-tag {
+      display: inline-block;
+      background: #eaf1fa;
+      color: #2260a9;
+      border-radius: 4px;
+      font-size: 14px;
+      padding: 3px 13px;
+      margin-right: 8px;
+      margin-bottom: 2px;
+    }
+    .asset-apy {
+      color: #1ca954;
+      font-weight: 700;
+      font-size: 1.19rem;
+      margin-bottom: 10px;
+    }
+    .asset-extra {
+      color: #888;
+      font-size: 1rem;
+      margin-top: auto;
+    }
+    @media (max-width: 900px) {
+      .main-content { max-width: 100vw; }
+      .groupon-asset-card { flex-direction: column; min-height: 0;}
+      .groupon-asset-img { width: 100%; height: 38vw; min-height: 120px;}
+      .groupon-card-body { padding: 22px 14px 18px 16px;}
+    }
+    @media (max-width: 540px) {
+      .main-content { padding: 4px 0 30px 0;}
+      .groupon-card-body { padding: 14px 8px 13px 8px;}
+      .asset-title { font-size: 1.08rem; }
+      .asset-region { font-size: 0.99rem;}
+      .asset-extra { font-size: 0.93rem;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="index.html">Global RWA Asset Directory</a>
+    <div class="ml-auto d-flex align-items-center">
+      <a class="nav-link d-inline" href="index.html">Home</a>
+      <a class="nav-link d-inline" href="asset-group-style.html">Assets</a>
+      <a class="nav-link d-inline" href="about.html">About</a>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div class="block-title">RWA 资产数据（大图展示，Groupon风格）</div>
+    <div>
+      <!-- 第一个资产卡片 -->
+      <div class="groupon-asset-card">
+        <img class="groupon-asset-img" src="./gcl_energy_solar.jpg" alt="协鑫能科光伏发电">
+        <div class="groupon-card-body">
+          <div class="asset-title">协鑫能科光伏电站资产</div>
+          <div class="asset-region">中国 · 西北 某地</div>
+          <div class="asset-desc">
+            协鑫能科旗下大型地面光伏电站，采用高效单晶组件与智能逆变系统，项目总装机容量120MW，年均发电量超2亿度。电站长期电力销售协议，收益稳定，绿色能源属性突出。
+          </div>
+          <div class="asset-tags">
+            <span class="asset-tag">光伏发电</span>
+            <span class="asset-tag">绿色能源</span>
+            <span class="asset-tag">中低风险</span>
+            <span class="asset-tag">120MW</span>
+          </div>
+          <div class="asset-apy">年化收益率：6.8%</div>
+          <div class="asset-extra">资产规模：¥9.5亿 | 持续运营10年+</div>
+        </div>
+      </div>
+      <!-- 示例：第二个资产 -->
+      <div class="groupon-asset-card">
+        <img class="groupon-asset-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="美国商业地产债权">
+        <div class="groupon-card-body">
+          <div class="asset-title">美国商业地产债权</div>
+          <div class="asset-region">美国 · 加州</div>
+          <div class="asset-desc">
+            核心写字楼抵押贷款，位于洛杉矶CBD，地段稀缺，租户优质，贷款LTV 60%，由本地银行托管，美元本息。
+          </div>
+          <div class="asset-tags">
+            <span class="asset-tag">地产债权</span>
+            <span class="asset-tag">美元资产</span>
+            <span class="asset-tag">高风险</span>
+          </div>
+          <div class="asset-apy">年化收益率：8.9%</div>
+          <div class="asset-extra">资产规模：$35M | 期限：3年</div>
+        </div>
+      </div>
+      <!-- 更多资产卡片... -->
+    </div>
+  </div>
+  <!-- 说明: 请将 YOUR_IMAGE_PATH/gcl_energy_solar.jpg 替换为你本地或服务器上的协鑫能科光伏图片实际路径。 -->
+</body>
+</html>

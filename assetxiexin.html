@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>RWA Asset Deal - Groupon Style Full Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; margin:0;}
+    .navbar { background: #2260a9; color: #fff; }
+    .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
+    .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
+    .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
+    .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
+    .deal-section {
+      max-width: 1100px;
+      min-height: 88vh;
+      margin: 0 auto;
+      padding: 40px 12px 30px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .deal-card {
+      width: 100%;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 4px 36px #c5d5ed33;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      min-height: 65vh;
+      max-width: 950px;
+      margin-bottom: 30px;
+    }
+    .deal-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 52vw; /* default for mobile */
+      max-height: 460px;
+      min-height: 240px;
+      background: #eee;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+    .deal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* 介绍蒙层 */
+    .deal-info-overlay {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%;
+      background: linear-gradient(180deg,rgba(30,42,58,0.00) 30%,rgba(0,40,90,0.28) 68%,rgba(0,0,0,0.56) 100%);
+      color: #fff;
+      padding: 36px 34px 26px 34px;
+      box-sizing: border-box;
+      border-radius: 0 0 22px 22px;
+      z-index: 2;
+    }
+    .deal-title {
+      font-size: 2rem; font-weight: 700; margin-bottom: 6px;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.12);
+    }
+    .deal-region {
+      font-size: 1.17rem; color: #e0f4fa; margin-bottom: 13px;
+      font-weight: 500;
+    }
+    .deal-desc {
+      font-size: 1.09rem; margin-bottom: 15px; line-height: 1.6; color: #f8fafe;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.11);
+      min-height: 40px;
+    }
+    .deal-tags {
+      margin-bottom: 10px;
+    }
+    .deal-tag {
+      display: inline-block;
+      background: #eaf1fa90;
+      color: #2260a9;
+      border-radius: 4px;
+      font-size: 15px;
+      padding: 3px 12px;
+      margin-right: 8px;
+      margin-bottom: 2px;
+      font-weight: 600;
+      box-shadow: 0 1px 6px #e3eaf3b7;
+    }
+    .deal-apy {
+      color: #5ff3b6;
+      font-weight: 700;
+      font-size: 1.18rem;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 6px #3333;
+    }
+    .deal-extra {
+      color: #e6e6e6;
+      font-size: 1.04rem;
+      text-shadow: 0 1px 8px #000a;
+    }
+    .deal-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 26px 34px 22px 34px;
+      border-radius: 0 0 22px 22px;
+      box-shadow: 0 -2px 18px #e9f1ff1c;
+      z-index: 3;
+      position: relative;
+    }
+    .deal-countdown {
+      color: #e35050;
+      font-size: 1.13rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      margin-right: 22px;
+      white-space: nowrap;
+    }
+    .deal-buy-btn {
+      background: linear-gradient(90deg,#2260a9 0%,#14d6c5 100%);
+      color: #fff;
+      border: none;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 17px;
+      padding: 9px 42px;
+      box-shadow: 0 2px 20px #2260a955;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .deal-buy-btn:hover {
+      background: linear-gradient(90deg,#184574 0%,#17bfa8 100%);
+    }
+
+    /* 评价与点评区块 */
+    .asset-evaluation-block {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 14px #e7eaf1;
+      padding: 32px 26px 24px 26px;
+      max-width: 950px;
+      margin: 0 auto 28px auto;
+    }
+    .evaluation-title {
+      font-size: 1.22rem;
+      color: #2260a9;
+      font-weight: 700;
+      margin-bottom: 13px;
+    }
+    .evaluation-section {
+      margin-bottom: 22px;
+    }
+    .evaluation-section:last-child { margin-bottom: 0; }
+    .evaluation-section ul { padding-left: 22px; }
+    .evaluation-section strong { color: #2260a9; font-weight: 700;}
+    .evaluation-section .minor { color: #888; font-size: 15px;}
+    /* review style */
+    .reviews-title {
+      font-size: 1.13rem;
+      color: #2260a9;
+      font-weight: 600;
+      margin-bottom: 9px;
+      margin-top: 22px;
+    }
+    .reviews-section {
+      margin-bottom: 12px;
+    }
+    .review-card {
+      background: #f7fafe;
+      border-radius: 9px;
+      box-shadow: 0 1px 8px #e1e9f7;
+      margin-bottom: 16px;
+      padding: 13px 15px 9px 15px;
+      position: relative;
+    }
+    .review-user {
+      font-weight: bold;
+      color: #2260a9;
+      margin-right: 10px;
+      font-size: 1.07rem;
+    }
+    .review-rating {
+      color: #fa7a2c;
+      font-size: 1.08rem;
+      margin-right: 6px;
+    }
+    .review-time {
+      color: #999;
+      font-size: 12px;
+      float: right;
+    }
+    .review-text {
+      margin-top: 2px;
+      font-size: 1rem;
+      color: #444;
+    }
+    .review-form-title {
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2260a9;
+    }
+    .review-form {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .review-form input, .review-form textarea, .review-form select {
+      border-radius: 5px;
+      border: 1px solid #b9d2ec;
+      padding: 7px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      background: #f4f8fc;
+      width: 100%;
+      transition: border .2s;
+    }
+    .review-form input:focus, .review-form textarea:focus, .review-form select:focus {
+      border-color: #2260a9;
+    }
+    .review-form textarea {
+      resize: vertical;
+      min-height: 32px;
+      max-height: 90px;
+    }
+    .review-form button {
+      align-self: flex-end;
+      background: linear-gradient(90deg, #2260a9 0%, #4979d1 100%);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 7px 26px;
+      font-size: 1.06rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2px;
+      box-shadow: 0 2px 10px #bdd3f822;
+      transition: background .2s;
+    }
+    .review-form button:hover {
+      background: linear-gradient(90deg, #19538d 0%, #305e9b 100%);
+    }
+    .empty-reviews {
+      text-align: center;
+      color: #bbb;
+      font-size: 1.01rem;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) {
+      .deal-section { padding: 16px 2vw;}
+      .deal-card { max-width: 100vw;}
+      .deal-img-wrap { height: 60vw; max-height: 320px;}
+      .deal-info-overlay { padding: 21px 10px 17px 16px;}
+      .deal-action-bar { padding: 18px 12px 14px 14px;}
+      .deal-title { font-size: 1.25rem;}
+      .asset-evaluation-block { padding:18px 8px 18px 8px; }
+    }
+    @media (max-width: 600px) {
+      .deal-img-wrap { height: 50vw; min-height: 120px;}
+      .deal-title { font-size: 1.07rem;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" id="nav_title" href="index.html">Global RWA Asset Directory</a>
+    <div class="ml-auto d-flex align-items-center">
+      <a class="nav-link d-inline" id="nav_home" href="index.html">Home</a>
+      <button class="lang-btn active" id="btn-en" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中</button>
+    </div>
+  </nav>
+  <div class="deal-section">
+    <div class="deal-card" id="dealCard">
+      <div class="deal-img-wrap">
+        <!-- 图片路径请替换为你的实际文件路径 -->
+        <img class="deal-img" id="dealImg" src="./gcl_energy_solar.jpg" alt="协鑫能科光伏发电">
+        <div class="deal-info-overlay">
+          <div class="deal-title" id="dealTitle">协鑫能科光伏电站资产</div>
+          <div class="deal-region" id="dealRegion">中国 · 湖北/湖南</div>
+          <div class="deal-desc" id="dealDesc">
+            协鑫能科与蚂蚁数科合作，全国首单光伏绿色资产RWA，底层为82MW户用光伏电站。创新资产上链，年发电量可达2亿度。
+          </div>
+          <div class="deal-tags" id="dealTags">
+            <span class="deal-tag">光伏发电</span>
+            <span class="deal-tag">RWA</span>
+            <span class="deal-tag">绿色能源</span>
+            <span class="deal-tag">82MW</span>
+          </div>
+          <div class="deal-apy" id="dealApy">年化收益率：6.8%</div>
+          <div class="deal-extra" id="dealExtra">首期融资超2亿 | 持续运营10年+</div>
+        </div>
+      </div>
+      <div class="deal-action-bar">
+        <span class="deal-countdown" id="dealCountdown">资产溢价倒计时：00:59:59</span>
+        <button class="deal-buy-btn" id="dealBuyBtn" onclick="buyClicked()">立即认购</button>
+      </div>
+    </div>
+    <!-- 资产综合评价 -->
+    <div class="asset-evaluation-block">
+      <div class="evaluation-title">网络评价与市场观点</div>
+
+      <div class="evaluation-section">
+        <strong>行业领先与里程碑事件</strong>
+        <ul>
+          <li>协鑫能科与蚂蚁数科合作，于2024年底完成国内首单光伏绿色资产RWA项目，融资金额超2亿元，底层为湖北、湖南82MW户用光伏电站，通过区块链实现资产代币化，开创新能源资产新融资模式。</li>
+        </ul>
+      </div>
+      <div class="evaluation-section">
+        <strong>积极正面评价</strong>
+        <ul>
+          <li>创新融资模式：市场普遍认为RWA为光伏产业带来新融资渠道，盘活存量资产，降低成本，提高流动性，吸引全球加密资金流向绿色低碳领域。</li>
+          <li>技术与标准制定：协鑫能科推动可信区块链实体资产技术规范立项，体现行业技术和标准化领先。</li>
+          <li>数据透明与可信：物联网+区块链实现电站运营数据上链，数据可追溯、防篡改，增强投资信心。</li>
+          <li>股价积极反馈：RWA布局消息带动股价波动，上演连续涨停，资本市场给予积极反馈。</li>
+        </ul>
+      </div>
+      <div class="evaluation-section">
+        <strong>市场担忧与挑战</strong>
+        <ul>
+          <li>监管不确定性：加密与区块链监管环境谨慎，若政策收紧，项目流通和合规性存在风险，成为最大隐忧，尤其影响境外资金对接。</li>
+          <li>资产流动性有限：底层资产目前以户用分布式光伏为主，规模尚小，影响力有限，需引入更多元化和大体量资产。</li>
+          <li>实际融资成本与效率：与传统贷款、债券等方式相比，RWA模式整体成本、效率优势有待市场验证，技术、合规等环节增加运营成本。</li>
+          <li>技术和法律复杂性：IoT数据真实性与链上映射、资产权属法律绑定均有技术与法律挑战，需完善的技术与法律框架支撑。</li>
+        </ul>
+        <span class="minor">综上，协鑫能科RWA项目虽为行业创新，但在监管、市场规模、商业可持续性、技术法律等方面仍面临挑战。</span>
+      </div>
+    </div>
+    <!-- 用户吐槽区 -->
+    <div class="asset-evaluation-block">
+      <div class="reviews-title">用户评价（吐槽区）</div>
+      <div class="reviews-section" id="reviews"></div>
+      <div class="review-form-title">我要吐槽</div>
+      <form class="review-form" onsubmit="return submitReview(this)">
+        <input name="user" type="text" maxlength="16" placeholder="你的昵称/花名" required>
+        <select name="rating" required>
+          <option value="">选择评分</option>
+          <option value="1">★☆☆☆☆ (1分)</option>
+          <option value="2">★★☆☆☆ (2分)</option>
+          <option value="3">★★★☆☆ (3分)</option>
+        </select>
+        <textarea name="text" maxlength="100" required placeholder="请写下你的吐槽（最多100字）"></textarea>
+        <button type="submit">提交差评</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // 多语言内容，支持about.html切换
+    const dealData = {
+      en: {
+        title: "GCL Energy Photovoltaic RWA Asset",
+        region: "China · Hubei/Hunan",
+        desc: "GCL Energy and Ant Digital Tech launched China’s first PV green RWA; base asset is 82MW distributed PV. On-chain innovation, 200+ million kWh annual output.",
+        tags: ["Solar Power", "RWA", "Green Energy", "82MW"],
+        apy: "Expected Yield: 6.8% p.a.",
+        extra: "1st round >¥200M | 10+ years running",
+        countdown_prefix: "Deal ends in ",
+        buy_btn: "Buy Now",
+        nav_title: "Global RWA Asset Directory",
+        nav_home: "Home"
+      },
+      zh: {
+        title: "协鑫能科光伏电站RWA资产",
+        region: "中国 · 湖北/湖南",
+        desc: "协鑫能科与蚂蚁数科合作，全国首单光伏绿色资产RWA，底层为82MW户用光伏电站。创新资产上链，年发电量可达2亿度。",
+        tags: ["光伏发电", "RWA", "绿色能源", "82MW"],
+        apy: "年化收益率：6.8%",
+        extra: "首期融资超2亿 | 持续运营10年+",
+        countdown_prefix: "资产溢价倒计时：",
+        buy_btn: "立即认购",
+        nav_title: "全球RWA资产目录",
+        nav_home: "首页"
+      }
+    };
+    let currentLang = 'zh';
+    function switchLang(lang) {
+      currentLang = lang;
+      document.getElementById('dealTitle').textContent = dealData[lang].title;
+      document.getElementById('dealRegion').textContent = dealData[lang].region;
+      document.getElementById('dealDesc').textContent = dealData[lang].desc;
+      document.getElementById('dealTags').innerHTML = dealData[lang].tags.map(t=>`<span class="deal-tag">${t}</span>`).join('');
+      document.getElementById('dealApy').textContent = dealData[lang].apy;
+      document.getElementById('dealExtra').textContent = dealData[lang].extra;
+      document.getElementById('dealBuyBtn').textContent = dealData[lang].buy_btn;
+      document.getElementById('nav_title').textContent = dealData[lang].nav_title;
+      document.getElementById('nav_home').textContent = dealData[lang].nav_home;
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
+      updateCountdown();
+      document.documentElement.lang = lang;
+    }
+    // 倒计时
+    let countdownSeconds = 813599;
+    function updateCountdown() {
+      let s = countdownSeconds;
+      const h = Math.floor(s / 3600);
+      s %= 3600;
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      let txt = (dealData[currentLang].countdown_prefix || '') +
+        (h > 0 ? String(h).padStart(2,'0')+':' : '') +
+        String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+      document.getElementById('dealCountdown').textContent = txt;
+    }
+    setInterval(()=>{
+      if(countdownSeconds>0) {
+        countdownSeconds--;
+        updateCountdown();
+      }
+    },1000);
+    // 购买按钮
+    function buyClicked() {
+      alert(currentLang === 'zh'
+        ? '感谢您的认购意向！请联系平台客服完成资产认购。'
+        : 'Thank you for your purchase intention! Please contact platform support to complete your subscription.');
+    }
+    switchLang('zh');
+
+    // 搞笑差评/用户吐槽区
+    const presetReviews = [
+      {
+        user: "光伏小镇镇长",
+        rating: 2,
+        text: "我邻居家电站上链了，我家还没装光伏，酸了…",
+        time: "2025-09-13 12:31"
+      },
+      {
+        user: "区块链工程师",
+        rating: 3,
+        text: "链上查发电量是真的爽，就是家里WiFi太慢同步不上~",
+        time: "2025-09-13 10:18"
+      },
+      {
+        user: "保守派投资人",
+        rating: 1,
+        text: "技术太新，家里老人问什么叫RWA我也不会解释，先观望。",
+        time: "2025-09-12 21:06"
+      },
+      {
+        user: "光伏发电小韭菜",
+        rating: 2,
+        text: "说好的低碳致富，结果发电量全被阴天安排了。",
+        time: "2025-09-12 14:50"
+      }
+    ];
+    const STORAGE_KEY = "rwa_asset_review_xiexin_pv";
+    function loadReviews() {
+      let fromLocal = [];
+      try {
+        fromLocal = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch(e){}
+      return fromLocal.concat(presetReviews);
+    }
+    function saveReview(newReview) {
+      let old = [];
+      try{ old = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }catch(e){}
+      old.unshift(newReview);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(old.slice(0, 10)));
+    }
+    function renderReviews() {
+      const reviews = loadReviews();
+      const reviewsDiv = document.getElementById('reviews');
+      if (!reviews.length) {
+        reviewsDiv.innerHTML = `<div class="empty-reviews">还没有吐槽，快来做第一个评论的人！</div>`;
+        return;
+      }
+      reviewsDiv.innerHTML = reviews.map(r => `
+        <div class="review-card">
+          <span class="review-user">${escapeHTML(r.user)}</span>
+          <span class="review-rating">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
+          <span class="review-time">${r.time}</span>
+          <div class="review-text">${escapeHTML(r.text)}</div>
+        </div>
+      `).join("");
+    }
+    function submitReview(form) {
+      const user = form.user.value.trim().slice(0,16);
+      const rating = Number(form.rating.value);
+      const text = form.text.value.trim().slice(0,100);
+      if(!user || !rating || !text) return false;
+      const now = new Date();
+      const time = now.getFullYear() + "-" +
+        ("0" + (now.getMonth()+1)).slice(-2) + "-" +
+        ("0" + now.getDate()).slice(-2) + " " +
+        ("0" + now.getHours()).slice(-2) + ":" +
+        ("0" + now.getMinutes()).slice(-2);
+      saveReview({ user, rating, text, time });
+      form.reset();
+      renderReviews();
+      return false;
+    }
+    function escapeHTML(str) {
+      return str.replace(/[<>"'&]/g, s => ({
+        '<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'
+      }[s]));
+    }
+    renderReviews();
+  </script>
+  <!-- 图片说明: 请将 ./gcl_energy_solar.jpg 替换为协鑫能科光伏发电实际图片路径 -->
+</body>
+</html>
