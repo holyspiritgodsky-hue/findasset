@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Stock Prediction Board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="f.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', Arial,sans-serif; background:#f7fafc; }
+    .navbar { background: #2260a9; color: #fff; }
+    .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
+    .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
+    .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
+    .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
+    .hero { background: #2260a9; color: #fff; padding: 36px 0 24px 0; text-align: center;}
+    .hero h1 { font-weight: 700; font-size: 2.2rem;}
+    .hero p { font-size: 1.13rem; opacity:.90;}
+    .section-title { margin:40px 0 24px 0; text-align:center;}
+    .continent-section { margin-bottom: 35px; }
+    .continent-section h4 { font-size: 1.21rem; font-weight: 700; color:#2260a9; margin-bottom: 16px;}
+    .stock-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 10px #e6eaf0;
+      padding: 16px 18px 14px 18px;
+      margin-bottom: 18px;
+      transition: box-shadow .2s;
+    }
+    .stock-card:hover { box-shadow:0 8px 32px -8px #2260a999;}
+    .stock-title { font-size:1.1rem;font-weight:600;}
+    .stock-badge { background:#fa7a2c;color:#fff;border-radius:5px;padding:2px 7px;font-size:13px;margin-right:9px;}
+    .stock-pred { color:#28a745; font-weight:500; margin-top: 2px;}
+    .stock-reason { color:#555; font-size:0.98rem; margin-top: 4px; }
+    .stock-exchange { color:#2260a9; font-size:13px; margin-left:10px;}
+    .footer { background:#234; color:#fff; padding:24px 0; margin-top:38px;}
+    .footer a { color:#c7e3ff;}
+    @media (max-width: 900px) {
+      .navbar .ml-auto { margin-left: 0 !important;}
+      .stock-card { width:96vw; max-width:360px; margin-left:auto; margin-right:auto;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" id="nav_title" href="index.html">Global RWA Asset Directory</a>
+    <div class="ml-auto d-flex align-items-center">
+      <a class="nav-link d-inline" id="nav_home" href="index.html">Home</a>
+      <button class="lang-btn active" id="btn-en" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1 id="hero_title">Global Stock Prediction Board</h1>
+    <p id="hero_desc">Daily top 3 stock gainers predicted for each continent's major exchanges, based on global asset trends.</p>
+    <div id="prediction_date" style="margin-top:12px; font-size:1.08rem; opacity:.85;"></div>
+  </div>
+
+  <div class="container">
+    <div class="section-title">
+      <h2 id="main_title">Major Stock Exchanges - Top 3 Predicted Gainers per Continent</h2>
+      <p id="main_desc">Based on RWA and macro data, we screen & predict top performers daily.</p>
+    </div>
+    <div id="prediction_board"></div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <span id="footer_text">© 2025 Global RWA Asset Directory | Demo data for learning only</span>
+        </div>
+        <div class="col-md-5 text-right">
+          <span id="footer_contact">Contact: <a href="mailto:your@email.com">your@email.com</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 多语言数据
+    const langData = {
+      en: {
+        nav_title: "Global RWA Asset Directory",
+        nav_home: "Home",
+        hero_title: "Global Stock Prediction Board",
+        hero_desc: "Daily top 3 stock gainers predicted for each continent's major exchanges, based on global asset trends.",
+        main_title: "Major Stock Exchanges - Top 3 Predicted Gainers per Continent",
+        main_desc: "Based on RWA and macro data, we screen & predict top performers daily.",
+        footer_text: "© 2025 Global RWA Asset Directory | Demo data for learning only",
+        footer_contact: 'Contact: <a href="mailto:your@email.com">your@email.com</a>',
+        date_prefix: "Date: ",
+        continents: {
+          "Asia": "Asia",
+          "Europe": "Europe",
+          "North America": "North America",
+          "South America": "South America",
+          "Africa": "Africa",
+          "Oceania": "Oceania"
+        },
+        predicted_change: "Predicted Change",
+        reason: "Reason"
+      },
+      zh: {
+        nav_title: "全球RWA资产目录",
+        nav_home: "首页",
+        hero_title: "全球股票预测榜",
+        hero_desc: "根据全球资产趋势，预测每日各大洲主要交易所最有可能大涨的三只股票。",
+        main_title: "全球各洲主要交易所每日大涨预测TOP3",
+        main_desc: "基于RWA和宏观数据，每日筛选预测最强表现股票。",
+        footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
+        footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
+        date_prefix: "日期：",
+        continents: {
+          "Asia": "亚洲",
+          "Europe": "欧洲",
+          "North America": "北美洲",
+          "South America": "南美洲",
+          "Africa": "非洲",
+          "Oceania": "大洋洲"
+        },
+        predicted_change: "预测涨幅",
+        reason: "原因"
+      }
+    };
+
+    // 预测数据（可替换为接口/每日更新）
+    const STOCK_PREDICTION_DATA = {
+      "Asia": [
+        { name: {en:"Tencent Holdings",zh:"腾讯控股"}, symbol: "0700.HK", exchange: {en:"HKEX",zh:"港交所"}, predicted_change: "+5.4%", reason: {en:"Tech sector strength, RWA inflow growth", zh:"科技行业强劲，RWA资金流入增长"} },
+        { name: {en:"Mitsubishi UFJ",zh:"三菱UFJ"}, symbol: "8306.T", exchange: {en:"TSE",zh:"东京证券交易所"}, predicted_change: "+4.9%", reason: {en:"Weaker yen benefits exports", zh:"日元走弱利好出口"} },
+        { name: {en:"China Merchants Bank",zh:"招商银行"}, symbol: "600036.SS", exchange: {en:"SSE",zh:"上交所"}, predicted_change: "+4.3%", reason: {en:"China credit data beats expectations", zh:"中国信贷数据超预期"} }
+      ],
+      "Europe": [
+        { name: {en:"SAP",zh:"思爱普"}, symbol: "SAP.DE", exchange: {en:"XETRA",zh:"德交所XETRA"}, predicted_change: "+4.2%", reason: {en:"Eurozone manufacturing beats forecast", zh:"欧元区制造业数据超预期"} },
+        { name: {en:"LVMH",zh:"LVMH"}, symbol: "MC.PA", exchange: {en:"Euronext",zh:"泛欧交易所"}, predicted_change: "+3.8%", reason: {en:"Luxury demand recovers", zh:"奢侈品消费恢复"} },
+        { name: {en:"Credit Suisse",zh:"瑞士信贷"}, symbol: "CSGN.SW", exchange: {en:"SIX",zh:"瑞士SIX"}, predicted_change: "+3.5%", reason: {en:"CHF strength", zh:"瑞郎走强"} }
+      ],
+      "North America": [
+        { name: {en:"Apple",zh:"苹果"}, symbol: "AAPL", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+5.6%", reason: {en:"AI business growth", zh:"AI业务增长迅速"} },
+        { name: {en:"Tesla",zh:"特斯拉"}, symbol: "TSLA", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+4.7%", reason: {en:"Global EV expansion", zh:"全球电动车市场扩张"} },
+        { name: {en:"Amazon",zh:"亚马逊"}, symbol: "AMZN", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+4.2%", reason: {en:"Cloud business at record high", zh:"云服务业务创新高"} }
+      ],
+      "South America": [
+        { name: {en:"Vale",zh:"淡水河谷"}, symbol: "VALE3.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+3.8%", reason: {en:"Iron ore price up", zh:"铁矿石价格上涨"} },
+        { name: {en:"Petrobras",zh:"巴西国家石油"}, symbol: "PETR4.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+3.3%", reason: {en:"Oil price rebound", zh:"原油价格回升"} },
+        { name: {en:"Banco Bradesco",zh:"布拉德斯科银行"}, symbol: "BBDC4.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+2.9%", reason: {en:"LatAm credit expansion", zh:"拉美信贷扩张"} }
+      ],
+      "Africa": [
+        { name: {en:"Naspers",zh:"纳斯帕斯"}, symbol: "NPN.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+4.2%", reason: {en:"Tech investment returns up", zh:"科技投资收益提升"} },
+        { name: {en:"Sasol",zh:"萨索尔"}, symbol: "SOL.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+3.6%", reason: {en:"Raw materials price up", zh:"原材料价格上涨"} },
+        { name: {en:"Standard Bank",zh:"标准银行"}, symbol: "SBK.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+3.1%", reason: {en:"African economy rebounds", zh:"非洲经济复苏"} }
+      ],
+      "Oceania": [
+        { name: {en:"BHP Group",zh:"必和必拓"}, symbol: "BHP.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+4.4%", reason: {en:"Commodity demand up", zh:"大宗商品需求增长"} },
+        { name: {en:"Commonwealth Bank",zh:"联邦银行"}, symbol: "CBA.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+3.9%", reason: {en:"Aussie rate policy bullish", zh:"澳洲利率政策利好"} },
+        { name: {en:"CSL Limited",zh:"CSL有限公司"}, symbol: "CSL.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+3.7%", reason: {en:"Biotech exports surge", zh:"生物科技出口增长"} }
+      ]
+    };
+
+    // 渲染
+    function renderPredictionBoard(data, lang) {
+      const continents = Object.keys(data);
+      const board = document.getElementById("prediction_board");
+      const ctext = langData[lang].continents;
+      board.innerHTML = "";
+      continents.forEach(cont => {
+        board.innerHTML += `<div class="continent-section">
+          <h4>${ctext[cont] || cont}</h4>
+          ${data[cont].map((stock, i) => `
+            <div class="stock-card">
+              <span class="stock-badge">#${i+1}</span>
+              <span class="stock-title">${stock.name[lang]} <small>(${stock.symbol})</small></span>
+              <span class="stock-exchange">${stock.exchange[lang]}</span>
+              <div class="stock-pred">${langData[lang].predicted_change}: ${stock.predicted_change}</div>
+              <div class="stock-reason">${langData[lang].reason}: ${stock.reason[lang]}</div>
+            </div>
+          `).join("")}
+        </div>`;
+      });
+    }
+
+    function switchLang(lang) {
+      document.getElementById("btn-en").classList.toggle("active", lang === "en");
+      document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
+      ["nav_title","nav_home","hero_title","hero_desc","main_title","main_desc","footer_text","footer_contact"].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) {
+          if(id==="footer_contact") el.innerHTML = langData[lang][id];
+          else el.textContent = langData[lang][id];
+        }
+      });
+      // 日期
+      const today = new Date();
+      document.getElementById("prediction_date").textContent = langData[lang].date_prefix +
+        today.getFullYear() + "-" +
+        String(today.getMonth()+1).padStart(2, '0') + "-" +
+        String(today.getDate()).padStart(2, '0');
+      renderPredictionBoard(STOCK_PREDICTION_DATA, lang);
+      document.documentElement.lang = lang;
+    }
+
+    // 默认英文
+    switchLang('en');
+  </script>
+</body>
+</html>
