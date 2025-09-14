@@ -23,10 +23,11 @@
       letter-spacing: 0.5px;
       margin-bottom: 26px;
     }
-    .main-content { display: flex; gap: 22px; margin: 0 auto; max-width: 1300px; }
-    .col-main, .col-side, .col-side2 { background: #fff; border-radius: 12px; box-shadow:0 2px 14px #e7eaf1; padding: 20px 16px 8px 16px; }
-    .col-main { flex:1.7; min-width:320px;}
-    .col-side, .col-side2 { flex:1; min-width:260px; }
+    .main-content { display: flex; gap: 22px; margin: 0 auto; max-width: 1400px; }
+    .col-asset, .col-main, .col-side { background: #fff; border-radius: 12px; box-shadow:0 2px 14px #e7eaf1; padding: 20px 16px 8px 16px;}
+    .col-asset { flex:1.1; min-width:260px; }
+    .col-main { flex:1.6; min-width:330px;}
+    .col-side { flex:1.2; min-width:270px;}
     .block-title {font-size:1.16rem;font-weight:700;color:#2260a9;margin-bottom:13px;}
     .info-list {padding-left:0;list-style:none;}
     .info-list li {padding:10px 0 7px 0;border-bottom:1px solid #f0f2f8;}
@@ -53,9 +54,9 @@
     .assetlist-tags {margin-top:6px;}
     .assetlist-tag {display:inline-block;background:#eaf1fa;color:#2260a9;border-radius:4px;font-size:13px;padding:2px 7px;margin-right:7px;}
     .assetlist-apy {font-size:13px;color:#28a745;font-weight:500;}
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .main-content { flex-direction:column; gap:0; max-width:100vw;}
-      .col-main, .col-side, .col-side2 { min-width:0; margin-bottom: 18px;}
+      .col-asset, .col-main, .col-side { min-width:0; margin-bottom: 18px;}
     }
   </style>
 </head>
@@ -73,18 +74,21 @@
     RWA Market Real-Time Dashboard (Sep 12)
   </div>
   <div class="main-content container-fluid">
-    <!-- 主栏 -->
+    <!-- RWA资产列表 第一列 -->
+    <div class="col-asset">
+      <div class="block-title" id="assetlist_block_title">RWA Asset List</div>
+      <div id="assetlist_cards"></div>
+    </div>
+    <!-- 主行情/新闻/分析 第二列 -->
     <div class="col-main">
       <div class="block-title" id="market_block_title">Comprehensive RWA Market Data</div>
-      <table class="market-table" id="market_table">
-        <!-- JS填充 -->
-      </table>
+      <table class="market-table" id="market_table"></table>
       <div class="block-title" id="news_block_title">Project News & Flash Updates</div>
       <ul class="info-list" id="news_list"></ul>
       <div class="block-title" id="deep_block_title">In-depth Analysis</div>
       <ul class="info-list" id="deep_list"></ul>
     </div>
-    <!-- 侧栏1 -->
+    <!-- 侧栏热榜、热门、政策 第三列 -->
     <div class="col-side">
       <div class="block-title" id="rank_block_title">Today's RWA Top Assets</div>
       <ul class="info-list" id="rank_list"></ul>
@@ -92,11 +96,6 @@
       <ul class="info-list" id="hot_list"></ul>
       <div class="block-title" id="anal_block_title">Investment Analysis</div>
       <ul class="info-list" id="anal_list"></ul>
-    </div>
-    <!-- 侧栏2 -->
-    <div class="col-side2">
-      <div class="block-title" id="assetlist_block_title">RWA Asset List</div>
-      <div id="assetlist_cards"></div>
       <div class="block-title" id="policy_block_title">Policy & Regulation</div>
       <ul class="info-list" id="policy_list"></ul>
     </div>
@@ -113,8 +112,9 @@
       </div>
     </div>
   </div>
+  <!-- 引入资产数据库，确保此js多语言结构 -->
+  <script src="assets-db.js"></script>
   <script>
-    // 多语言内容
     const langData = {
       en: {
         nav_title: "Global RWA Asset Directory",
@@ -130,7 +130,6 @@
         policy_block_title: "Policy & Regulation",
         footer_text: "© 2025 Global RWA Asset Directory | Demo data for learning only",
         footer_contact: 'Contact: <a href="mailto:your@email.com">your@email.com</a>',
-        // 行情表数据
         market_table: [
           ["Asset Category", "TVL/Market Cap", "24h Chg", "7d Chg"],
           ["US Treasury Token", "$1.63B", "+0.8%", "+8.1%"],
@@ -142,47 +141,40 @@
         news_list: [
           {
             badge: '<span class="badge-new">New</span>',
-            title: "Ondo Finance launches $50M RWA ETF in Asia",
-            desc: "First batch of tokenized Asian bonds completed on-chain settlement.",
+            title: "GCL Energy completes China's first PV RWA deal",
+            desc: "Landmark deal with Ant Digital, over ¥200M, 82MW PV assets tokenized.",
             time: "09:36",
+            tags: ["GCL", "RWA"]
+          },
+          {
+            badge: "",
+            title: "Ondo brings Asian bond ETF on-chain",
+            desc: "First institutional-grade tokenized bond ETF in Asia.",
+            time: "08:10",
             tags: ["Ondo", "ETF"]
           },
           {
             badge: "",
-            title: "Maple opens new US Treasury lending pool",
-            desc: "Target yield 6.5%, mainly for institutional clients.",
-            time: "08:10",
-            tags: ["Maple", "Lending"]
-          },
-          {
-            badge: "",
-            title: "Centrifuge partners with Maker for RWA vault",
-            desc: "DAI can now be minted via real estate collateral.",
+            title: "MakerDAO expands real estate vaults",
+            desc: "DAI now backed by more global property assets.",
             time: "07:40",
-            tags: ["Centrifuge", "MakerDAO"]
-          },
-          {
-            badge: "",
-            title: "Backed launches EUR stablecoin with RWA reserves",
-            desc: "EURB is 100% backed by on-chain real world assets.",
-            time: "07:10",
-            tags: ["Stablecoin", "Backed"]
+            tags: ["MakerDAO", "Real Estate"]
           }
         ],
         deep_list: [
           {
             badge: '<span class="badge-anal">Insight</span>',
-            title: "Messari: RWA is the Next DeFi Growth Driver",
-            desc: "Detailed report on rising institutional interest in RWA.",
+            title: "Messari: RWA to drive next DeFi wave",
+            desc: "Institutional inflows, regulatory clarity, and on-chain liquidity growth.",
             time: "Today",
-            tags: ["Messari", "Research"]
+            tags: ["Messari", "Analysis"]
           },
           {
             badge: "",
-            title: "HashKey: 2025 RWA Investment Outlook",
-            desc: "Top 5 trends for asset tokenization this year.",
+            title: "HashKey: 2025 RWA trends",
+            desc: "Five key directions for RWA tokenization this year.",
             time: "",
-            tags: ["HashKey", "Outlook"]
+            tags: ["HashKey", "Trends"]
           }
         ],
         rank_list: [
@@ -195,31 +187,24 @@
           },
           {
             badge: '<span class="badge-hot">#2</span>',
-            title: "USDC Yield Pool",
-            desc: "TVL $780M, APY 5.1%",
+            title: "GCL PV Asset",
+            desc: "RWA, 82MW PV, APY 6.8%",
             time: "",
-            tags: ["USDC", "Yield"]
-          },
-          {
-            badge: '<span class="badge-hot">#3</span>',
-            title: "RealT Real Estate Token",
-            desc: "Popular in US/Europe, high rental yield.",
-            time: "",
-            tags: ["RealT"]
+            tags: ["GCL", "PV"]
           }
         ],
         hot_list: [
           {
             badge: "",
             title: "Tokenization of Real World Assets",
-            desc: "The hottest trend in 2025 blockchain industry.",
+            desc: "2025's most important blockchain trend.",
             time: "",
             tags: ["Tokenization"]
           },
           {
             badge: "",
             title: "RWA ETF officially listed in Asia",
-            desc: "Institutional adoption accelerates.",
+            desc: "Institutions accelerate adoption.",
             time: "",
             tags: ["ETF"]
           }
@@ -227,77 +212,33 @@
         anal_list: [
           {
             badge: "",
-            title: "Which RWA category has the best risk-reward?",
-            desc: "Comparison of yield, risk, liquidity for top asset types.",
+            title: "Which RWA segment has best yield?",
+            desc: "Risk/yield/liquidity full comparison.",
             time: "",
             tags: ["Analysis"]
           },
           {
             badge: "",
-            title: "Is US Treasury Token still safe?",
-            desc: "Expert view on macro environment and regulatory risk.",
+            title: "Are on-chain bonds safe?",
+            desc: "Expert views on macro and compliance.",
             time: "",
-            tags: ["Safety", "Macro"]
+            tags: ["Safety"]
           }
         ],
         policy_list: [
           {
             badge: "",
-            title: "Hong Kong SFC issues guidance for RWA tokenization",
-            desc: "Clear compliance path for on-chain asset issuance.",
+            title: "HK SFC issues RWA guidance",
+            desc: "Clearer path for compliant tokenization.",
             time: "Yesterday",
             tags: ["Policy", "Asia"]
           },
           {
             badge: "",
-            title: "US SEC greenlights first tokenized bond platform",
-            desc: "SEC approval signals positive stance on RWA.",
+            title: "SEC greenlights first tokenized bond platform",
+            desc: "Positive signals for RWA innovation.",
             time: "2 days ago",
             tags: ["SEC", "USA"]
-          }
-        ],
-        assetlist: [
-          {
-            name: "Shanghai Office Building Mortgage",
-            region: "China · Asia",
-            type: "Real Estate",
-            apy: "7.5%",
-            tags: ["Medium Risk", "¥50M"]
-          },
-          {
-            name: "US Commercial Real Estate Debt",
-            region: "USA · North America",
-            type: "Debt",
-            apy: "9.0%",
-            tags: ["High Risk", "¥200M"]
-          },
-          {
-            name: "Shenzhen Industrial Park Equity",
-            region: "China · Asia",
-            type: "Equity",
-            apy: "6.2%",
-            tags: ["Low Risk", "¥80M"]
-          },
-          {
-            name: "German Industrial Real Estate",
-            region: "Germany · Europe",
-            type: "Real Estate",
-            apy: "5.8%",
-            tags: ["Medium Risk", "¥120M"]
-          },
-          {
-            name: "Brazil Logistics Park Debt",
-            region: "Brazil · South America",
-            type: "Debt",
-            apy: "8.4%",
-            tags: ["Medium Risk", "¥60M"]
-          },
-          {
-            name: "Singapore Office Building Equity",
-            region: "Singapore · Asia",
-            type: "Equity",
-            apy: "6.9%",
-            tags: ["Low Risk", "¥90M"]
           }
         ]
       },
@@ -326,70 +267,56 @@
         news_list: [
           {
             badge: '<span class="badge-new">最新</span>',
-            title: "Ondo Finance亚洲上线5千万美元RWA ETF",
-            desc: "首批亚洲债券通证完成链上结算。",
+            title: "协鑫能科完成中国首单光伏RWA",
+            desc: "与蚂蚁数科合作，2亿+融资，82MW分布式光伏资产上链。",
             time: "09:36",
+            tags: ["协鑫能科", "RWA"]
+          },
+          {
+            badge: "",
+            title: "Ondo亚洲上线债券ETF通证",
+            desc: "首个机构级亚洲债券ETF链上化。",
+            time: "08:10",
             tags: ["Ondo", "ETF"]
           },
           {
             badge: "",
-            title: "Maple新开美债借贷池",
-            desc: "目标年化6.5%，主要服务机构客户。",
-            time: "08:10",
-            tags: ["Maple", "借贷"]
-          },
-          {
-            badge: "",
-            title: "Centrifuge联手Maker上线RWA金库",
-            desc: "DAI可通过不动产通证抵押铸造。",
+            title: "MakerDAO拓展房地产金库",
+            desc: "DAI可抵押更多全球不动产资产。",
             time: "07:40",
-            tags: ["Centrifuge", "MakerDAO"]
-          },
-          {
-            badge: "",
-            title: "Backed发行EURB稳定币，100%RWA储备",
-            desc: "EURB稳定币由链上实物资产全额背书。",
-            time: "07:10",
-            tags: ["稳定币", "Backed"]
+            tags: ["MakerDAO", "地产"]
           }
         ],
         deep_list: [
           {
             badge: '<span class="badge-anal">解读</span>',
-            title: "Messari：RWA将驱动DeFi新增长",
-            desc: "报告详解机构为何大举入场RWA。",
+            title: "Messari：RWA驱动DeFi新周期",
+            desc: "机构入场、监管清晰、链上流动性增长。",
             time: "今日",
-            tags: ["Messari", "研究"]
+            tags: ["Messari", "分析"]
           },
           {
             badge: "",
-            title: "HashKey：2025RWA投资展望",
-            desc: "年度报告预测资产通证化五大趋势。",
+            title: "HashKey：2025RWA五大趋势",
+            desc: "年度资产通证化五大方向。",
             time: "",
-            tags: ["HashKey", "展望"]
+            tags: ["HashKey", "趋势"]
           }
         ],
         rank_list: [
           {
             badge: '<span class="badge-hot">#1</span>',
             title: "Ondo美债池",
-            desc: "锁仓4亿，7日增长+12%",
+            desc: "锁仓4亿美元，7日增长+12%",
             time: "",
             tags: ["Ondo"]
           },
           {
             badge: '<span class="badge-hot">#2</span>',
-            title: "USDC收益池",
-            desc: "锁仓7.8亿，年化5.1%",
+            title: "协鑫能科光伏资产",
+            desc: "RWA，82MW光伏，年化6.8%",
             time: "",
-            tags: ["USDC", "收益"]
-          },
-          {
-            badge: '<span class="badge-hot">#3</span>',
-            title: "RealT房产通证",
-            desc: "美欧热销，高租金回报率。",
-            time: "",
-            tags: ["RealT"]
+            tags: ["协鑫能科", "光伏"]
           }
         ],
         hot_list: [
@@ -411,83 +338,38 @@
         anal_list: [
           {
             badge: "",
-            title: "哪类RWA资产性价比最高？",
-            desc: "收益/风险/流动性全方位对比。",
+            title: "哪类RWA收益最高？",
+            desc: "风险/收益/流动性全方位对比。",
             time: "",
             tags: ["分析"]
           },
           {
             badge: "",
-            title: "美债通证还安全吗？",
-            desc: "专家观点：宏观和监管因素解析。",
+            title: "链上债券还安全吗？",
+            desc: "专家观点：宏观与监管解读。",
             time: "",
-            tags: ["安全", "宏观"]
+            tags: ["安全"]
           }
         ],
         policy_list: [
           {
             badge: "",
-            title: "香港证监会发布RWA通证化指引",
-            desc: "链上资产发行合规路径更明晰。",
+            title: "香港证监会发布RWA指引",
+            desc: "链上资产合规路径更明确。",
             time: "昨日",
             tags: ["政策", "亚洲"]
           },
           {
             badge: "",
-            title: "美SEC放行首个通证化债券平台",
-            desc: "释放监管层对RWA创新利好信号。",
+            title: "SEC放行首个通证化债券平台",
+            desc: "RWA创新迎重大政策利好。",
             time: "2天前",
             tags: ["SEC", "美国"]
-          }
-        ],
-        assetlist: [
-          {
-            name: "上海写字楼抵押贷款",
-            region: "中国 · 亚洲",
-            type: "不动产",
-            apy: "7.5%",
-            tags: ["中风险", "¥5000万"]
-          },
-          {
-            name: "美国商业地产债权",
-            region: "美国 · 北美洲",
-            type: "债权",
-            apy: "9.0%",
-            tags: ["高风险", "¥2亿"]
-          },
-          {
-            name: "深圳产业园股权",
-            region: "中国 · 亚洲",
-            type: "股权",
-            apy: "6.2%",
-            tags: ["低风险", "¥8000万"]
-          },
-          {
-            name: "德国工业地产",
-            region: "德国 · 欧洲",
-            type: "不动产",
-            apy: "5.8%",
-            tags: ["中风险", "¥1.2亿"]
-          },
-          {
-            name: "巴西物流园区债权",
-            region: "巴西 · 南美洲",
-            type: "债权",
-            apy: "8.4%",
-            tags: ["中风险", "¥6000万"]
-          },
-          {
-            name: "新加坡办公楼股权",
-            region: "新加坡 · 亚洲",
-            type: "股权",
-            apy: "6.9%",
-            tags: ["低风险", "¥9000万"]
           }
         ]
       }
     };
 
-    // 渲染行情表
     function fillTable(tableId, arr) {
       const tb = document.getElementById(tableId);
       tb.innerHTML = "";
@@ -499,43 +381,47 @@
         }).join('')}</tr>`;
       });
     }
-    // 渲染列表
+    function fillAssetListFromDB(lang) {
+      const container = document.getElementById("assetlist_cards");
+      container.innerHTML = "";
+      if (!window.RWA_ASSETS_DB) return;
+      window.RWA_ASSETS_DB.forEach(asset => {
+        let name = asset.name[lang] || asset.name.en;
+        let region = asset.region[lang] || asset.region.en;
+        let type = asset.type[lang] || asset.type.en;
+        let tagsArr = asset.tags[lang] || asset.tags.en || [];
+        let tagsStr = tagsArr.map(t=>`<span class="assetlist-tag">${t}</span>`).join("");
+        let reviewUrl = asset.detail_url || `assetxiexin.html?asset=${encodeURIComponent(name)}`;
+        let desc = asset.desc && asset.desc[lang] ? asset.desc[lang] : "";
+        container.innerHTML += `
+          <div class="assetlist-card">
+            <div class="assetlist-title">
+              <a href="${reviewUrl}" target="_blank">${name}</a>
+            </div>
+            <div class="assetlist-region">${region} | ${type}</div>
+            <div class="assetlist-apy">${lang==="en"?"APY: ":"年化收益："}${asset.apy}</div>
+            <div class="assetlist-tags">${tagsStr}</div>
+            <div style="color:#888;font-size:13px;margin:7px 0 0 0;">${desc}</div>
+          </div>
+        `;
+      });
+    }
     function fillList(listId, arr) {
       const ul = document.getElementById(listId);
+      if (!ul) return;
       ul.innerHTML = "";
-      arr.forEach(item => {
-        let tags = item.tags.map(t => `<span class="tag">${t}</span>`).join("");
+      (arr||[]).forEach(item => {
+        let tags = item.tags?.map?.(t => `<span class="tag">${t}</span>`).join("") || "";
         ul.innerHTML += `
           <li>
             ${item.badge || ""}<strong>${item.title}</strong>
             ${item.time ? `<span class="mini-time">${item.time}</span>` : ""}
-            <span class="desc">${item.desc}</span>
+            <span class="desc">${item.desc||""}</span>
             ${tags}
           </li>
         `;
       });
     }
-    // 渲染资产列表（每个资产名变成可点击a标签带参数跳转review.html?asset=xxx）
-    function fillAssetList(list, lang) {
-      const container = document.getElementById("assetlist_cards");
-      container.innerHTML = "";
-      list.forEach(asset => {
-        let tagsStr = asset.tags.map(t=>`<span class="assetlist-tag">${t}</span>`).join("");
-        // encodeURIComponent 避免资产名有空格或中文导致url异常
-        const reviewUrl = `review.html?asset=${encodeURIComponent(asset.name)}`;
-        container.innerHTML += `
-          <div class="assetlist-card">
-            <div class="assetlist-title">
-              <a href="${reviewUrl}" target="_blank">${asset.name}</a>
-            </div>
-            <div class="assetlist-region">${asset.region} | ${asset.type}</div>
-            <div class="assetlist-apy">${lang==="en"?"APY: ":"年化收益："}${asset.apy}</div>
-            <div class="assetlist-tags">${tagsStr}</div>
-          </div>
-        `;
-      });
-    }
-    // 语言切换
     function switchLang(lang) {
       [
         "nav_title","nav_home","marketdate_txt","market_block_title","news_block_title",
@@ -548,6 +434,7 @@
           else el.textContent = langData[lang][id];
         }
       });
+      fillAssetListFromDB(lang);
       fillTable("market_table", langData[lang].market_table);
       fillList("news_list", langData[lang].news_list);
       fillList("deep_list", langData[lang].deep_list);
@@ -555,7 +442,6 @@
       fillList("hot_list", langData[lang].hot_list);
       fillList("anal_list", langData[lang].anal_list);
       fillList("policy_list", langData[lang].policy_list);
-      fillAssetList(langData[lang].assetlist, lang);
       document.documentElement.lang = lang;
     }
     switchLang('en');
