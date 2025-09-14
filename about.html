@@ -119,7 +119,12 @@
       en: {
         nav_title: "Global RWA Asset Directory",
         nav_home: "Home",
-        marketdate_txt: "RWA Market Real-Time Dashboard (Sep 12)",
+        marketdate_txt: (() => {
+          const now = new Date();
+          const month = now.toLocaleString('en-US', { month: 'short' });
+          const day = now.getDate();
+          return `RWA Market Real-Time Dashboard (${month} ${day})`;
+        })(),
         market_block_title: "Comprehensive RWA Market Data",
         news_block_title: "Project News & Flash Updates",
         deep_block_title: "In-depth Analysis",
@@ -245,7 +250,12 @@
       zh: {
         nav_title: "全球RWA资产目录",
         nav_home: "首页",
-        marketdate_txt: "9月12日RWA综合即时行情",
+        marketdate_txt: (() => {
+          const now = new Date();
+          const month = now.getMonth() + 1;
+          const day = now.getDate();
+          return `${month}月${day}日RWA综合即时行情`;
+        })(),
         market_block_title: "RWA全市场核心数据",
         news_block_title: "项目快讯/公告",
         deep_block_title: "深度解读",
