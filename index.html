@@ -131,66 +131,12 @@
       <p id="featured_desc">Browse high-quality assets. Click on the name for more details.</p>
     </div>
     <div class="asset-list">
-      <div class="asset-card">
-        <h5 id="asset1_name">Shanghai Office Building Mortgage</h5>
-        <div class="region" id="asset1_region">China · Asia</div>
-        <div class="type" id="asset1_type">Type: Real Estate</div>
-        <div class="apy" id="asset1_apy">APY: 7.5%</div>
-        <div class="tags">
-          <span class="tag" id="asset1_risk">Medium Risk</span>
-          <span class="tag" id="asset1_size">Size ¥50M</span>
-        </div>
-      </div>
-      <div class="asset-card">
-        <h5 id="asset2_name">US Commercial Real Estate Debt</h5>
-        <div class="region" id="asset2_region">USA · North America</div>
-        <div class="type" id="asset2_type">Type: Debt</div>
-        <div class="apy" id="asset2_apy">APY: 9.0%</div>
-        <div class="tags">
-          <span class="tag" id="asset2_risk" style="background:#ffeaea;color:#e35050;">High Risk</span>
-          <span class="tag" id="asset2_size">Size ¥200M</span>
-        </div>
-      </div>
-      <div class="asset-card">
-        <h5 id="asset3_name">Shenzhen Industrial Park Equity</h5>
-        <div class="region" id="asset3_region">China · Asia</div>
-        <div class="type" id="asset3_type">Type: Equity</div>
-        <div class="apy" id="asset3_apy">APY: 6.2%</div>
-        <div class="tags">
-          <span class="tag" id="asset3_risk" style="background:#eaffea;color:#49c87e;">Low Risk</span>
-          <span class="tag" id="asset3_size">Size ¥80M</span>
-        </div>
-      </div>
-      <div class="asset-card">
-        <h5 id="asset4_name">German Industrial Real Estate</h5>
-        <div class="region" id="asset4_region">Germany · Europe</div>
-        <div class="type" id="asset4_type">Type: Real Estate</div>
-        <div class="apy" id="asset4_apy">APY: 5.8%</div>
-        <div class="tags">
-          <span class="tag" id="asset4_risk">Medium Risk</span>
-          <span class="tag" id="asset4_size">Size ¥120M</span>
-        </div>
-      </div>
-      <div class="asset-card">
-        <h5 id="asset5_name">Brazil Logistics Park Debt</h5>
-        <div class="region" id="asset5_region">Brazil · South America</div>
-        <div class="type" id="asset5_type">Type: Debt</div>
-        <div class="apy" id="asset5_apy">APY: 8.4%</div>
-        <div class="tags">
-          <span class="tag" id="asset5_risk">Medium Risk</span>
-          <span class="tag" id="asset5_size">Size ¥60M</span>
-        </div>
-      </div>
-      <div class="asset-card">
-        <h5 id="asset6_name">Singapore Office Building Equity</h5>
-        <div class="region" id="asset6_region">Singapore · Asia</div>
-        <div class="type" id="asset6_type">Type: Equity</div>
-        <div class="apy" id="asset6_apy">APY: 6.9%</div>
-        <div class="tags">
-          <span class="tag" id="asset6_risk">Low Risk</span>
-          <span class="tag" id="asset6_size">Size ¥90M</span>
-        </div>
-      </div>
+      <!-- ...existing code... -->
+    </div>
+    <div style="text-align:center; margin:36px 0 0 0;">
+      <a href="stock.html" id="ai_stock_btn" class="btn btn-success btn-lg" style="font-size:1.18rem; padding:12px 38px; border-radius:30px; font-weight:600; box-shadow:0 2px 12px #b2e6c7;">
+        世界综合AI每日荐股
+      </a>
     </div>
   </div>
 
@@ -269,6 +215,7 @@
         asset6_apy: "APY: 6.9%",
         asset6_risk: "Low Risk",
         asset6_size: "Size ¥90M",
+        ai_stock_btn: "AI Global Stock Picks (Daily)",
         footer_text: "© 2025 Global RWA Asset Directory | Demo data for learning only",
         footer_contact: 'Contact: <a href="mailto:your@email.com">your@email.com</a>',
       },
@@ -332,6 +279,7 @@
         asset6_apy: "年化收益：6.9%",
         asset6_risk: "低风险",
         asset6_size: "规模 ¥9000万",
+  ai_stock_btn: "世界综合AI每日荐股",
         footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
         footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
       }
@@ -348,6 +296,11 @@
           if (key === "footer_contact") el.innerHTML = langData[lang][key];
           else el.textContent = langData[lang][key];
         }
+      }
+      // AI荐股按钮多语言
+      const aiBtn = document.getElementById("ai_stock_btn");
+      if (aiBtn && langData[lang].ai_stock_btn) {
+        aiBtn.textContent = langData[lang].ai_stock_btn;
       }
       // 搜索框特殊
       document.getElementById("searchInput").placeholder = langData[lang].searchInput;
