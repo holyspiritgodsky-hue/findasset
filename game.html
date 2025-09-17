@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>奇迹投票排行榜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="f.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; }
+    .navbar { background: #2260a9; color: #fff; }
+    .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
+    .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
+    .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
+    .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
+    .miracle-rank-header { background: #2260a9; color: #fff; padding: 38px 0 18px 0; text-align: center; }
+    .miracle-rank-header h1 { font-size: 2.1rem; font-weight: 700; }
+    .miracle-rank-header p { font-size: 1.08rem; opacity: .92; }
+    .miracle-table-wrap { background: #fff; border-radius: 12px; box-shadow: 0 2px 18px #2260a922; margin: 32px auto 18px auto; max-width: 700px; padding: 18px 10px 10px 10px; }
+    .miracle-table th, .miracle-table td { vertical-align: middle; text-align: center; }
+    .miracle-table th { background: #eaf1fa; color: #2260a9; font-size: 1.08rem; }
+    .miracle-table td { font-size: 1.01rem; }
+    .miracle-img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
+    .rank-medal { font-size: 1.3rem; }
+    .miracle-valuation { font-weight: 600; color: #28a745; }
+    .footer { background:#234; color:#fff; padding:24px 0; margin-top:40px;}
+    .footer a { color:#c7e3ff;}
+    @media (max-width: 900px) {
+      .miracle-table-wrap { max-width: 99vw; }
+      .miracle-table th, .miracle-table td { font-size: .97rem; }
+      .navbar .ml-auto { margin-left: 0 !important;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" id="nav_title" href="index.html">Global RWA Asset Directory</a>
+    <div class="ml-auto d-flex align-items-center">
+      <a class="nav-link d-inline" id="nav_about" href="about.html">About RWA</a>
+      <button class="lang-btn active" id="btn-en" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中</button>
+    </div>
+  </nav>
+  <div class="miracle-rank-header">
+    <h1 id="page_title">奇迹投票排行榜</h1>
+    <p id="page_desc">为你喜欢的奇迹投票，投票后可实时看到最新排名</p>
+  </div>
+  <div class="container" style="max-width:700px; margin: 0 auto 24px auto;">
+    <div id="vote-section" style="background:#fff; border-radius:12px; box-shadow:0 2px 18px #e74c3c22; padding:18px 10px 10px 10px; margin-bottom:24px;">
+  <h5 id="vote_title" style="color:#2260a9; font-weight:700;">为世界奇迹投票</h5>
+      <div id="miracle-vote-list"></div>
+  <div id="vote_tip" style="color:#888; font-size:0.98rem; margin-top:8px;">每个奇迹每天可投1票</div>
+    </div>
+    <div class="miracle-table-wrap">
+      <table class="table miracle-table">
+        <thead>
+          <tr>
+            <th id="th_rank">排名</th>
+            <th id="th_miracle">奇迹</th>
+            <th id="th_votes">票数</th>
+            <th id="th_valuation">奇迹估值（亿元）</th>
+          </tr>
+        </thead>
+        <tbody id="miracle-rank-tbody">
+          <!-- JS填充 -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <span id="footer_text">© 2025 Global RWA Asset Directory | Demo data for learning only</span>
+        </div>
+        <div class="col-md-5 text-right">
+          <span id="footer_contact">Contact: <a href="mailto:your@email.com">your@email.com</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 多语言数据
+    const langData = {
+      en: {
+        nav_title: "Global RWA Asset Directory",
+        nav_about: "About RWA",
+        page_title: "Miracle Voting Ranking",
+        page_desc: "Vote for your favorite wonder and see the latest ranking instantly.",
+        vote_title: "Vote for World Wonders",
+        vote_tip: "You can vote for each wonder once per day",
+        th_rank: "Rank",
+        th_miracle: "Wonder",
+        th_votes: "Votes",
+        th_valuation: "Valuation (100M CNY)",
+        btn_vote: "Vote",
+        btn_voted: "Voted",
+        footer_text: "© 2025 | The prediction results are for reference only and are not endorsed.",
+        footer_contact: 'Contact: <a href="mailto:holyspiritgodsky@gmail.com">holyspiritgodsky@gmail.com</a>',
+      },
+      zh: {
+        nav_title: "全球RWA资产目录",
+        nav_about: "关于资产",
+        page_title: "奇迹投票排行榜",
+        page_desc: "为你喜欢的奇迹投票，投票后可实时看到最新排名",
+        vote_title: "为世界奇迹投票",
+        vote_tip: "每个奇迹每天可投1票",
+        th_rank: "排名",
+        th_miracle: "奇迹",
+        th_votes: "票数",
+        th_valuation: "奇迹估值（亿元）",
+        btn_vote: "投票",
+        btn_voted: "已投票",
+        footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
+        footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
+      }
+    };
+    function switchLang(lang) {
+      document.getElementById("btn-en").classList.toggle("active", lang === "en");
+      document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
+      for (const key in langData[lang]) {
+        const el = document.getElementById(key);
+        if (el) {
+          if (key === "footer_contact") el.innerHTML = langData[lang][key];
+          else el.textContent = langData[lang][key];
+        }
+      }
+      // 投票按钮多语言
+      renderVoteSection(lang);
+      renderRank(lang);
+      document.documentElement.lang = lang;
+      localStorage.setItem('miracle_lang', lang);
+    }
+    // 记忆语言
+    let userLang = localStorage.getItem('miracle_lang') || 'zh';
+    // ...existing code...
+    // 奇迹列表
+    const MIRACLES = [
+      { id: 1, name: '吉萨金字塔', img: 'images/pyramid.png', weight: 1 },
+      { id: 2, name: '万里长城', img: 'images/greatwall.png', weight: 1 },
+      { id: 3, name: '自由女神像', img: 'images/statueofliberty.png', weight: 3 },
+      { id: 4, name: '罗马大竞技场', img: 'images/colosseum.png', weight: 4 },
+      { id: 5, name: '泰姬陵', img: 'images/tajmahal.png', weight: 1.2 }
+    ];
+    // 初始票数
+  // 强制重置票数（调试用，正式可移除）
+  localStorage.removeItem('miracle_votes_v1');
+  localStorage.removeItem('miracle_vote_date_v1');
+  const defaultVotes = [12, 8, 5, 3, 2];
+    // 本地存储key
+    const VOTE_KEY = 'miracle_votes_v1';
+    const VOTE_DATE_KEY = 'miracle_vote_date_v1';
+    // 获取票数
+    function getVotes() {
+      let votes = localStorage.getItem(VOTE_KEY);
+      if (votes) {
+        try { votes = JSON.parse(votes); } catch { votes = defaultVotes.slice(); }
+        if (!Array.isArray(votes) || votes.length !== MIRACLES.length) votes = defaultVotes.slice();
+      } else {
+        votes = defaultVotes.slice();
+      }
+      return votes;
+    }
+    // 保存票数
+    function setVotes(votes) {
+      localStorage.setItem(VOTE_KEY, JSON.stringify(votes));
+    }
+    // 获取今日投票记录
+    function getTodayVote() {
+      let rec = localStorage.getItem(VOTE_DATE_KEY);
+      if (rec) {
+        try { rec = JSON.parse(rec); } catch { rec = {}; }
+      } else {
+        rec = {};
+      }
+      // 清理非今日
+      const today = new Date().toISOString().slice(0,10);
+      if (rec.date !== today) return { date: today, voted: [] };
+      return rec;
+    }
+    // 保存今日投票记录
+    function setTodayVote(rec) {
+      localStorage.setItem(VOTE_DATE_KEY, JSON.stringify(rec));
+    }
+    // 渲染投票区
+    function renderVoteSection(lang = userLang) {
+      const voteList = document.getElementById('miracle-vote-list');
+      voteList.innerHTML = '';
+      const todayRec = getTodayVote();
+      MIRACLES.forEach((m, idx) => {
+        const voted = todayRec.voted && todayRec.voted.includes(m.id);
+        voteList.innerHTML += `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;">
+              <img src="${m.img}" class="miracle-img mr-2" alt="${m.name}">
+              <span style="font-size:1.13rem;font-weight:600;">${m.name}</span>
+            </div>
+            <button class="btn btn-sm btn-primary" id="vote_btn_${m.id}" ${voted?'disabled':''}>${voted?langData[lang].btn_voted:langData[lang].btn_vote}</button>
+          </div>
+        `;
+      });
+      // 绑定事件
+      MIRACLES.forEach((m, idx) => {
+        const btn = document.getElementById('vote_btn_'+m.id);
+        if (btn && !btn.disabled) {
+          btn.onclick = function() {
+            let votes = getVotes();
+            votes[idx]++;
+            setVotes(votes);
+            // 记录今日投票
+            let rec = getTodayVote();
+            if (!rec.voted) rec.voted = [];
+            rec.date = new Date().toISOString().slice(0,10);
+            rec.voted.push(m.id);
+            setTodayVote(rec);
+            renderVoteSection(lang);
+            renderRank(lang);
+          };
+        }
+      });
+    }
+    // 估值分配（票数越多估值越高，递增）
+    // 设定：估值 = 100 + 票数 * 20（可调整）
+    function getValuationByVotes(votes) {
+      return (100 + votes * 20);
+    }
+    // 渲染排行榜
+    function renderRank(lang = userLang) {
+      const votes = getVotes();
+      // 计算加权票数
+      const miracleRank = MIRACLES.map((m, i) => {
+        const weightedVotes = votes[i] * m.weight;
+        return { ...m, votes: votes[i], weightedVotes };
+      })
+        .sort((a, b) => b.weightedVotes - a.weightedVotes)
+        .map((m, idx, arr) => ({ ...m, rank: idx + 1, valuation: getValuationByVotes(m.weightedVotes) }));
+      const tbody = document.getElementById('miracle-rank-tbody');
+      tbody.innerHTML = '';
+      miracleRank.forEach(m => {
+        const medal = m.rank === 1 ? '🥇' : m.rank === 2 ? '🥈' : m.rank === 3 ? '🥉' : m.rank;
+        tbody.innerHTML += `
+          <tr>
+            <td><span class="rank-medal">${medal}</span></td>
+            <td><img src="${m.img}" class="miracle-img mr-2" alt="${m.name}">${m.name}</td>
+            <td>${m.votes.toLocaleString()}<br><span style="color:#888;font-size:0.97em;">(${m.weightedVotes.toLocaleString(undefined,{maximumFractionDigits:1})})</span></td>
+            <td class="miracle-valuation">${m.valuation.toLocaleString()}</td>
+          </tr>
+        `;
+      });
+    }
+    // 初始化
+    renderVoteSection(userLang);
+    renderRank(userLang);
+    switchLang(userLang);
+  </script>
+</body>
+</html>
