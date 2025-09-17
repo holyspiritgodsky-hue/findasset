@@ -137,6 +137,9 @@
       <a href="stock.html" id="ai_stock_btn" class="btn btn-success btn-lg" style="font-size:1.18rem; padding:12px 38px; border-radius:30px; font-weight:600; box-shadow:0 2px 12px #b2e6c7;">
         世界综合AI每日荐股
       </a>
+      <a href="game.html" id="rwa_game_btn" class="btn btn-primary btn-lg" style="font-size:1.13rem; padding:12px 38px; border-radius:30px; font-weight:600; margin-left:18px; box-shadow:0 2px 12px #b2d6f6;">
+        奇迹RWA收集游戏
+      </a>
     </div>
   </div>
 
@@ -216,6 +219,7 @@
         asset6_risk: "Low Risk",
         asset6_size: "Size ¥90M",
         ai_stock_btn: "AI Global Stock Picks (Daily)",
+  rwa_game_btn: "Miracle RWA Collection Game",
         footer_text: "© 2025 | The prediction results are for reference only and are not endorsed.",
         footer_contact: 'Contact: <a href="mailto:holyspiritgodsky@gmail.com">holyspiritgodsky@gmail.com</a>',
       },
@@ -280,6 +284,7 @@
         asset6_risk: "低风险",
         asset6_size: "规模 ¥9000万",
   ai_stock_btn: "世界综合AI每日荐股",
+  rwa_game_btn: "奇迹RWA收集游戏",
         footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
         footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
       }
@@ -301,6 +306,10 @@
       const aiBtn = document.getElementById("ai_stock_btn");
       if (aiBtn && langData[lang].ai_stock_btn) {
         aiBtn.textContent = langData[lang].ai_stock_btn;
+      }
+      const gameBtn = document.getElementById("rwa_game_btn");
+      if (gameBtn && langData[lang].rwa_game_btn) {
+        gameBtn.textContent = langData[lang].rwa_game_btn;
       }
       // 搜索框特殊
       document.getElementById("searchInput").placeholder = langData[lang].searchInput;
