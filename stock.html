@@ -1,208 +1,412 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>Global Stock Prediction Board</title>
+  <title>股票行业分析预测系统</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="f.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
   <style>
-    body { font-family: 'Segoe UI', Arial,sans-serif; background:#f7fafc; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; }
     .navbar { background: #2260a9; color: #fff; }
     .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
     .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
     .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
     .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
-    .hero { background: #2260a9; color: #fff; padding: 36px 0 24px 0; text-align: center;}
-    .hero h1 { font-weight: 700; font-size: 2.2rem;}
-    .hero p { font-size: 1.13rem; opacity:.90;}
-    .section-title { margin:40px 0 24px 0; text-align:center;}
-    .continent-section { margin-bottom: 35px; }
-    .continent-section h4 { font-size: 1.21rem; font-weight: 700; color:#2260a9; margin-bottom: 16px;}
-    .stock-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 10px #e6eaf0;
-      padding: 16px 18px 14px 18px;
-      margin-bottom: 18px;
-      transition: box-shadow .2s;
-    }
-    .stock-card:hover { box-shadow:0 8px 32px -8px #2260a999;}
-    .stock-title { font-size:1.1rem;font-weight:600;}
-    .stock-badge { background:#fa7a2c;color:#fff;border-radius:5px;padding:2px 7px;font-size:13px;margin-right:9px;}
-    .stock-pred { color:#28a745; font-weight:500; margin-top: 2px;}
-    .stock-reason { color:#555; font-size:0.98rem; margin-top: 4px; }
-    .stock-exchange { color:#2260a9; font-size:13px; margin-left:10px;}
-    .footer { background:#234; color:#fff; padding:24px 0; margin-top:38px;}
-    .footer a { color:#c7e3ff;}
-    @media (max-width: 900px) {
-      .navbar .ml-auto { margin-left: 0 !important;}
-      .stock-card { width:96vw; max-width:360px; margin-left:auto; margin-right:auto;}
-    }
+    .news-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 18px #e0e6ef; padding: 24px; margin-bottom: 20px; }
+    .news-title { color: #2260a9; font-weight: 700; font-size: 1.15rem; margin-bottom: 12px; }
+    .news-content { color: #184574; font-size: 1.05rem; line-height: 1.6; }
+    .news-time { color: #6c757d; font-size: 0.9rem; margin-top: 8px; }
+    .prediction-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 18px #e0e6ef; padding: 24px; }
+    .sector-item { border-left: 4px solid #2260a9; padding: 12px 16px; margin: 12px 0; background: #f8f9ff; border-radius: 0 8px 8px 0; }
+    .sector-name { font-weight: 700; color: #2260a9; font-size: 1.1rem; }
+    .sector-impact { color: #184574; font-size: 1.05rem; margin: 8px 0; }
+    .impact-positive { color: #28a745; font-weight: 600; }
+    .impact-negative { color: #dc3545; font-weight: 600; }
+    .impact-neutral { color: #6c757d; font-weight: 600; }
+    .loading { text-align: center; padding: 40px; color: #2260a9; }
+    .refresh-btn { background: #2260a9; color: #fff; border: none; border-radius: 25px; padding: 12px 24px; font-weight: 600; transition: background 0.2s; }
+    .refresh-btn:hover { background: #184574; color: #fff; }
+    .news-source { color: #2260a9; font-weight: 600; font-size: 0.95rem; }
+    .prediction-summary { background: #f0f8ff; border: 2px solid #2260a9; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .summary-title { color: #2260a9; font-weight: 700; font-size: 1.3rem; margin-bottom: 16px; }
+    .comic-container { margin-top: 20px; padding: 16px; background: #f8f9ff; border-radius: 12px; border: 2px dashed #2260a9; }
+    .comic-title { color: #2260a9; font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; text-align: center; }
+    .comic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .comic-panel { background: #fff; border: 2px solid #2260a9; border-radius: 8px; padding: 12px; text-align: center; position: relative; min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .comic-panel-number { position: absolute; top: 4px; left: 6px; background: #2260a9; color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .comic-text { font-size: 0.9rem; color: #184574; line-height: 1.4; margin-top: 8px; }
+    .comic-emoji { font-size: 1.5rem; margin-bottom: 4px; }
+    .comic-image { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" id="nav_title" href="index.html">Global RWA Asset Directory</a>
+    <a class="navbar-brand" id="nav_title" href="index.html">股票行业分析预测系统</a>
     <div class="ml-auto d-flex align-items-center">
-      <a class="nav-link d-inline" id="nav_home" href="index.html">Home</a>
-      <button class="lang-btn active" id="btn-en" onclick="switchLang('en')">EN</button>
-      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中</button>
+      <a class="nav-link d-inline" id="nav_about" href="about.html">关于系统</a>
+      <button class="lang-btn active" id="btn-zh" onclick="switchLang('zh')">中</button>
+      <button class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</button>
     </div>
   </nav>
 
-  <div class="hero">
-    <h1 id="hero_title">Global Stock Prediction Board</h1>
-    <p id="hero_desc">Daily top 3 stock gainers predicted for each continent's major exchanges, based on global asset trends.</p>
-    <div id="prediction_date" style="margin-top:12px; font-size:1.08rem; opacity:.85;"></div>
-  </div>
-
-  <div class="container">
-    <div class="section-title">
-      <h2 id="main_title">Major Stock Exchanges - Top 3 Predicted Gainers per Continent</h2>
-      <p id="main_desc">Based on RWA and macro data, we screen & predict top performers daily.</p>
+  <div class="container" style="max-width:1200px; margin:38px auto 0 auto;">
+    <div class="row">
+      <div class="col-12 text-center mb-4">
+        <h1 style="color:#2260a9; font-weight:700;">分析新闻 预测股票行业走势</h1>
+        <p style="color:#184574; font-size:1.1rem;">基于路透社重要新闻，智能分析市场动态，精准预测各行业股票走势</p>
+        <button class="refresh-btn" onclick="refreshNews()">
+          <i class="fas fa-sync-alt"></i> 获取最新新闻分析
+        </button>
+      </div>
     </div>
-    <div id="prediction_board"></div>
-  </div>
 
-  <div class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <span id="footer_text">© 2025 Global RWA Asset Directory | Demo data for learning only</span>
+    <div class="row">
+      <!-- 新闻区域 -->
+      <div class="col-lg-7">
+        <h3 style="color:#2260a9; font-weight:700; margin-bottom:20px;">
+          <i class="fas fa-newspaper"></i> 今日重要新闻
+        </h3>
+        <div id="newsContainer">
+          <div class="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">加载中...</span>
+            </div>
+            <p>正在获取路透社最新新闻...</p>
+          </div>
         </div>
-        <div class="col-md-5 text-right">
-          <span id="footer_contact">Contact: <a href="mailto:your@email.com">your@email.com</a></span>
+      </div>
+
+      <!-- 预测区域 -->
+      <div class="col-lg-5">
+        <h3 style="color:#2260a9; font-weight:700; margin-bottom:20px;">
+          <i class="fas fa-chart-line"></i> 股票行业走势预测
+        </h3>
+        
+        <div class="prediction-summary">
+          <div class="summary-title">今日行业分析摘要</div>
+          <div id="predictionSummary">
+            <p style="color:#184574;">基于最新新闻深度分析，系统将为您提供各行业股票投资建议...</p>
+          </div>
+        </div>
+
+        <div class="prediction-card">
+          <div id="predictionsContainer">
+            <div class="loading">
+              <p>分析新闻影响中...</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
   <script>
-    // 多语言数据
-    const langData = {
-      en: {
-        nav_title: "Global RWA Asset Directory",
-        nav_home: "Home",
-        hero_title: "Global Stock Prediction Board",
-        hero_desc: "Daily top 3 stock gainers predicted for each continent's major exchanges, based on global asset trends.",
-        main_title: "Major Stock Exchanges - Top 3 Predicted Gainers per Continent",
-        main_desc: "Based on RWA and macro data, we screen & predict top performers daily.",
-        footer_text: "© 2025 Global RWA Asset Directory | Demo data for learning only",
-        footer_contact: 'Contact: <a href="mailto:your@email.com">your@email.com</a>',
-        date_prefix: "Date: ",
-        continents: {
-          "Asia": "Asia",
-          "Europe": "Europe",
-          "North America": "North America",
-          "South America": "South America",
-          "Africa": "Africa",
-          "Oceania": "Oceania"
-        },
-        predicted_change: "Predicted Change",
-        reason: "Reason"
+    // 模拟路透社新闻数据（实际应用中需要接入真实API）
+    const mockReutersNews = [
+      {
+        title: "美联储暗示可能进一步加息 金融市场震荡",
+        content: "美联储官员在最新讲话中表示，为抑制通胀可能需要进一步提高利率。此消息导致全球金融市场出现剧烈波动，美元指数上涨，新兴市场货币承压。",
+        time: "2025-10-04 09:30",
+        source: "Reuters",
+        impact: {
+          banking: "negative",
+          real_estate: "negative",
+          technology: "negative",
+          energy: "neutral",
+          healthcare: "neutral"
+        }
       },
+      {
+        title: "全球芯片需求激增 半导体行业迎来新一轮增长",
+        content: "随着人工智能、5G和电动汽车需求的快速增长，全球半导体需求持续激增。多家芯片制造商上调了全年业绩预期，行业前景看好。",
+        time: "2025-10-04 08:15",
+        source: "Reuters",
+        impact: {
+          technology: "positive",
+          automotive: "positive",
+          manufacturing: "positive",
+          energy: "neutral",
+          finance: "neutral"
+        }
+      },
+      {
+        title: "绿色能源投资创历史新高 传统能源面临转型压力",
+        content: "最新报告显示，全球清洁能源投资在2025年将达到创纪录水平。太阳能和风能项目获得大量资金支持，而传统石油天然气公司面临转型压力。",
+        time: "2025-10-04 07:45",
+        source: "Reuters",
+        impact: {
+          renewable_energy: "positive",
+          traditional_energy: "negative",
+          utilities: "positive",
+          materials: "positive",
+          transportation: "neutral"
+        }
+      }
+    ];
+
+    // 行业中文名称映射
+    const sectorNames = {
+      banking: "银行金融",
+      real_estate: "房地产",
+      technology: "科技股",
+      energy: "传统能源",
+      healthcare: "医疗健康",
+      automotive: "汽车制造",
+      manufacturing: "制造业",
+      renewable_energy: "新能源",
+      traditional_energy: "传统能源",
+      utilities: "公用事业",
+      materials: "原材料",
+      transportation: "交通运输",
+      finance: "金融服务"
+    };
+
+    // 影响描述
+    const impactDescriptions = {
+      positive: "看涨",
+      negative: "看跌", 
+      neutral: "中性"
+    };
+
+    // 多语言支持
+    const langData = {
       zh: {
-        nav_title: "全球RWA资产目录",
-        nav_home: "首页",
-        hero_title: "全球股票预测榜",
-        hero_desc: "根据全球资产趋势，预测每日各大洲主要交易所最有可能大涨的三只股票。",
-        main_title: "全球各洲主要交易所每日大涨预测TOP3",
-        main_desc: "基于RWA和宏观数据，每日筛选预测最强表现股票。",
-        footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
-        footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
-        date_prefix: "日期：",
-        continents: {
-          "Asia": "亚洲",
-          "Europe": "欧洲",
-          "North America": "北美洲",
-          "South America": "南美洲",
-          "Africa": "非洲",
-          "Oceania": "大洋洲"
-        },
-        predicted_change: "预测涨幅",
-        reason: "原因"
+        nav_title: "股票行业分析预测系统",
+        nav_about: "关于系统"
+      },
+      en: {
+        nav_title: "Stock Market Analysis & Prediction System", 
+        nav_about: "About System"
       }
     };
-
-    // 预测数据（可替换为接口/每日更新）
-    const STOCK_PREDICTION_DATA = {
-      "Asia": [
-        { name: {en:"Tencent Holdings",zh:"腾讯控股"}, symbol: "0700.HK", exchange: {en:"HKEX",zh:"港交所"}, predicted_change: "+5.4%", reason: {en:"Tech sector strength, RWA inflow growth", zh:"科技行业强劲，RWA资金流入增长"} },
-        { name: {en:"Mitsubishi UFJ",zh:"三菱UFJ"}, symbol: "8306.T", exchange: {en:"TSE",zh:"东京证券交易所"}, predicted_change: "+4.9%", reason: {en:"Weaker yen benefits exports", zh:"日元走弱利好出口"} },
-        { name: {en:"China Merchants Bank",zh:"招商银行"}, symbol: "600036.SS", exchange: {en:"SSE",zh:"上交所"}, predicted_change: "+4.3%", reason: {en:"China credit data beats expectations", zh:"中国信贷数据超预期"} }
-      ],
-      "Europe": [
-        { name: {en:"SAP",zh:"思爱普"}, symbol: "SAP.DE", exchange: {en:"XETRA",zh:"德交所XETRA"}, predicted_change: "+4.2%", reason: {en:"Eurozone manufacturing beats forecast", zh:"欧元区制造业数据超预期"} },
-        { name: {en:"LVMH",zh:"LVMH"}, symbol: "MC.PA", exchange: {en:"Euronext",zh:"泛欧交易所"}, predicted_change: "+3.8%", reason: {en:"Luxury demand recovers", zh:"奢侈品消费恢复"} },
-        { name: {en:"Credit Suisse",zh:"瑞士信贷"}, symbol: "CSGN.SW", exchange: {en:"SIX",zh:"瑞士SIX"}, predicted_change: "+3.5%", reason: {en:"CHF strength", zh:"瑞郎走强"} }
-      ],
-      "North America": [
-        { name: {en:"Apple",zh:"苹果"}, symbol: "AAPL", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+5.6%", reason: {en:"AI business growth", zh:"AI业务增长迅速"} },
-        { name: {en:"Tesla",zh:"特斯拉"}, symbol: "TSLA", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+4.7%", reason: {en:"Global EV expansion", zh:"全球电动车市场扩张"} },
-        { name: {en:"Amazon",zh:"亚马逊"}, symbol: "AMZN", exchange: {en:"NASDAQ",zh:"纳斯达克"}, predicted_change: "+4.2%", reason: {en:"Cloud business at record high", zh:"云服务业务创新高"} }
-      ],
-      "South America": [
-        { name: {en:"Vale",zh:"淡水河谷"}, symbol: "VALE3.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+3.8%", reason: {en:"Iron ore price up", zh:"铁矿石价格上涨"} },
-        { name: {en:"Petrobras",zh:"巴西国家石油"}, symbol: "PETR4.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+3.3%", reason: {en:"Oil price rebound", zh:"原油价格回升"} },
-        { name: {en:"Banco Bradesco",zh:"布拉德斯科银行"}, symbol: "BBDC4.SA", exchange: {en:"B3",zh:"巴西B3"}, predicted_change: "+2.9%", reason: {en:"LatAm credit expansion", zh:"拉美信贷扩张"} }
-      ],
-      "Africa": [
-        { name: {en:"Naspers",zh:"纳斯帕斯"}, symbol: "NPN.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+4.2%", reason: {en:"Tech investment returns up", zh:"科技投资收益提升"} },
-        { name: {en:"Sasol",zh:"萨索尔"}, symbol: "SOL.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+3.6%", reason: {en:"Raw materials price up", zh:"原材料价格上涨"} },
-        { name: {en:"Standard Bank",zh:"标准银行"}, symbol: "SBK.JO", exchange: {en:"JSE",zh:"南非JSE"}, predicted_change: "+3.1%", reason: {en:"African economy rebounds", zh:"非洲经济复苏"} }
-      ],
-      "Oceania": [
-        { name: {en:"BHP Group",zh:"必和必拓"}, symbol: "BHP.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+4.4%", reason: {en:"Commodity demand up", zh:"大宗商品需求增长"} },
-        { name: {en:"Commonwealth Bank",zh:"联邦银行"}, symbol: "CBA.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+3.9%", reason: {en:"Aussie rate policy bullish", zh:"澳洲利率政策利好"} },
-        { name: {en:"CSL Limited",zh:"CSL有限公司"}, symbol: "CSL.AX", exchange: {en:"ASX",zh:"澳交所"}, predicted_change: "+3.7%", reason: {en:"Biotech exports surge", zh:"生物科技出口增长"} }
-      ]
-    };
-
-    // 渲染
-    function renderPredictionBoard(data, lang) {
-      const continents = Object.keys(data);
-      const board = document.getElementById("prediction_board");
-      const ctext = langData[lang].continents;
-      board.innerHTML = "";
-      continents.forEach(cont => {
-        board.innerHTML += `<div class="continent-section">
-          <h4>${ctext[cont] || cont}</h4>
-          ${data[cont].map((stock, i) => `
-            <div class="stock-card">
-              <span class="stock-badge">#${i+1}</span>
-              <span class="stock-title">${stock.name[lang]} <small>(${stock.symbol})</small></span>
-              <span class="stock-exchange">${stock.exchange[lang]}</span>
-              <div class="stock-pred">${langData[lang].predicted_change}: ${stock.predicted_change}</div>
-              <div class="stock-reason">${langData[lang].reason}: ${stock.reason[lang]}</div>
-            </div>
-          `).join("")}
-        </div>`;
-      });
-    }
 
     function switchLang(lang) {
       document.getElementById("btn-en").classList.toggle("active", lang === "en");
       document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
-      ["nav_title","nav_home","hero_title","hero_desc","main_title","main_desc","footer_text","footer_contact"].forEach(id=>{
-        const el = document.getElementById(id);
-        if(el) {
-          if(id==="footer_contact") el.innerHTML = langData[lang][id];
-          else el.textContent = langData[lang][id];
-        }
-      });
-      // 日期
-      const today = new Date();
-      document.getElementById("prediction_date").textContent = langData[lang].date_prefix +
-        today.getFullYear() + "-" +
-        String(today.getMonth()+1).padStart(2, '0') + "-" +
-        String(today.getDate()).padStart(2, '0');
-      renderPredictionBoard(STOCK_PREDICTION_DATA, lang);
-      document.documentElement.lang = lang;
+      
+      for (const key in langData[lang]) {
+        const el = document.getElementById(key);
+        if (el) el.textContent = langData[lang][key];
+      }
+      
+      localStorage.setItem('prediction_lang', lang);
     }
 
-    // 默认英文
-    switchLang('en');
+    // 生成四格漫画内容
+    function generateComic(news) {
+      // 根据新闻标题关键词生成对应的四格漫画
+      const title = news.title.toLowerCase();
+      
+      if (title.includes('美联储') || title.includes('加息') || title.includes('利率')) {
+        return {
+          panel1: { image: 'images/comics/panel1_fed.png', emoji: '🏦', text: '美联储开会讨论利率' },
+          panel2: { image: 'images/comics/panel2_fed.png', emoji: '📈', text: '决定继续加息抗通胀' },
+          panel3: { image: 'images/comics/panel3_fed.png', emoji: '😰', text: '投资者们开始紧张' },
+          panel4: { image: 'images/comics/panel4_fed.png', emoji: '📉', text: '市场应声下跌' }
+        };
+      } else if (title.includes('芯片') || title.includes('半导体') || title.includes('科技')) {
+        return {
+          panel1: { image: 'images/comics/panel1_tech.png', emoji: '💻', text: 'AI需求爆发式增长' },
+          panel2: { image: 'images/comics/panel2_tech.png', emoji: '🏭', text: '芯片工厂加班加点' },
+          panel3: { image: 'images/comics/panel3_tech.png', emoji: '📊', text: '业绩预期大幅上调' },
+          panel4: { image: 'images/comics/panel4_tech.png', emoji: '🚀', text: '科技股强势上涨' }
+        };
+      } else if (title.includes('绿色') || title.includes('新能源') || title.includes('清洁能源')) {
+        return {
+          panel1: { image: 'images/comics/panel1_energy.png', emoji: '🌍', text: '全球气候变化加剧' },
+          panel2: { image: 'images/comics/panel2_energy.png', emoji: '💰', text: '绿色能源获巨额投资' },
+          panel3: { image: 'images/comics/panel3_energy.png', emoji: '⛽', text: '传统能源面临挑战' },
+          panel4: { image: 'images/comics/panel4_energy.png', emoji: '🔋', text: '新能源股票飞涨' }
+        };
+      } else {
+        // 默认通用四格漫画
+        return {
+          panel1: { image: 'images/comics/panel1_default.png', emoji: '📰', text: '重大新闻发布' },
+          panel2: { image: 'images/comics/panel2_default.png', emoji: '🤔', text: '市场开始反应' },
+          panel3: { image: 'images/comics/panel3_default.png', emoji: '📱', text: '投资者密切关注' },
+          panel4: { image: 'images/comics/panel4_default.png', emoji: '💹', text: '股价开始波动' }
+        };
+      }
+    }
+
+    function displayNews(newsData) {
+      const container = document.getElementById('newsContainer');
+      container.innerHTML = '';
+
+      newsData.forEach((news, index) => {
+        const newsCard = document.createElement('div');
+        newsCard.className = 'news-card';
+        
+        let comicHtml = '';
+        // 为第一个新闻添加四格漫画
+        if (index === 0) {
+          const comic = generateComic(news);
+          comicHtml = `
+            <div class="comic-container">
+              <div class="comic-title">📰 新闻四格漫画解读</div>
+              <div class="comic-grid">
+                <div class="comic-panel">
+                  <div class="comic-panel-number">1</div>
+                  <img class="comic-image" src="${comic.panel1.image}" alt="Panel 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                  <div class="comic-emoji" style="display:none;">${comic.panel1.emoji}</div>
+                  <div class="comic-text">${comic.panel1.text}</div>
+                </div>
+                <div class="comic-panel">
+                  <div class="comic-panel-number">2</div>
+                  <img class="comic-image" src="${comic.panel2.image}" alt="Panel 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                  <div class="comic-emoji" style="display:none;">${comic.panel2.emoji}</div>
+                  <div class="comic-text">${comic.panel2.text}</div>
+                </div>
+                <div class="comic-panel">
+                  <div class="comic-panel-number">3</div>
+                  <img class="comic-image" src="${comic.panel3.image}" alt="Panel 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                  <div class="comic-emoji" style="display:none;">${comic.panel3.emoji}</div>
+                  <div class="comic-text">${comic.panel3.text}</div>
+                </div>
+                <div class="comic-panel">
+                  <div class="comic-panel-number">4</div>
+                  <img class="comic-image" src="${comic.panel4.image}" alt="Panel 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                  <div class="comic-emoji" style="display:none;">${comic.panel4.emoji}</div>
+                  <div class="comic-text">${comic.panel4.text}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        newsCard.innerHTML = `
+          <div class="news-source">${news.source} • ${news.time}</div>
+          <div class="news-title">${news.title}</div>
+          <div class="news-content">${news.content}</div>
+          ${comicHtml}
+        `;
+        container.appendChild(newsCard);
+      });
+    }
+
+    function generatePredictions(newsData) {
+      const sectorImpacts = {};
+      
+      // 分析每条新闻对各行业的影响
+      newsData.forEach(news => {
+        for (const [sector, impact] of Object.entries(news.impact)) {
+          if (!sectorImpacts[sector]) {
+            sectorImpacts[sector] = { positive: 0, negative: 0, neutral: 0 };
+          }
+          sectorImpacts[sector][impact]++;
+        }
+      });
+
+      // 生成预测结果
+      const predictions = [];
+      for (const [sector, impacts] of Object.entries(sectorImpacts)) {
+        const total = impacts.positive + impacts.negative + impacts.neutral;
+        let overallImpact = 'neutral';
+        let confidence = 50;
+
+        if (impacts.positive > impacts.negative) {
+          overallImpact = 'positive';
+          confidence = Math.round((impacts.positive / total) * 100);
+        } else if (impacts.negative > impacts.positive) {
+          overallImpact = 'negative';
+          confidence = Math.round((impacts.negative / total) * 100);
+        }
+
+        predictions.push({
+          sector: sector,
+          impact: overallImpact,
+          confidence: confidence,
+          reasoning: generateReasoning(sector, overallImpact, newsData)
+        });
+      }
+
+      return predictions.sort((a, b) => b.confidence - a.confidence);
+    }
+
+    function generateReasoning(sector, impact, newsData) {
+      const sectorName = sectorNames[sector] || sector;
+      const impactText = impactDescriptions[impact];
+      
+      // 简化的推理逻辑
+      const reasons = [];
+      newsData.forEach(news => {
+        if (news.impact[sector] === impact) {
+          reasons.push(`受"${news.title}"影响`);
+        }
+      });
+      
+      return `${sectorName}${impactText}：${reasons.join('；')}。`;
+    }
+
+    function displayPredictions(predictions) {
+      const container = document.getElementById('predictionsContainer');
+      container.innerHTML = '';
+
+      // 生成预测摘要
+      const topPredictions = predictions.slice(0, 3);
+      const summaryText = `今日最值得关注的股票行业：${topPredictions.map(p => 
+        `${sectorNames[p.sector]}(${impactDescriptions[p.impact]})`
+      ).join('、')}`;
+      
+      document.getElementById('predictionSummary').innerHTML = `
+        <p style="color:#184574; font-size:1.1rem; margin:0;">${summaryText}</p>
+      `;
+
+      // 显示详细预测
+      predictions.forEach(prediction => {
+        const sectorDiv = document.createElement('div');
+        sectorDiv.className = 'sector-item';
+        
+        const impactClass = prediction.impact === 'positive' ? 'impact-positive' : 
+                           prediction.impact === 'negative' ? 'impact-negative' : 'impact-neutral';
+        
+        sectorDiv.innerHTML = `
+          <div class="sector-name">${sectorNames[prediction.sector] || prediction.sector}</div>
+          <div class="sector-impact">
+            <span class="${impactClass}">${impactDescriptions[prediction.impact]} (置信度: ${prediction.confidence}%)</span>
+          </div>
+          <div style="color:#6c757d; font-size:0.95rem; margin-top:8px;">
+            ${prediction.reasoning}
+          </div>
+        `;
+        
+        container.appendChild(sectorDiv);
+      });
+    }
+
+    function refreshNews() {
+      // 显示加载状态
+      document.getElementById('newsContainer').innerHTML = `
+        <div class="loading">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">加载中...</span>
+          </div>
+          <p>正在获取路透社最新新闻...</p>
+        </div>
+      `;
+
+      document.getElementById('predictionsContainer').innerHTML = `
+        <div class="loading">
+          <p>分析新闻影响中...</p>
+        </div>
+      `;
+
+      // 模拟API调用延迟
+      setTimeout(() => {
+        displayNews(mockReutersNews);
+        const predictions = generatePredictions(mockReutersNews);
+        displayPredictions(predictions);
+      }, 2000);
+    }
+
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      const userLang = localStorage.getItem('prediction_lang') || 'zh';
+      switchLang(userLang);
+      refreshNews();
+    });
   </script>
 </body>
 </html>
