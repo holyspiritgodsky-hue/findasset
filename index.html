@@ -134,11 +134,17 @@
       <!-- ...existing code... -->
     </div>
     <div style="text-align:center; margin:36px 0 0 0;">
-      <a href="stock.html" id="ai_stock_btn" class="btn btn-success btn-lg" style="font-size:1.18rem; padding:12px 38px; border-radius:30px; font-weight:600; box-shadow:0 2px 12px #b2e6c7;">
+      <a href="power.html" id="power_btn" class="btn btn-danger btn-lg" style="font-size:1.18rem; padding:12px 38px; border-radius:30px; font-weight:600; box-shadow:0 2px 12px #e6b2b2;">
+        ⚡🤖 经济产出模拟器
+      </a>
+      <a href="stock.html" id="ai_stock_btn" class="btn btn-success btn-lg" style="font-size:1.18rem; padding:12px 38px; border-radius:30px; font-weight:600; margin-left:18px; box-shadow:0 2px 12px #b2e6c7;">
         世界综合AI每日荐股
       </a>
       <a href="game.html" id="rwa_game_btn" class="btn btn-primary btn-lg" style="font-size:1.13rem; padding:12px 38px; border-radius:30px; font-weight:600; margin-left:18px; box-shadow:0 2px 12px #b2d6f6;">
         奇迹RWA收集游戏
+      </a>
+      <a href="memo.html" id="memo_btn" class="btn btn-outline-warning btn-lg" style="font-size:1.13rem; padding:12px 38px; border-radius:30px; font-weight:600; margin-left:18px; box-shadow:0 2px 10px #f5e1b8;">
+        每日备忘录
       </a>
     </div>
   </div>
@@ -219,7 +225,8 @@
         asset6_risk: "Low Risk",
         asset6_size: "Size ¥90M",
         ai_stock_btn: "AI Global Stock Picks (Daily)",
-  rwa_game_btn: "Miracle RWA Collection Game",
+        rwa_game_btn: "Miracle RWA Collection Game",
+        power_btn: "⚡🤖 Economic Power Simulator",
         footer_text: "© 2025 | The prediction results are for reference only and are not endorsed.",
         footer_contact: 'Contact: <a href="mailto:holyspiritgodsky@gmail.com">holyspiritgodsky@gmail.com</a>',
       },
@@ -283,8 +290,9 @@
         asset6_apy: "年化收益：6.9%",
         asset6_risk: "低风险",
         asset6_size: "规模 ¥9000万",
-  ai_stock_btn: "世界综合AI每日荐股",
-  rwa_game_btn: "奇迹RWA收集游戏",
+        ai_stock_btn: "世界综合AI每日荐股",
+        rwa_game_btn: "奇迹RWA收集游戏",
+        power_btn: "⚡🤖 经济产出模拟器",
         footer_text: "© 2025 全球RWA资产目录 | 仅供学习交流，数据为示例",
         footer_contact: '联系方式：<a href="mailto:your@email.com">your@email.com</a>',
       }
@@ -310,6 +318,10 @@
       const gameBtn = document.getElementById("rwa_game_btn");
       if (gameBtn && langData[lang].rwa_game_btn) {
         gameBtn.textContent = langData[lang].rwa_game_btn;
+      }
+      const powerBtn = document.getElementById("power_btn");
+      if (powerBtn && langData[lang].power_btn) {
+        powerBtn.textContent = langData[lang].power_btn;
       }
       // 搜索框特殊
       document.getElementById("searchInput").placeholder = langData[lang].searchInput;
