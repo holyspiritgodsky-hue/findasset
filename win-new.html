@@ -484,8 +484,31 @@
             }
 
             .nav-links {
-                gap: 20px;
-                font-size: 14px;
+                width: 100%;
+                gap: 10px;
+                justify-content: space-between;
+                font-size: 12px;
+            }
+
+            nav {
+                height: auto;
+                padding: 12px 0;
+                flex-wrap: wrap;
+                row-gap: 10px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-links a {
+                padding: 6px 8px;
+                white-space: nowrap;
+            }
+
+            .lang-btn {
+                padding: 6px 10px;
+                font-size: 12px;
             }
 
             .hero h1 {
@@ -542,19 +565,6 @@
             <button class="lang-btn" onclick="toggleLanguage()">中文/EN</button>
         </nav>
     </header>
-
-    <!-- VIP Sponsor Card -->
-    <div class="vip-sponsor">
-        <div class="vip-sponsor-badge">特别赞助人</div>
-        <img src="images/vip-sponsor.jpg" alt="VIP Sponsor" class="vip-sponsor-photo">
-        <div class="vip-sponsor-name">费萨尔·本·班达尔王子殿下</div>
-        <div class="vip-sponsor-title">沙特阿拉伯</div>
-        <div class="vip-sponsor-detail">
-            • 追加奖金：1500万<br>
-            • 总奖池：3000万<br>
-            • 支持全球电竞发展
-        </div>
-    </div>
 
     <main>
         <!-- Home Section -->
@@ -880,6 +890,19 @@
             </div>
         </section>
     </main>
+
+    <!-- VIP Sponsor Card -->
+    <div class="vip-sponsor">
+        <div class="vip-sponsor-badge">特别赞助人</div>
+        <img src="images/vip-sponsor.jpg" alt="VIP Sponsor" class="vip-sponsor-photo">
+        <div class="vip-sponsor-name">费萨尔·本·班达尔王子殿下</div>
+        <div class="vip-sponsor-title">沙特阿拉伯</div>
+        <div class="vip-sponsor-detail">
+            • 追加奖金：1500万<br>
+            • 总奖池：3000万<br>
+            • 支持全球电竞发展
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
