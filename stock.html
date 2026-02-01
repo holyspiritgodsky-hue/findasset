@@ -1,412 +1,391 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>股票行业分析预测系统</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="f.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
-  <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; }
-    .navbar { background: #2260a9; color: #fff; }
-    .navbar-brand { color: #fff !important; font-size: 1.7rem; font-weight: bold; }
-    .nav-link, .lang-btn { color: #fff !important; font-size: 1.1rem; }
-    .lang-btn { background: #2260a9; border:none; margin-left: 15px; outline:none; font-size: 1.07rem; border-radius: 19px; padding: 4px 16px; transition: background .2s;}
-    .lang-btn.active, .lang-btn:hover { background: #184574; color: #fff;}
-    .news-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 18px #e0e6ef; padding: 24px; margin-bottom: 20px; }
-    .news-title { color: #2260a9; font-weight: 700; font-size: 1.15rem; margin-bottom: 12px; }
-    .news-content { color: #184574; font-size: 1.05rem; line-height: 1.6; }
-    .news-time { color: #6c757d; font-size: 0.9rem; margin-top: 8px; }
-    .prediction-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 18px #e0e6ef; padding: 24px; }
-    .sector-item { border-left: 4px solid #2260a9; padding: 12px 16px; margin: 12px 0; background: #f8f9ff; border-radius: 0 8px 8px 0; }
-    .sector-name { font-weight: 700; color: #2260a9; font-size: 1.1rem; }
-    .sector-impact { color: #184574; font-size: 1.05rem; margin: 8px 0; }
-    .impact-positive { color: #28a745; font-weight: 600; }
-    .impact-negative { color: #dc3545; font-weight: 600; }
-    .impact-neutral { color: #6c757d; font-weight: 600; }
-    .loading { text-align: center; padding: 40px; color: #2260a9; }
-    .refresh-btn { background: #2260a9; color: #fff; border: none; border-radius: 25px; padding: 12px 24px; font-weight: 600; transition: background 0.2s; }
-    .refresh-btn:hover { background: #184574; color: #fff; }
-    .news-source { color: #2260a9; font-weight: 600; font-size: 0.95rem; }
-    .prediction-summary { background: #f0f8ff; border: 2px solid #2260a9; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-    .summary-title { color: #2260a9; font-weight: 700; font-size: 1.3rem; margin-bottom: 16px; }
-    .comic-container { margin-top: 20px; padding: 16px; background: #f8f9ff; border-radius: 12px; border: 2px dashed #2260a9; }
-    .comic-title { color: #2260a9; font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; text-align: center; }
-    .comic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .comic-panel { background: #fff; border: 2px solid #2260a9; border-radius: 8px; padding: 12px; text-align: center; position: relative; min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
-    .comic-panel-number { position: absolute; top: 4px; left: 6px; background: #2260a9; color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-    .comic-text { font-size: 0.9rem; color: #184574; line-height: 1.4; margin-top: 8px; }
-    .comic-emoji { font-size: 1.5rem; margin-bottom: 4px; }
-    .comic-image { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上证指数涨跌博彩</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; background: #f5f5f5; min-height: 100vh; padding: 20px; color: #1a1a1a; }
+.container { max-width: 1400px; margin: 0 auto; }
+header { text-align: center; margin-bottom: 40px; }
+header h1 { font-size: 32px; font-weight: 600; margin-bottom: 10px; }
+header p { font-size: 15px; color: #666; }
+.main-betting { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px 18px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.betting-header { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; margin-bottom: 10px; }
+.wallet-balance { display: flex; align-items: center; gap: 10px; }
+.wallet-icon { font-size: 24px; }
+.balance-info h3 { font-size: 11px; color: #666; margin-bottom: 2px; }
+.balance-amount { font-size: 20px; font-weight: 600; }
+.wallet-stats { display: flex; gap: 12px; justify-self: end; }
+.stat-item { text-align: center; }
+.stat-label { font-size: 10px; color: #666; }
+.stat-value { font-size: 14px; font-weight: 600; margin-top: 2px; }
+.stat-value.positive { color: #00c853; }
+.stat-value.negative { color: #ff1744; }
+.index-header { text-align: center; margin-bottom: 8px; }
+.index-title { font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+.index-price { font-size: 32px; font-weight: 700; margin-bottom: 3px; }
+.index-change { font-size: 14px; font-weight: 600; }
+.index-change.positive { color: #00c853; }
+.index-change.negative { color: #ff1744; }
+.betting-question { font-size: 14px; margin-bottom: 10px; text-align: center; color: #666; }
+.betting-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 500px; margin: 0 auto; }
+.bet-action-btn { padding: 14px; border: 2px solid; border-radius: 12px; background: #f9f9f9; cursor: pointer; text-align: center; transition: all 0.2s; }
+.bet-action-btn.rise { border-color: #00c853; }
+.bet-action-btn.fall { border-color: #ff1744; }
+.bet-action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.bet-action-btn.rise:hover { background: rgba(0, 200, 83, 0.08); }
+.bet-action-btn.fall:hover { background: rgba(255, 23, 68, 0.08); }
+.bet-label { font-size: 12px; color: #666; margin-bottom: 4px; text-transform: uppercase; }
+.bet-odds { font-size: 24px; font-weight: 700; }
+.bet-action-btn.rise .bet-odds { color: #00c853; }
+.bet-action-btn.fall .bet-odds { color: #ff1744; }
+.industry-forecasts { margin-top: 40px; }
+.section-title { font-size: 20px; font-weight: 600; margin-bottom: 24px; text-align: center; }
+.basis-section { margin-top: 28px; background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.basis-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.basis-list { display: grid; gap: 12px; }
+.basis-item { padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 10px; background: #f9f9f9; }
+.basis-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.basis-industry { font-size: 14px; font-weight: 600; }
+.basis-tags { display: flex; gap: 8px; }
+.basis-tag { font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid #e0e0e0; color: #666; background: #fff; }
+.basis-text { font-size: 12px; color: #666; line-height: 1.6; }
+.market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
+.market-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.market-card:hover { border-color: #bbb; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.market-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.industry-icon {
+	width: 22px;
+	height: 22px;
+	border-radius: 6px;
+	background: #eef2ff;
+	display: grid;
+	place-items: center;
+	font-size: 14px;
+}
+.market-subtitle { font-size: 12px; color: #666; margin-bottom: 16px; }
+.forecast-display { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px; }
+.forecast-label { font-size: 12px; color: #666; }
+.forecast-value { font-size: 20px; font-weight: 600; }
+.forecast-trend { display: flex; gap: 12px; align-items: center; }
+.trend-badge { padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+.trend-badge.bullish { background: rgba(0, 200, 83, 0.12); color: #00a843; }
+.trend-badge.bearish { background: rgba(255, 23, 68, 0.12); color: #d91434; }
+.trend-badge.neutral { background: rgba(0, 0, 0, 0.08); color: #666; }
+.market-stats { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #e0e0e0; }
+.volume { font-size: 12px; color: #666; }
+.status-badge { padding: 4px 10px; background: #f5f5f5; border-radius: 12px; font-size: 11px; border: 1px solid #e0e0e0; color: #666; }
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+.modal.active { display: flex; }
+.modal-content { background: #fff; border: 1px solid #e0e0e0; border-radius: 16px; padding: 32px; max-width: 500px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.modal-header { display: flex; justify-content: space-between; margin-bottom: 24px; }
+.close-btn { font-size: 28px; color: #666; cursor: pointer; background: none; border: none; }
+.modal-question { padding: 16px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 24px; color: #1a1a1a; }
+.choice-label { font-size: 13px; color: #666; margin-bottom: 12px; }
+.choice-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.choice-btn { padding: 16px; border: 1px solid #e0e0e0; border-radius: 8px; background: #f9f9f9; cursor: pointer; text-align: center; }
+.choice-btn.active.yes { border-color: #00c853; background: rgba(0, 200, 83, 0.08); }
+.choice-btn.active.no { border-color: #ff1744; background: rgba(255, 23, 68, 0.08); }
+.choice-option { font-size: 12px; color: #666; margin-bottom: 4px; }
+.choice-odds { font-size: 22px; font-weight: 600; }
+.amount-input { width: 100%; padding: 14px 50px 14px 16px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 18px; background: #fff; color: #1a1a1a; margin-bottom: 12px; }
+.quick-amounts { display: flex; gap: 8px; margin-bottom: 24px; }
+.quick-amount-btn { padding: 8px 16px; border: 1px solid #e0e0e0; border-radius: 6px; background: #f9f9f9; cursor: pointer; font-size: 12px; color: #666; }
+.quick-amount-btn:hover { background: #eee; border-color: #ccc; }
+.bet-summary { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+.summary-label { color: #666; }
+.summary-value { font-weight: 600; }
+.summary-value.positive { color: #00c853; }
+.place-bet-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: #1d9bf0; color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
+.place-bet-btn:hover { background: #1a8cd8; }
+.success-message { display: none; position: fixed; top: 20px; right: 20px; background: #fff; border: 1px solid #e0e0e0; color: #1a1a1a; padding: 16px 20px; border-radius: 8px; z-index: 2000; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.success-message.show { display: block; }
+</style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" id="nav_title" href="index.html">股票行业分析预测系统</a>
-    <div class="ml-auto d-flex align-items-center">
-      <a class="nav-link d-inline" id="nav_about" href="about.html">关于系统</a>
-      <button class="lang-btn active" id="btn-zh" onclick="switchLang('zh')">中</button>
-      <button class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</button>
-    </div>
-  </nav>
-
-  <div class="container" style="max-width:1200px; margin:38px auto 0 auto;">
-    <div class="row">
-      <div class="col-12 text-center mb-4">
-        <h1 style="color:#2260a9; font-weight:700;">分析新闻 预测股票行业走势</h1>
-        <p style="color:#184574; font-size:1.1rem;">基于路透社重要新闻，智能分析市场动态，精准预测各行业股票走势</p>
-        <button class="refresh-btn" onclick="refreshNews()">
-          <i class="fas fa-sync-alt"></i> 获取最新新闻分析
-        </button>
-      </div>
-    </div>
-
-    <div class="row">
-      <!-- 新闻区域 -->
-      <div class="col-lg-7">
-        <h3 style="color:#2260a9; font-weight:700; margin-bottom:20px;">
-          <i class="fas fa-newspaper"></i> 今日重要新闻
-        </h3>
-        <div id="newsContainer">
-          <div class="loading">
-            <div class="spinner-border text-primary" role="status">
-              <span class="sr-only">加载中...</span>
-            </div>
-            <p>正在获取路透社最新新闻...</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 预测区域 -->
-      <div class="col-lg-5">
-        <h3 style="color:#2260a9; font-weight:700; margin-bottom:20px;">
-          <i class="fas fa-chart-line"></i> 股票行业走势预测
-        </h3>
-        
-        <div class="prediction-summary">
-          <div class="summary-title">今日行业分析摘要</div>
-          <div id="predictionSummary">
-            <p style="color:#184574;">基于最新新闻深度分析，系统将为您提供各行业股票投资建议...</p>
-          </div>
-        </div>
-
-        <div class="prediction-card">
-          <div id="predictionsContainer">
-            <div class="loading">
-              <p>分析新闻影响中...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-  <script>
-    // 模拟路透社新闻数据（实际应用中需要接入真实API）
-    const mockReutersNews = [
-      {
-        title: "美联储暗示可能进一步加息 金融市场震荡",
-        content: "美联储官员在最新讲话中表示，为抑制通胀可能需要进一步提高利率。此消息导致全球金融市场出现剧烈波动，美元指数上涨，新兴市场货币承压。",
-        time: "2025-10-04 09:30",
-        source: "Reuters",
-        impact: {
-          banking: "negative",
-          real_estate: "negative",
-          technology: "negative",
-          energy: "neutral",
-          healthcare: "neutral"
-        }
-      },
-      {
-        title: "全球芯片需求激增 半导体行业迎来新一轮增长",
-        content: "随着人工智能、5G和电动汽车需求的快速增长，全球半导体需求持续激增。多家芯片制造商上调了全年业绩预期，行业前景看好。",
-        time: "2025-10-04 08:15",
-        source: "Reuters",
-        impact: {
-          technology: "positive",
-          automotive: "positive",
-          manufacturing: "positive",
-          energy: "neutral",
-          finance: "neutral"
-        }
-      },
-      {
-        title: "绿色能源投资创历史新高 传统能源面临转型压力",
-        content: "最新报告显示，全球清洁能源投资在2025年将达到创纪录水平。太阳能和风能项目获得大量资金支持，而传统石油天然气公司面临转型压力。",
-        time: "2025-10-04 07:45",
-        source: "Reuters",
-        impact: {
-          renewable_energy: "positive",
-          traditional_energy: "negative",
-          utilities: "positive",
-          materials: "positive",
-          transportation: "neutral"
-        }
-      }
-    ];
-
-    // 行业中文名称映射
-    const sectorNames = {
-      banking: "银行金融",
-      real_estate: "房地产",
-      technology: "科技股",
-      energy: "传统能源",
-      healthcare: "医疗健康",
-      automotive: "汽车制造",
-      manufacturing: "制造业",
-      renewable_energy: "新能源",
-      traditional_energy: "传统能源",
-      utilities: "公用事业",
-      materials: "原材料",
-      transportation: "交通运输",
-      finance: "金融服务"
-    };
-
-    // 影响描述
-    const impactDescriptions = {
-      positive: "看涨",
-      negative: "看跌", 
-      neutral: "中性"
-    };
-
-    // 多语言支持
-    const langData = {
-      zh: {
-        nav_title: "股票行业分析预测系统",
-        nav_about: "关于系统"
-      },
-      en: {
-        nav_title: "Stock Market Analysis & Prediction System", 
-        nav_about: "About System"
-      }
-    };
-
-    function switchLang(lang) {
-      document.getElementById("btn-en").classList.toggle("active", lang === "en");
-      document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
-      
-      for (const key in langData[lang]) {
-        const el = document.getElementById(key);
-        if (el) el.textContent = langData[lang][key];
-      }
-      
-      localStorage.setItem('prediction_lang', lang);
-    }
-
-    // 生成四格漫画内容
-    function generateComic(news) {
-      // 根据新闻标题关键词生成对应的四格漫画
-      const title = news.title.toLowerCase();
-      
-      if (title.includes('美联储') || title.includes('加息') || title.includes('利率')) {
-        return {
-          panel1: { image: 'images/comics/panel1_fed.png', emoji: '🏦', text: '美联储开会讨论利率' },
-          panel2: { image: 'images/comics/panel2_fed.png', emoji: '📈', text: '决定继续加息抗通胀' },
-          panel3: { image: 'images/comics/panel3_fed.png', emoji: '😰', text: '投资者们开始紧张' },
-          panel4: { image: 'images/comics/panel4_fed.png', emoji: '📉', text: '市场应声下跌' }
-        };
-      } else if (title.includes('芯片') || title.includes('半导体') || title.includes('科技')) {
-        return {
-          panel1: { image: 'images/comics/panel1_tech.png', emoji: '💻', text: 'AI需求爆发式增长' },
-          panel2: { image: 'images/comics/panel2_tech.png', emoji: '🏭', text: '芯片工厂加班加点' },
-          panel3: { image: 'images/comics/panel3_tech.png', emoji: '📊', text: '业绩预期大幅上调' },
-          panel4: { image: 'images/comics/panel4_tech.png', emoji: '🚀', text: '科技股强势上涨' }
-        };
-      } else if (title.includes('绿色') || title.includes('新能源') || title.includes('清洁能源')) {
-        return {
-          panel1: { image: 'images/comics/panel1_energy.png', emoji: '🌍', text: '全球气候变化加剧' },
-          panel2: { image: 'images/comics/panel2_energy.png', emoji: '💰', text: '绿色能源获巨额投资' },
-          panel3: { image: 'images/comics/panel3_energy.png', emoji: '⛽', text: '传统能源面临挑战' },
-          panel4: { image: 'images/comics/panel4_energy.png', emoji: '🔋', text: '新能源股票飞涨' }
-        };
-      } else {
-        // 默认通用四格漫画
-        return {
-          panel1: { image: 'images/comics/panel1_default.png', emoji: '📰', text: '重大新闻发布' },
-          panel2: { image: 'images/comics/panel2_default.png', emoji: '🤔', text: '市场开始反应' },
-          panel3: { image: 'images/comics/panel3_default.png', emoji: '📱', text: '投资者密切关注' },
-          panel4: { image: 'images/comics/panel4_default.png', emoji: '💹', text: '股价开始波动' }
-        };
-      }
-    }
-
-    function displayNews(newsData) {
-      const container = document.getElementById('newsContainer');
-      container.innerHTML = '';
-
-      newsData.forEach((news, index) => {
-        const newsCard = document.createElement('div');
-        newsCard.className = 'news-card';
-        
-        let comicHtml = '';
-        // 为第一个新闻添加四格漫画
-        if (index === 0) {
-          const comic = generateComic(news);
-          comicHtml = `
-            <div class="comic-container">
-              <div class="comic-title">📰 新闻四格漫画解读</div>
-              <div class="comic-grid">
-                <div class="comic-panel">
-                  <div class="comic-panel-number">1</div>
-                  <img class="comic-image" src="${comic.panel1.image}" alt="Panel 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                  <div class="comic-emoji" style="display:none;">${comic.panel1.emoji}</div>
-                  <div class="comic-text">${comic.panel1.text}</div>
-                </div>
-                <div class="comic-panel">
-                  <div class="comic-panel-number">2</div>
-                  <img class="comic-image" src="${comic.panel2.image}" alt="Panel 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                  <div class="comic-emoji" style="display:none;">${comic.panel2.emoji}</div>
-                  <div class="comic-text">${comic.panel2.text}</div>
-                </div>
-                <div class="comic-panel">
-                  <div class="comic-panel-number">3</div>
-                  <img class="comic-image" src="${comic.panel3.image}" alt="Panel 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                  <div class="comic-emoji" style="display:none;">${comic.panel3.emoji}</div>
-                  <div class="comic-text">${comic.panel3.text}</div>
-                </div>
-                <div class="comic-panel">
-                  <div class="comic-panel-number">4</div>
-                  <img class="comic-image" src="${comic.panel4.image}" alt="Panel 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                  <div class="comic-emoji" style="display:none;">${comic.panel4.emoji}</div>
-                  <div class="comic-text">${comic.panel4.text}</div>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-        
-        newsCard.innerHTML = `
-          <div class="news-source">${news.source} • ${news.time}</div>
-          <div class="news-title">${news.title}</div>
-          <div class="news-content">${news.content}</div>
-          ${comicHtml}
-        `;
-        container.appendChild(newsCard);
-      });
-    }
-
-    function generatePredictions(newsData) {
-      const sectorImpacts = {};
-      
-      // 分析每条新闻对各行业的影响
-      newsData.forEach(news => {
-        for (const [sector, impact] of Object.entries(news.impact)) {
-          if (!sectorImpacts[sector]) {
-            sectorImpacts[sector] = { positive: 0, negative: 0, neutral: 0 };
-          }
-          sectorImpacts[sector][impact]++;
-        }
-      });
-
-      // 生成预测结果
-      const predictions = [];
-      for (const [sector, impacts] of Object.entries(sectorImpacts)) {
-        const total = impacts.positive + impacts.negative + impacts.neutral;
-        let overallImpact = 'neutral';
-        let confidence = 50;
-
-        if (impacts.positive > impacts.negative) {
-          overallImpact = 'positive';
-          confidence = Math.round((impacts.positive / total) * 100);
-        } else if (impacts.negative > impacts.positive) {
-          overallImpact = 'negative';
-          confidence = Math.round((impacts.negative / total) * 100);
-        }
-
-        predictions.push({
-          sector: sector,
-          impact: overallImpact,
-          confidence: confidence,
-          reasoning: generateReasoning(sector, overallImpact, newsData)
-        });
-      }
-
-      return predictions.sort((a, b) => b.confidence - a.confidence);
-    }
-
-    function generateReasoning(sector, impact, newsData) {
-      const sectorName = sectorNames[sector] || sector;
-      const impactText = impactDescriptions[impact];
-      
-      // 简化的推理逻辑
-      const reasons = [];
-      newsData.forEach(news => {
-        if (news.impact[sector] === impact) {
-          reasons.push(`受"${news.title}"影响`);
-        }
-      });
-      
-      return `${sectorName}${impactText}：${reasons.join('；')}。`;
-    }
-
-    function displayPredictions(predictions) {
-      const container = document.getElementById('predictionsContainer');
-      container.innerHTML = '';
-
-      // 生成预测摘要
-      const topPredictions = predictions.slice(0, 3);
-      const summaryText = `今日最值得关注的股票行业：${topPredictions.map(p => 
-        `${sectorNames[p.sector]}(${impactDescriptions[p.impact]})`
-      ).join('、')}`;
-      
-      document.getElementById('predictionSummary').innerHTML = `
-        <p style="color:#184574; font-size:1.1rem; margin:0;">${summaryText}</p>
-      `;
-
-      // 显示详细预测
-      predictions.forEach(prediction => {
-        const sectorDiv = document.createElement('div');
-        sectorDiv.className = 'sector-item';
-        
-        const impactClass = prediction.impact === 'positive' ? 'impact-positive' : 
-                           prediction.impact === 'negative' ? 'impact-negative' : 'impact-neutral';
-        
-        sectorDiv.innerHTML = `
-          <div class="sector-name">${sectorNames[prediction.sector] || prediction.sector}</div>
-          <div class="sector-impact">
-            <span class="${impactClass}">${impactDescriptions[prediction.impact]} (置信度: ${prediction.confidence}%)</span>
-          </div>
-          <div style="color:#6c757d; font-size:0.95rem; margin-top:8px;">
-            ${prediction.reasoning}
-          </div>
-        `;
-        
-        container.appendChild(sectorDiv);
-      });
-    }
-
-    function refreshNews() {
-      // 显示加载状态
-      document.getElementById('newsContainer').innerHTML = `
-        <div class="loading">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">加载中...</span>
-          </div>
-          <p>正在获取路透社最新新闻...</p>
-        </div>
-      `;
-
-      document.getElementById('predictionsContainer').innerHTML = `
-        <div class="loading">
-          <p>分析新闻影响中...</p>
-        </div>
-      `;
-
-      // 模拟API调用延迟
-      setTimeout(() => {
-        displayNews(mockReutersNews);
-        const predictions = generatePredictions(mockReutersNews);
-        displayPredictions(predictions);
-      }, 2000);
-    }
-
-    // 页面加载时初始化
-    document.addEventListener('DOMContentLoaded', function() {
-      const userLang = localStorage.getItem('prediction_lang') || 'zh';
-      switchLang(userLang);
-      refreshNews();
-    });
-  </script>
+<div class="container">
+<header>
+<h1>上证指数涨跌博彩</h1>
+<p>押注指数涨跌，查看行业预测展示</p>
+</header>
+<div class="main-betting">
+<div class="betting-header">
+<div class="wallet-balance">
+<div class="wallet-icon">💰</div>
+<div class="balance-info">
+<h3>可用余额</h3>
+<div class="balance-amount">$<span id="balance">10000</span></div>
+</div>
+</div>
+<div class="wallet-stats">
+<div class="stat-item">
+<div class="stat-label">累计投入</div>
+<div class="stat-value" id="totalInvested">$0</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">活跃持仓</div>
+<div class="stat-value" id="activeBets">0</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">累计盈亏</div>
+<div class="stat-value positive" id="totalProfit">$0</div>
+</div>
+</div>
+</div>
+<div class="index-header">
+<div class="index-title">上证指数</div>
+<div class="index-price" id="indexPrice">3245.67</div>
+<div class="index-change positive" id="indexChange">+1.23%</div>
+</div>
+<div class="betting-question">今日上证指数收盘是否上涨？</div>
+<div class="betting-actions">
+<div class="bet-action-btn rise" onclick="openBetModal('rise')">
+<div class="bet-label">押涨</div>
+<div class="bet-odds" id="riseOdds">58%</div>
+<div class="bet-label">收涨即赢</div>
+</div>
+<div class="bet-action-btn fall" onclick="openBetModal('fall')">
+<div class="bet-label">押跌</div>
+<div class="bet-odds" id="fallOdds">42%</div>
+<div class="bet-label">收跌即赢</div>
+</div>
+</div>
+</div>
+<div class="industry-forecasts">
+<div class="section-title">行业板块明日预测（仅展示）</div>
+<div class="market-grid" id="marketGrid"></div>
+<div class="basis-section">
+<div class="section-title">行业板块预测依据</div>
+<div class="basis-list" id="basisList"></div>
+</div>
+</div>
+</div>
+<div class="modal" id="betModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modalTitle">下单</h2>
+<button class="close-btn" onclick="closeModal()">×</button>
+</div>
+<div class="modal-question" id="modalQuestion"></div>
+<div>
+<div class="choice-label">选择方向</div>
+<div class="choice-buttons">
+<button class="choice-btn yes" onclick="selectChoice('yes')">
+<div class="choice-option">涨</div>
+<div class="choice-odds" id="yesOddsModal">58%</div>
+</button>
+<button class="choice-btn no" onclick="selectChoice('no')">
+<div class="choice-option">跌</div>
+<div class="choice-odds" id="noOddsModal">42%</div>
+</button>
+</div>
+</div>
+<div>
+<div class="choice-label">金额</div>
+<input type="number" class="amount-input" id="betAmountInput" placeholder="输入金额" min="10" value="100">
+<div class="quick-amounts">
+<button class="quick-amount-btn" onclick="setQuickAmount(100)">$100</button>
+<button class="quick-amount-btn" onclick="setQuickAmount(500)">$500</button>
+<button class="quick-amount-btn" onclick="setQuickAmount(1000)">$1k</button>
+<button class="quick-amount-btn" onclick="setQuickAmount(5000)">$5k</button>
+</div>
+</div>
+<div class="bet-summary">
+<div class="summary-row">
+<span class="summary-label">下注金额</span>
+<span class="summary-value" id="summaryAmount">$0</span>
+</div>
+<div class="summary-row">
+<span class="summary-label">概率</span>
+<span class="summary-value" id="summaryOdds">0%</span>
+</div>
+<div class="summary-row">
+<span class="summary-label">潜在收益</span>
+<span class="summary-value positive" id="summaryProfit">$0</span>
+</div>
+</div>
+<button class="place-bet-btn" onclick="placeBet()">确认下注</button>
+</div>
+</div>
+<div class="success-message" id="successMessage">订单已提交</div>
+<script>
+const industries = [
+{id: 1, icon: '💻', title: '科技', subtitle: 'AI、云计算、半导体', trend: 'bullish', prediction: '+2.8%', confidence: 75, basis: {news: '财联社：多家龙头发布算力与AI订单动态。', factor: '资金流向：北向资金净流入科技方向。'}},
+{id: 2, icon: '🏠', title: '地产', subtitle: '住宅、商业', trend: 'bearish', prediction: '-1.2%', confidence: 62, basis: {news: '财联社：部分城市成交数据环比回落。', factor: '宏观数据：销售与开工指标走弱。'}},
+{id: 3, icon: '⚡', title: '清洁能源', subtitle: '新能源车、光伏、储能', trend: 'bullish', prediction: '+3.5%', confidence: 68, basis: {news: '财联社：储能项目招标量持续增加。', factor: '政策风向：绿色能源支持政策预期升温。'}},
+{id: 4, icon: '💊', title: '医疗健康', subtitle: '医药、生物科技、器械', trend: 'bullish', prediction: '+1.9%', confidence: 71, basis: {news: '财联社：创新药审批进度加快。', factor: '估值修复：板块估值处于历史低位。'}},
+{id: 5, icon: '🏭', title: '制造业', subtitle: '工业、设备', trend: 'neutral', prediction: '+0.3%', confidence: 55, basis: {news: '财联社：制造业PMI维持稳定。', factor: '订单景气度：新增订单小幅回升。'}},
+{id: 6, icon: '🛍️', title: '消费零售', subtitle: '电商、零售、品牌', trend: 'neutral', prediction: '+0.8%', confidence: 58, basis: {news: '财联社：部分消费品类销售回暖。', factor: '季节性因素：节前备货推动需求。'}},
+{id: 7, icon: '🏦', title: '金融服务', subtitle: '银行、保险、证券', trend: 'bearish', prediction: '-0.9%', confidence: 64, basis: {news: '财联社：市场成交活跃度下滑。', factor: '利率环境：息差承压影响盈利预期。'}},
+{id: 8, icon: '🛢️', title: '能源化工', subtitle: '石油、天然气、化工', trend: 'bearish', prediction: '-1.8%', confidence: 69, basis: {news: '财联社：原油价格短期波动加大。', factor: '供需预期：库存上行抑制价格。'}},
+{id: 9, icon: '🚚', title: '物流运输', subtitle: '航运、配送、货运', trend: 'neutral', prediction: '+0.5%', confidence: 52, basis: {news: '财联社：运价指数维持震荡。', factor: '成本因素：燃油价格回落缓解成本。'}}
+];
+let balance = 10000, totalInvested = 0, activeBets = 0, totalProfit = 0, betDirection = null, selectedChoice = null, indexRiseOdds = 58;
+function init() {
+initBalance();
+renderIndustries();
+renderBasis();
+document.getElementById('betAmountInput').addEventListener('input', updateBetSummary);
+}
+function renderIndustries() {
+const grid = document.getElementById('marketGrid');
+grid.innerHTML = '';
+industries.forEach(industry => {
+const card = document.createElement('div');
+card.className = 'market-card';
+const trendText = industry.trend === 'bullish' ? '看涨' : industry.trend === 'bearish' ? '看跌' : '中性';
+card.innerHTML = `
+<div class="market-title"><span class="industry-icon">${industry.icon}</span>${industry.title}</div>
+<div class="market-subtitle">${industry.subtitle}</div>
+<div class="forecast-display">
+<div>
+<div class="forecast-label">涨跌预测</div>
+<div class="forecast-value">${industry.prediction}</div>
+</div>
+<div class="forecast-trend">
+<span class="trend-badge ${industry.trend}">${trendText}</span>
+<div style="text-align: right;">
+<div class="forecast-label">信心度</div>
+<div class="forecast-value" style="font-size: 16px;">${industry.confidence}%</div>
+</div>
+</div>
+</div>
+<div class="market-stats">
+<div class="volume">AI 分析已更新</div>
+<span class="status-badge">仅展示</span>
+</div>
+`;
+grid.appendChild(card);
+});
+}
+function renderBasis() {
+const list = document.getElementById('basisList');
+if (!list) return;
+list.innerHTML = '';
+industries.forEach(industry => {
+const item = document.createElement('div');
+item.className = 'basis-item';
+item.innerHTML = `
+<div class="basis-head">
+<div class="basis-industry">${industry.title}</div>
+<div class="basis-tags">
+<span class="basis-tag">财联社新闻抓取</span>
+<span class="basis-tag">关联因素</span>
+</div>
+</div>
+<div class="basis-text">${industry.basis.news}</div>
+<div class="basis-text">${industry.basis.factor}</div>
+`;
+list.appendChild(item);
+});
+}
+function openBetModal(direction) {
+betDirection = direction;
+selectedChoice = direction === 'rise' ? 'yes' : 'no';
+document.getElementById('modalTitle').textContent = '上证指数 - ' + (direction === 'rise' ? '押涨' : '押跌');
+document.getElementById('modalQuestion').textContent = '今日上证指数收盘是否上涨？';
+const odds = direction === 'rise' ? indexRiseOdds : (100 - indexRiseOdds);
+document.getElementById('yesOddsModal').textContent = indexRiseOdds + '%';
+document.getElementById('noOddsModal').textContent = (100 - indexRiseOdds) + '%';
+document.getElementById('betAmountInput').value = 100;
+document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('active'));
+if (direction === 'rise') {
+document.querySelector('.choice-btn.yes').classList.add('active');
+} else {
+document.querySelector('.choice-btn.no').classList.add('active');
+}
+updateBetSummary();
+document.getElementById('betModal').classList.add('active');
+}
+function closeModal() {
+document.getElementById('betModal').classList.remove('active');
+}
+function selectChoice(choice) {
+selectedChoice = choice;
+betDirection = choice === 'yes' ? 'rise' : 'fall';
+document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('active'));
+document.querySelector(`.choice-btn.${choice}`).classList.add('active');
+updateBetSummary();
+}
+function setQuickAmount(amount) {
+document.getElementById('betAmountInput').value = amount;
+updateBetSummary();
+}
+function updateBetSummary() {
+const amount = parseFloat(document.getElementById('betAmountInput').value) || 0;
+let odds = 0;
+if (selectedChoice === 'yes') odds = indexRiseOdds;
+else if (selectedChoice === 'no') odds = 100 - indexRiseOdds;
+const multiplier = 100 / odds;
+const potentialProfit = amount * multiplier - amount;
+document.getElementById('summaryAmount').textContent = '$' + amount.toFixed(0);
+document.getElementById('summaryOdds').textContent = odds + '%';
+document.getElementById('summaryProfit').textContent = '$' + potentialProfit.toFixed(0);
+}
+function placeBet() {
+const amount = parseFloat(document.getElementById('betAmountInput').value) || 0;
+if (!selectedChoice) { alert('请选择涨或跌'); return; }
+if (amount < 10) { alert('最低下注为 $10'); return; }
+if (amount > window.balanceAmount) { alert('余额不足'); return; }
+window.balanceAmount -= amount;
+window.totalInvestedAmount += amount;
+window.activeBetsCount += 1;
+updateWalletDisplay();
+closeModal();
+showSuccess('下单成功，3 秒后结算...');
+setTimeout(() => {
+const won = Math.random() > 0.5;
+if (won) {
+const odds = selectedChoice === 'yes' ? indexRiseOdds : (100 - indexRiseOdds);
+const profit = amount * (100 / odds) - amount;
+window.balanceAmount += amount + profit;
+window.totalProfitAmount += profit;
+showSuccess('赢了！盈利 $' + profit.toFixed(0));
+} else {
+window.totalProfitAmount -= amount;
+showSuccess('亏损：-$' + amount.toFixed(0));
+}
+window.activeBetsCount -= 1;
+const priceChange = (Math.random() - 0.5) * 50;
+const currentPrice = parseFloat(document.getElementById('indexPrice').textContent);
+const newPrice = currentPrice + priceChange;
+document.getElementById('indexPrice').textContent = newPrice.toFixed(2);
+const changePercent = ((newPrice - 3245.67) / 3245.67 * 100).toFixed(2);
+const changeEl = document.getElementById('indexChange');
+changeEl.textContent = (changePercent >= 0 ? '+' : '') + changePercent + '%';
+changeEl.className = changePercent >= 0 ? 'index-change positive' : 'index-change negative';
+updateWalletDisplay();
+}, 3000);
+if (selectedChoice === 'yes') indexRiseOdds = Math.min(95, indexRiseOdds + Math.random() * 2);
+else indexRiseOdds = Math.max(5, indexRiseOdds - Math.random() * 2);
+document.getElementById('riseOdds').textContent = indexRiseOdds.toFixed(0) + '%';
+document.getElementById('fallOdds').textContent = (100 - indexRiseOdds).toFixed(0) + '%';
+}
+function updateWalletDisplay() {
+document.getElementById('balance').textContent = window.balanceAmount.toFixed(0);
+document.getElementById('totalInvested').textContent = '$' + window.totalInvestedAmount.toFixed(0);
+document.getElementById('activeBets').textContent = window.activeBetsCount;
+const profitElement = document.getElementById('totalProfit');
+profitElement.textContent = (window.totalProfitAmount >= 0 ? '$' : '-$') + Math.abs(window.totalProfitAmount).toFixed(0);
+profitElement.className = window.totalProfitAmount >= 0 ? 'stat-value positive' : 'stat-value negative';
+}
+function initBalance() {
+window.balanceAmount = 10000;
+window.totalInvestedAmount = 0;
+window.activeBetsCount = 0;
+window.totalProfitAmount = 0;
+updateWalletDisplay();
+}
+function showSuccess(message) {
+const msg = document.getElementById('successMessage');
+msg.textContent = message;
+msg.classList.add('show');
+setTimeout(() => msg.classList.remove('show'), 3000);
+}
+window.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
