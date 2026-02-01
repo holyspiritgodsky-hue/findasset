@@ -838,6 +838,70 @@
         font-size: 14px;
       }
 
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        row-gap: 10px;
+      }
+
+      nav a,
+      .lang-switcher {
+        font-size: 11px;
+      }
+
+      .vip-sponsor {
+        position: static;
+        margin: 12px 16px 0;
+        max-width: none;
+      }
+
+      .vip-sponsor-photo {
+        width: 100%;
+        height: auto;
+        max-height: 180px;
+      }
+
+      .hero {
+        padding: 70px 16px 50px;
+        min-height: auto;
+      }
+
+      .hero-features {
+        grid-template-columns: 1fr;
+      }
+
+      .content-section {
+        padding: 60px 16px;
+      }
+
+      .news-grid,
+      .sponsor-packages,
+      .team-grid,
+      .contact-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .tournament-step {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
       .tournament-step {
         grid-template-columns: 1fr;
       }
@@ -859,7 +923,7 @@
       <div class="logo">⚡ ULTIMATE ESPORTS</div>
       <nav>
         <a onclick="showSection('home')">首页</a>
-        <a onclick="showSection('about')">关于赛事·特别赞助</a>
+        <a onclick="showSection('about')">关于赛事</a>
         <a onclick="showSection('tournament')">赛事结构</a>
         <a onclick="showSection('sponsors')">赞助合作</a>
         <a onclick="showSection('teams')">战队选手</a>
