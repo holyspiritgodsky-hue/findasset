@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>天下第一电竞大赛 - The Ultimate Esports Championship</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    /* ===== 导航栏 ===== */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #00d4ff;
+    }
+
+    .lang-switcher {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+
+    .lang-switcher:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ===== 主容器 ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== 首页 Hero ===== */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      padding: 100px 20px;
+      text-align: center;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      line-height: 1.2;
+      color: #ffffff;
+    }
+
+    .hero .subtitle {
+      font-size: 20px;
+      color: #00ff88;
+      margin-bottom: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 40px;
+      max-width: 700px;
+      line-height: 1.8;
+      font-weight: 500;
+    }
+
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-card {
+      background: rgba(0,212,255,0.1);
+      border: 2px solid rgba(0,212,255,0.3);
+      padding: 24px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: #00d4ff;
+      background: rgba(0,212,255,0.15);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      text-align: left;
+      margin: 0;
+    }
+
+    /* ===== 内容区域 ===== */
+    .content-section {
+      padding: 80px 20px;
+      background: white;
+      min-height: 60vh;
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+    
+    #home {
+      display: block;
+    }
+
+    .content-section h2 {
+      font-size: 42px;
+      margin-bottom: 30px;
+      color: #1a1a2e;
+      text-align: center;
+    }
+
+    .content-section h3 {
+      font-size: 28px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #16213e;
+      border-left: 4px solid #00d4ff;
+      padding-left: 15px;
+    }
+
+    .content-section p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    /* ===== 关于赛事 ===== */
+    .about-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .vision-box, .position-box, .relationship-box {
+      background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(0,150,255,0.05) 100%);
+      border-left: 4px solid #00d4ff;
+      padding: 24px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .vision-box h4, .position-box h4, .relationship-box h4 {
+      color: #00d4ff;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    /* ===== 赛事结构 ===== */
+    .tournament-timeline {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+
+    .tournament-step {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+      padding-bottom: 50px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .tournament-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      font-size: 48px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+
+    .step-content h5 {
+      font-size: 16px;
+      color: #00d4ff;
+      font-weight: 700;
+      margin-bottom: 8px;
+      margin-top: 16px;
+    }
+
+    .step-content h5:first-child {
+      margin-top: 0;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    /* ===== 赞助方案 ===== */
+    .sponsor-packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .sponsor-card {
+      background: white;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      padding: 32px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sponsor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00d4ff, #0099ff);
+    }
+
+    .sponsor-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0,212,255,0.15);
+      border-color: #00d4ff;
+    }
+
+    .sponsor-card h4 {
+      font-size: 22px;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+
+    .sponsor-card ul {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .sponsor-card li {
+      padding: 10px 0;
+      padding-left: 24px;
+      position: relative;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .sponsor-card li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    .sponsor-brands {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .sponsor-brands h5 {
+      font-size: 14px;
+      color: #00d4ff;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .brand-type {
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .brand-type strong {
+      color: #1a1a2e;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ===== 战队选手 ===== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .team-card {
+      background: white;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,212,255,0.1);
+    }
+
+    .team-card-header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      padding: 40px 20px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .team-card h4 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .team-card p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      margin: 0;
+    }
+
+    .team-card-body {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .team-card-body p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    /* ===== 新闻媒体 ===== */
+    .news-section {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .news-item {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 24px;
+      transition: all 0.3s;
+    }
+
+    .news-item:hover {
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .news-category {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #00d4ff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .news-item h4 {
+      font-size: 18px;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+
+    .news-item p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ===== 联系方式 ===== */
+    .contact-section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .contact-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .contact-form {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      border: 2px solid #eee;
+    }
+
+    .contact-form h4 {
+      font-size: 20px;
+      color: #1a1a2e;
+      margin-bottom: 24px;
+    }
+
+    .contact-form p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-submit {
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0,212,255,0.3);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #1a1a2e;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    footer p {
+      margin: 10px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      nav {
+        gap: 15px;
+      }
+
+      nav a {
+        font-size: 12px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .tournament-step {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .content-section h2 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <header>
+    <div class="header-content">
+      <div class="logo">⚡ ULTIMATE ESPORTS</div>
+      <nav>
+        <a onclick="showSection('home')">首页</a>
+        <a onclick="showSection('about')">关于赛事</a>
+        <a onclick="showSection('tournament')">赛事结构</a>
+        <a onclick="showSection('sponsors')">赞助合作</a>
+        <a onclick="showSection('teams')">战队选手</a>
+        <a onclick="showSection('news')">新闻媒体</a>
+        <a onclick="showSection('contact')">联系我们</a>
+        <button class="lang-switcher" onclick="toggleLanguage()">EN</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 首页 -->
+  <div id="home" class="content-section active" style="padding: 0; background: transparent; min-height: auto;">
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="subtitle" id="hero-subtitle">连接中东与世界的顶级电竞盛会</div>
+      <h1 id="hero-title">天下第一电竞大赛</h1>
+      <p id="hero-desc">汇聚最强战队与最有影响力的品牌<br>打造中东电竞新时代</p>
+
+      <div class="hero-features">
+        <div class="feature-card">
+          <p id="feature1">🎓 覆盖中东多国高校与城市战队的年度联赛体系</p>
+        </div>
+        <div class="feature-card">
+          <p id="feature2">🏆 以利雅得总决赛为巅峰舞台，对接沙特国家电竞战略</p>
+        </div>
+        <div class="feature-card">
+          <p id="feature3">🌍 面向全球品牌的整合营销平台：线下 + 直播 + 社交矩阵</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 品牌曝光价值 Section -->
+    <div style="background: white; padding: 80px 20px;">
+      <div class="container">
+        <h2 style="text-align: center; font-size: 42px; margin-bottom: 50px; color: #1a1a2e;">
+          🎯 为什么选择我们<br>
+          <span style="color: #00d4ff; font-size: 28px; font-weight: normal;">品牌曝光最大化的电竞平台</span>
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 60px;">
+          <!-- 曝光价值1 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">📺</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">全球直播转播</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">三层赛事全年曝光，对标 Gamers8 级别的转播制作与全球观众触达，品牌LOGO持续出现在国际直播流中</p>
+          </div>
+
+          <!-- 曝光价值2 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">🏟️</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">线下场馆霸屏</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">校园分站赛 → 地区邀请赛 → 利雅得总决赛，舞台主屏、背景板、入场仪式全方位品牌展示</p>
+          </div>
+
+          <!-- 曝光价值3 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">📱</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">社交媒体矩阵</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">微博、抖音、TikTok、Instagram 多平台联动，品牌挑战赛、联名内容、粉丝互动直达16-30岁核心玩家</p>
+          </div>
+
+          <!-- 曝光价值4 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">🤝</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">品牌入场仪式</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">赞助商品牌战队、联合发布会、定制奖项，让品牌成为赛事故事的核心主角而非背景</p>
+          </div>
+
+          <!-- 曝光价值5 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">🎁</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">互动体验区</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">快闪展台、试玩机位、签名福利掉落，数百名选手与数千观众的线下品牌接触机会</p>
+          </div>
+
+          <!-- 曝光价值6 -->
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 36px; margin-bottom: 16px;">📊</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">数据可视化</h3>
+            <p style="color: #444; font-size: 15px; line-height: 1.8; font-weight: 500;">品牌曝光次数、玩家互动数据、媒体报道覆盖、ROI完整追踪报告</p>
+          </div>
+        </div>
+
+        <!-- 赞助方案速览 -->
+        <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 60px 40px; border-radius: 12px;">
+          <h2 style="text-align: center; font-size: 36px; margin-bottom: 40px;">💎 三大赞助方案</h2>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+            <!-- 冠名 -->
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,212,255,0.3); padding: 30px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 12px;">👑</div>
+              <h3 style="font-size: 24px; margin-bottom: 8px;">冠名合作</h3>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">Title Partner</p>
+              <ul style="list-style: none; text-align: left; margin-bottom: 20px;">
+                <li style="padding: 8px 0; font-size: 14px;">✓ 独家冠名权：赛事全称冠名</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 全年跨阶段曝光</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 定制内容与品牌战队</li>
+              </ul>
+              <div style="color: #00d4ff; font-weight: 700; font-size: 18px;">最高曝光价值</div>
+            </div>
+
+            <!-- 战略合作 -->
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,212,255,0.3); padding: 30px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 12px;">🌟</div>
+              <h3 style="font-size: 24px; margin-bottom: 8px;">战略合作伙伴</h3>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">Strategic Partner</p>
+              <ul style="list-style: none; text-align: left; margin-bottom: 20px;">
+                <li style="padding: 8px 0; font-size: 14px;">✓ 舞台主屏与直播露出</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 品牌主题日与快闪展台</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 社媒挑战赛与短视频</li>
+              </ul>
+              <div style="color: #00d4ff; font-weight: 700; font-size: 18px;">全方位融合</div>
+            </div>
+
+            <!-- 官方合作 -->
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,212,255,0.3); padding: 30px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 12px;">⚡</div>
+              <h3 style="font-size: 24px; margin-bottom: 8px;">官方类别合作</h3>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">Official Partner</p>
+              <ul style="list-style: none; text-align: left; margin-bottom: 20px;">
+                <li style="padding: 8px 0; font-size: 14px;">✓ LOGO与联名礼品</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 产品融入赛事内容</li>
+                <li style="padding: 8px 0; font-size: 14px;">✓ 定制化品牌展示</li>
+              </ul>
+              <div style="color: #00d4ff; font-weight: 700; font-size: 18px;">精准垂直</div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 40px;">
+            <button onclick="showSection('sponsors')" style="background: #00d4ff; color: #000; border: none; padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.3s; margin-right: 15px;">查看完整赞助方案</button>
+            <button onclick="showSection('contact')" style="background: rgba(255,255,255,0.1); color: white; border: 2px solid #00d4ff; padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.3s;">立即咨询合作</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 合作品牌展示 - 重点突出 -->
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 80px 20px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%); border-radius: 50%; opacity: 0.5;"></div>
+      <div style="position: absolute; bottom: 0; left: 0; width: 250px; height: 250px; background: radial-gradient(circle, rgba(0,150,255,0.1) 0%, transparent 70%); border-radius: 50%; opacity: 0.5;"></div>
+      
+      <div class="container" style="position: relative; z-index: 2;">
+        <h2 style="text-align: center; font-size: 42px; margin-bottom: 20px; color: white; font-weight: 900;">🤝 战略合作品牌</h2>
+        <p style="text-align: center; font-size: 18px; color: #00d4ff; margin-bottom: 60px; font-weight: 600;">已获得国际一线品牌的战略支持</p>
+        
+        <!-- 主要品牌Logo区 -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 40px; margin-bottom: 60px; align-items: center;">
+          <!-- 腾讯 -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #0084ff;">腾讯</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">全球游戏龙头</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">游戏平台 / 直播</p>
+          </div>
+
+          <!-- 东鹏特饮 -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #ff6b00;">东鹏</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">能量饮料品牌</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">官方赛事饮品</p>
+          </div>
+
+          <!-- EA -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #000;">EA</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">游戏发行大厂</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">官方赛事游戏</p>
+          </div>
+
+          <!-- 微软 -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #00a4ef;">MSFT</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">科技巨头</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">云计算 / 游戏订阅</p>
+          </div>
+
+          <!-- Intel -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #0071c5;">Intel</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">硬件领导者</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">CPU / 芯片赞助</p>
+          </div>
+
+          <!-- 来自品牌 -->
+          <div style="background: white; padding: 40px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,212,255,0.15); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 64px; margin-bottom: 16px; font-weight: 900; color: #ff0080;">更多</div>
+            <p style="font-size: 13px; color: #666; font-weight: 600;">顶级品牌</p>
+            <p style="font-size: 12px; color: #999; margin-top: 4px;">持续洽谈中...</p>
+          </div>
+        </div>
+
+        <!-- 品牌类型展示 -->
+        <div style="background: rgba(255,255,255,0.05); border: 2px solid rgba(0,212,255,0.2); border-radius: 12px; padding: 40px; margin-top: 40px;">
+          <h3 style="color: white; text-align: center; font-size: 24px; margin-bottom: 30px; font-weight: 700;">我们的品牌生态</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">🎮 游戏与平台</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">腾讯、EA、网易、暴雪等游戏大厂与发行商</p>
+            </div>
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">⚡ 能量与饮品</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">东鹏特饮、红牛、可口可乐等全球一线品牌</p>
+            </div>
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">💻 科技与硬件</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">微软、英特尔、NVIDIA、华为等科技领袖</p>
+            </div>
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">🏦 金融与通讯</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">沙特本地电信、银行与支付平台</p>
+            </div>
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">🎬 内容与媒体</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">抖音、YouTube、B站等全球直播与视频平台</p>
+            </div>
+            <div style="padding: 20px; border-left: 4px solid #00d4ff;">
+              <h4 style="color: #00d4ff; font-size: 16px; font-weight: 700; margin-bottom: 8px;">👟 潮牌与服饰</h4>
+              <p style="color: rgba(255,255,255,0.8); font-size: 13px;">运动品牌、潮牌与服饰企业</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 赛事结构速览 -->
+    <div style="background: white; padding: 60px 20px;">
+      <div class="container">
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 50px; color: #1a1a2e;">🏆 赛事三阶段流程</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 900; color: #00d4ff; margin-bottom: 12px;">Stage 1</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">校园赛 Campus Series</h3>
+            <p style="color: #444; font-size: 14px; margin-bottom: 16px; line-height: 1.7; font-weight: 500;">线上预选 + 线下校园分站赛，发现本地新星，激活校园社团，品牌深度触达学生群体</p>
+          </div>
+
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 900; color: #00d4ff; margin-bottom: 12px;">Stage 2</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">地区邀请赛 Regional Invitational</h3>
+            <p style="color: #444; font-size: 14px; margin-bottom: 16px; line-height: 1.7; font-weight: 500;">校园冠军 + 职业俱乐部，高强度比赛 + 品牌展台，为总决赛预热</p>
+          </div>
+
+          <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,150,255,0.05) 100%); border-left: 4px solid #00d4ff; padding: 32px; border-radius: 8px;">
+            <div style="font-size: 28px; font-weight: 900; color: #00d4ff; margin-bottom: 12px;">Stage 3</div>
+            <h3 style="font-size: 22px; color: #1a1a2e; margin-bottom: 12px; font-weight: 700;">利雅得总决赛 Grand Finals</h3>
+            <p style="color: #444; font-size: 14px; margin-bottom: 16px; line-height: 1.7; font-weight: 500;">多项目总决赛 + 线下嘉年华，对标 Gamers8 级别，品牌颁奖典礼</p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+          <button onclick="showSection('tournament')" style="background: linear-gradient(135deg, #00d4ff, #0099ff); color: white; border: none; padding: 12px 32px; font-size: 14px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.3s;">了解详细赛制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 60px 20px; text-align: center;">
+      <h2 style="font-size: 36px; margin-bottom: 20px;">准备好加入电竞浪潮了吗？</h2>
+      <p style="font-size: 18px; color: rgba(255,255,255,0.8); margin-bottom: 40px;">立即成为"天下第一电竞大赛"的战略合作伙伴，覆盖中东百万级玩家</p>
+      <button onclick="showSection('contact')" style="background: #00d4ff; color: #000; border: none; padding: 14px 50px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.3s;">联系我们了解合作细节</button>
+    </div>
+  </div>
+
+  <!-- 关于赛事 -->
+  <div id="about" class="content-section">
+    <div class="container">
+      <h2 id="about-title">关于赛事</h2>
+
+      <div class="about-content">
+        <div class="vision-box">
+          <h4 id="vision-label">愿景</h4>
+          <p id="vision-text">"天下第一电竞大赛"致力于打造中东地区最具影响力的综合电竞赛事品牌，以校园为起点，链接职业舞台，成为品牌走进新一代玩家的首选平台。</p>
+        </div>
+
+        <h3 id="positioning-title">定位</h3>
+        <div class="position-box">
+          <h4>地域覆盖</h4>
+          <p>沙特为核心，辐射海湾及更广泛中东市场</p>
+        </div>
+        <div class="position-box">
+          <h4>目标人群</h4>
+          <p>16–30 岁核心玩家、在校大学生与年轻职场人</p>
+        </div>
+        <div class="position-box">
+          <h4>核心价值</h4>
+          <p>为主办方、品牌与游戏厂商提供长期可持续的电竞资产，而不仅是一场一次性的赛事活动。</p>
+        </div>
+
+        <h3 id="ecosystem-title">与沙特电竞生态的关系</h3>
+        <div class="relationship-box">
+          <p>沙特正在通过国家游戏与电竞战略加速建设全球电竞中心，利雅得已经成为世界顶级赛事与品牌的聚集地，例如 Esports World Cup 与 Gamers8 等活动。</p>
+          <p style="margin-bottom: 0;">"天下第一电竞大赛"将争取与当地电竞机构和产业伙伴深度合作，共同培育校园与城市层级的电竞生态。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 赛事结构 -->
+  <div id="tournament" class="content-section">
+    <div class="container">
+      <h2 id="tournament-title">赛事结构</h2>
+
+      <div class="tournament-timeline">
+        <!-- 校园赛 -->
+        <div class="tournament-step">
+          <div>
+            <div class="step-number">01</div>
+            <div class="step-title" id="campus-title">校园赛</div>
+            <p id="campus-subtitle" style="color: #00d4ff; font-size: 12px; margin-top: 10px;">Campus Series</p>
+          </div>
+          <div class="step-content">
+            <h5>覆盖对象</h5>
+            <p>沙特及中东重点高校的学生战队</p>
+            
+            <h5>赛制形式</h5>
+            <p>线上预选 + 线下校园分站赛，统一规则与积分体系</p>
+            
+            <h5>赛事目标</h5>
+            <p>发现本地新星、激活校园社团、为品牌提供深度校园触达场景</p>
+          </div>
+        </div>
+
+        <!-- 地区邀请赛 -->
+        <div class="tournament-step">
+          <div>
+            <div class="step-number">02</div>
+            <div class="step-title" id="regional-title">地区邀请赛</div>
+            <p id="regional-subtitle" style="color: #00d4ff; font-size: 12px; margin-top: 10px;">Regional Invitational</p>
+          </div>
+          <div class="step-content">
+            <h5>参赛队伍</h5>
+            <p>各国/各地区校园冠军、知名俱乐部与内容创作者战队</p>
+            
+            <h5>内容组合</h5>
+            <p>高强度比赛 + 表演赛 + 线下互动活动（品牌展台、试玩区、签名会等）</p>
+            
+            <h5>赛事目标</h5>
+            <p>提升国际影响力，为总决赛预热并打造持续话题</p>
+          </div>
+        </div>
+
+        <!-- 利雅得总决赛 -->
+        <div class="tournament-step">
+          <div>
+            <div class="step-number">03</div>
+            <div class="step-title" id="finals-title">利雅得总决赛</div>
+            <p id="finals-subtitle" style="color: #00d4ff; font-size: 12px; margin-top: 10px;">Riyadh Grand Finals</p>
+          </div>
+          <div class="step-content">
+            <h5>举办城市</h5>
+            <p>利雅得（与当地成熟电竞活动区和场馆对接）</p>
+            
+            <h5>赛事形式</h5>
+            <p>多项目总决赛 + 线下嘉年华 + 颁奖典礼</p>
+            
+            <h5>特色亮点</h5>
+            <p>• 高规格舞台与转播制作，对标 Gamers8 等国际一线水准<br>
+            • 品牌联合仪式：赞助商入场仪式、品牌奖项（最佳战队、最佳校园、最具影响力品牌等）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 赞助合作 -->
+  <div id="sponsors" class="content-section">
+    <div class="container">
+      <h2 id="sponsors-title">品牌与赞助</h2>
+      <p style="text-align: center; font-size: 18px; color: #00d4ff; margin-bottom: 30px;" id="sponsors-subtitle">与顶级电竞品牌并肩，直达中东新一代玩家</p>
+
+      <div style="background: white; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
+        <h3 id="market-insight">市场背景</h3>
+        <p id="market-text1">沙特电竞市场增速迅猛，企业赞助已成为该领域最重要的收入来源之一，约占整体市场收入的三分之一。</p>
+        <p id="market-text2">从 Gamers8、Esports World Cup 到本地联赛，全球品牌和本地巨头（如电信、能源、金融以及饮料品牌）正在加速布局中东电竞赞助。</p>
+      </div>
+
+      <div class="sponsor-packages">
+        <!-- 冠名合作 -->
+        <div class="sponsor-card">
+          <h4 id="sponsor-tier1">冠名合作</h4>
+          <p style="font-size: 13px; color: #00d4ff; margin-bottom: 16px;">Title Partner</p>
+          <ul>
+            <li id="tier1-benefit1">独家冠名权益：赛事全称可呈现为"X 品牌 · 天下第一电竞大赛"</li>
+            <li id="tier1-benefit2">全年跨阶段曝光：校园赛–地区邀请赛–利雅得总决赛全链路露出</li>
+            <li id="tier1-benefit3">定制内容：冠名 MVP 奖项、品牌战队挑战赛、联合发布会等</li>
+          </ul>
+          <div class="sponsor-brands">
+            <h5 id="tier1-categories">适配品牌类型</h5>
+            <div class="brand-type"><strong>全球游戏与平台厂商</strong>PC / 主机 / 移动游戏与云游戏平台</div>
+            <div class="brand-type"><strong>科技与硬件领导者</strong>显卡、笔电、主机、外设、显示器等</div>
+          </div>
+        </div>
+
+        <!-- 战略合作伙伴 -->
+        <div class="sponsor-card">
+          <h4 id="sponsor-tier2">战略合作伙伴</h4>
+          <p style="font-size: 13px; color: #00d4ff; margin-bottom: 16px;">Strategic Partner</p>
+          <ul>
+            <li id="tier2-benefit1">重点曝光：舞台主屏、直播转播、采访区及选手背景板</li>
+            <li id="tier2-benefit2">互动权益：品牌主题日、快闪展台、试玩机位、福利掉落等</li>
+            <li id="tier2-benefit3">数字化服务：社交媒体挑战赛、品牌联合战报、定制短视频内容</li>
+          </ul>
+          <div class="sponsor-brands">
+            <h5 id="tier2-categories">适配品牌类型</h5>
+            <div class="brand-type"><strong>能量饮料与饮品</strong>能量饮料、本地饮料品牌、咖啡连锁</div>
+            <div class="brand-type"><strong>科技企业</strong>云计算、AI 服务商</div>
+          </div>
+        </div>
+
+        <!-- 官方合作伙伴 -->
+        <div class="sponsor-card">
+          <h4 id="sponsor-tier3">官方类别合作伙伴</h4>
+          <p style="font-size: 13px; color: #00d4ff; margin-bottom: 16px;">Official Partner</p>
+          <ul>
+            <li id="tier3-benefit1">LOGO 曝光、联名礼品权益</li>
+            <li id="tier3-benefit2">产品融入赛事内容</li>
+            <li id="tier3-benefit3">定制化品牌展示</li>
+          </ul>
+          <div class="sponsor-brands">
+            <h5 id="tier3-categories">适配品牌类型</h5>
+            <div class="brand-type"><strong>多元品牌</strong>游戏发行商、硬件厂商、外设厂商、饮料与零食品牌、金融与电信</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 8px; margin-top: 40px;">
+        <h3 id="kpi-title">可量化回报指标</h3>
+        <ul style="list-style: none;">
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📊</span>
+            <span id="kpi1">现场观众与线上直播观众规模预估</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📊</span>
+            <span id="kpi2">品牌曝光次数（屏幕、社媒、媒体报道）</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📊</span>
+            <span id="kpi3">玩家互动数据（报名队伍数、参与活动次数、线下试用次数等）</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 战队选手 -->
+  <div id="teams" class="content-section">
+    <div class="container">
+      <h2 id="teams-title">选手与战队</h2>
+
+      <div style="background: white; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
+        <h3 id="teams-overview">参赛对象</h3>
+        <p id="teams-desc">校园战队、半职业战队、职业俱乐部与内容创作者队伍均可报名参赛，获得国际级的舞台曝光与职业发展机会。</p>
+
+        <h3 style="margin-top: 30px;" id="registration-title">报名方式</h3>
+        <ul style="list-style: none;">
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">✓</span>
+            <strong>校园赛：</strong><span id="campus-reg">以学校或社团为单位报名，需要提供在校证明</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">✓</span>
+            <strong>地区邀请赛：</strong><span id="regional-reg">根据校园赛成绩与受邀队伍名单组成</span>
+          </li>
+        </ul>
+
+        <h3 style="margin-top: 30px;" id="benefits-title">选手权益</h3>
+        <ul style="list-style: none;">
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">⭐</span>
+            <span id="benefit1">高品质线下舞台与直播曝光</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">⭐</span>
+            <span id="benefit2">与赞助品牌、内容创作者和职业俱乐部的互动与试训机会</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-card-header">
+            <div>
+              <h4>🔜 敬请期待</h4>
+              <p id="team-coming">首批受邀战队即将公布</p>
+            </div>
+          </div>
+          <div class="team-card-body">
+            <p id="team-placeholder">我们正在邀请校园与职业的顶尖战队加入这一盛会。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新闻媒体 -->
+  <div id="news" class="content-section">
+    <div class="container">
+      <h2 id="news-title">新闻与媒体</h2>
+
+      <div style="background: white; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
+        <h3 id="media-positioning">媒体合作定位</h3>
+        <p id="media-vision">目标成为中东电竞和青年文化的重要内容来源，向主流媒体和专业电竞媒体开放合作，为品牌和赛事制作高质量的照片、短视频和故事报道素材。</p>
+
+        <h3 style="margin-top: 30px;" id="content-types">内容类型</h3>
+        <div class="news-grid">
+          <div class="news-item">
+            <div class="news-category" id="cat-official">官方公告</div>
+            <h4 id="news-type1">赛程与规则</h4>
+            <p id="news-desc1">最新的赛程安排、规则更新与重要通知</p>
+          </div>
+          <div class="news-item">
+            <div class="news-category" id="cat-content">深度内容</div>
+            <h4 id="news-type2">战队故事</h4>
+            <p id="news-desc2">参赛战队的精彩故事、校园电竞人物专访</p>
+          </div>
+          <div class="news-item">
+            <div class="news-category" id="cat-media">媒体资源</div>
+            <h4 id="news-type3">品牌案例</h4>
+            <p id="news-desc3">赞助品牌合作案例与创意内容集合</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 30px;" id="download-title">媒体资源下载</h3>
+        <ul style="list-style: none;">
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📥</span>
+            <span id="resource1">LOGO 及 VIS 规范（JPEG/PNG/SVG）</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📥</span>
+            <span id="resource2">官方照片、场地效果图与舞美草图</span>
+          </li>
+          <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
+            <span style="position: absolute; left: 0; color: #00d4ff;">📥</span>
+            <span id="resource3">媒体工具包与品牌指南</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 联系我们 -->
+  <div id="contact" class="content-section">
+    <div class="container">
+      <div class="contact-section">
+        <h2 id="contact-title">联系我们</h2>
+
+        <div class="contact-tabs">
+          <!-- 商务合作 -->
+          <div class="contact-form">
+            <h4 id="business-title">商务合作</h4>
+            <p id="business-desc">品牌赞助、合作机构、投资方、媒体伙伴等相关咨询</p>
+            <form onsubmit="handleSubmit(event, 'business')">
+              <div class="form-group">
+                <label id="label-company">公司名称</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-contact">联系人</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-position">职位</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-email">邮箱</label>
+                <input type="email" required>
+              </div>
+              <div class="form-group">
+                <label id="label-phone">电话</label>
+                <input type="tel" required>
+              </div>
+              <div class="form-group">
+                <label id="label-cooperation">合作意向</label>
+                <select required>
+                  <option value="">请选择...</option>
+                  <option value="title">冠名合作</option>
+                  <option value="strategic">战略合作伙伴</option>
+                  <option value="official">官方类别合作伙伴</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="label-message">需求描述</label>
+                <textarea required placeholder="请简要说明您的合作需求..."></textarea>
+              </div>
+              <button type="submit" class="form-submit" id="submit-business">提交申请</button>
+            </form>
+          </div>
+
+          <!-- 赛事报名 -->
+          <div class="contact-form">
+            <h4 id="tournament-contact-title">赛事与媒体咨询</h4>
+            <p id="tournament-desc">战队报名、校园社团、主播与媒体相关咨询</p>
+            <form onsubmit="handleSubmit(event, 'tournament')">
+              <div class="form-group">
+                <label id="label-name">姓名 / 战队名</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-organization">机构 / 学校</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-contact-info">邮箱 / 电话</label>
+                <input type="text" required>
+              </div>
+              <div class="form-group">
+                <label id="label-inquiry">咨询类型</label>
+                <select required>
+                  <option value="">请选择...</option>
+                  <option value="campus">校园赛报名</option>
+                  <option value="regional">地区邀请赛报名</option>
+                  <option value="media">媒体合作</option>
+                  <option value="other">其他咨询</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="label-details">详细内容</label>
+                <textarea required placeholder="请详细描述您的咨询内容..."></textarea>
+              </div>
+              <button type="submit" class="form-submit" id="submit-tournament">提交咨询</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 天下第一电竞大赛 | The Ultimate Esports Championship</p>
+    <p id="footer-location">地点：沙特阿拉伯，利雅得 | Riyadh, Saudi Arabia</p>
+    <p id="footer-contact">商务合作：<a href="mailto:business@ultimateesports.sa" style="color: #00d4ff;">business@ultimateesports.sa</a></p>
+  </footer>
+
+  <script>
+    // 多语言支持
+    const translations = {
+      zh: {
+        'hero-subtitle': '连接中东与世界的顶级电竞盛会',
+        'hero-title': '天下第一电竞大赛',
+        'hero-desc': '汇聚最强战队与最有影响力的品牌<br>打造中东电竞新时代',
+        'feature1': '🎓 覆盖中东多国高校与城市战队的年度联赛体系',
+        'feature2': '🏆 以利雅得总决赛为巅峰舞台，对接沙特国家电竞战略',
+        'feature3': '🌍 面向全球品牌的整合营销平台：线下 + 直播 + 社交矩阵',
+        'about-title': '关于赛事',
+        'vision-label': '愿景',
+        'vision-text': '"天下第一电竞大赛"致力于打造中东地区最具影响力的综合电竞赛事品牌，以校园为起点，链接职业舞台，成为品牌走进新一代玩家的首选平台。',
+        'positioning-title': '定位',
+        'ecosystem-title': '与沙特电竞生态的关系',
+        'tournament-title': '赛事结构',
+        'campus-title': '校园赛',
+        'regional-title': '地区邀请赛',
+        'finals-title': '利雅得总决赛',
+        'sponsors-title': '品牌与赞助',
+        'sponsors-subtitle': '与顶级电竞品牌并肩，直达中东新一代玩家',
+        'teams-title': '选手与战队',
+        'news-title': '新闻与媒体',
+        'contact-title': '联系我们',
+      },
+      en: {
+        'hero-subtitle': 'The Ultimate Esports Championship Connecting the Middle East to the World',
+        'hero-title': 'The Ultimate Esports Championship',
+        'hero-desc': 'Bringing together the strongest teams and most influential brands<br>Building the new era of esports in the Middle East',
+        'feature1': '🎓 Annual league system covering universities and city teams across the Middle East',
+        'feature2': '🏆 Riyadh Grand Finals as the ultimate stage, aligned with Saudi national esports strategy',
+        'feature3': '🌍 Integrated marketing platform for global brands: offline + streaming + social media',
+        'about-title': 'About the Championship',
+        'vision-label': 'Vision',
+        'vision-text': '"The Ultimate Esports Championship" aims to build the most influential comprehensive esports brand in the Middle East, starting with campus competitions, connecting to professional stages, and becoming the premier platform for brands to reach new-generation players.',
+        'positioning-title': 'Positioning',
+        'ecosystem-title': 'Relationship with Saudi Esports Ecosystem',
+        'tournament-title': 'Tournament Format',
+        'campus-title': 'Campus Series',
+        'regional-title': 'Regional Invitational',
+        'finals-title': 'Riyadh Grand Finals',
+        'sponsors-title': 'Sponsors & Partners',
+        'sponsors-subtitle': 'Standing shoulder to shoulder with top esports brands, reaching Middle Eastern players of the next generation',
+        'teams-title': 'Players & Teams',
+        'news-title': 'News & Media',
+        'contact-title': 'Contact Us',
+      }
+    };
+
+    let currentLanguage = 'zh';
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
+      document.documentElement.lang = currentLanguage;
+      document.querySelector('.lang-switcher').textContent = currentLanguage === 'zh' ? 'EN' : '中文';
+      
+      // 更新所有翻译文本
+      Object.keys(translations[currentLanguage]).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+          element.innerHTML = translations[currentLanguage][key];
+        }
+      });
+    }
+
+    function showSection(sectionId) {
+      console.log('Showing section:', sectionId);
+      
+      // 隐藏所有部分
+      const allSections = document.querySelectorAll('.content-section');
+      allSections.forEach(section => {
+        section.style.display = 'none';
+        section.classList.remove('active');
+      });
+      
+      // 显示选中的部分
+      const section = document.getElementById(sectionId);
+      console.log('Found section:', section);
+      
+      if (section) {
+        section.style.display = 'block';
+        section.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function handleSubmit(event, type) {
+      event.preventDefault();
+      alert(currentLanguage === 'zh' ? '感谢您的提交！我们会尽快与您联系。' : 'Thank you for your submission! We will contact you soon.');
+      event.target.reset();
+    }
+  </script>
+</body>
+</html>
