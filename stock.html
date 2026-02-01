@@ -6,12 +6,12 @@
 <title>上证指数涨跌博彩</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, sans-serif; background: #f5f5f5; min-height: 100vh; padding: 20px; color: #1a1a1a; }
-.container { max-width: 1400px; margin: 0 auto; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; min-height: 100vh; padding: 20px; color: #1a1a1a; }
+.container { max-width: 1200px; margin: 0 auto; }
 header { text-align: center; margin-bottom: 40px; }
 header h1 { font-size: 32px; font-weight: 600; margin-bottom: 10px; }
 header p { font-size: 15px; color: #666; }
-.main-betting { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px 18px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.main-betting { background: #fff; border: 1px solid #e6eaf0; border-radius: 12px; padding: 16px 18px; margin-bottom: 28px; box-shadow: 0 1px 10px #e6eaf0; }
 .betting-header { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; margin-bottom: 10px; }
 .wallet-balance { display: flex; align-items: center; gap: 10px; }
 .wallet-icon { font-size: 24px; }
@@ -42,19 +42,19 @@ header p { font-size: 15px; color: #666; }
 .bet-action-btn.rise .bet-odds { color: #00c853; }
 .bet-action-btn.fall .bet-odds { color: #ff1744; }
 .industry-forecasts { margin-top: 40px; }
-.section-title { font-size: 20px; font-weight: 600; margin-bottom: 24px; text-align: center; }
-.basis-section { margin-top: 28px; background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.section-title { font-size: 20px; font-weight: 600; margin-bottom: 24px; text-align: center; color: #2260a9; }
+.basis-section { margin-top: 28px; background: #fff; border: 1px solid #e6eaf0; border-radius: 12px; padding: 20px; box-shadow: 0 1px 10px #e6eaf0; }
 .basis-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
 .basis-list { display: grid; gap: 12px; }
-.basis-item { padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 10px; background: #f9f9f9; }
+.basis-item { padding: 12px 14px; border: 1px solid #e6eaf0; border-radius: 10px; background: #f9f9f9; }
 .basis-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .basis-industry { font-size: 14px; font-weight: 600; }
 .basis-tags { display: flex; gap: 8px; }
-.basis-tag { font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid #e0e0e0; color: #666; background: #fff; }
+.basis-tag { font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid #e6eaf0; color: #666; background: #fff; }
 .basis-text { font-size: 12px; color: #666; line-height: 1.6; }
 .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
-.market-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.market-card:hover { border-color: #bbb; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.market-card { background: #fff; border: 1px solid #e6eaf0; border-radius: 12px; padding: 20px; transition: all 0.2s; box-shadow: 0 1px 10px #e6eaf0; }
+.market-card:hover { border-color: #c7d4e6; box-shadow: 0 4px 14px #d9e6f4; }
 .market-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
 .industry-icon {
 	width: 22px;
@@ -66,7 +66,7 @@ header p { font-size: 15px; color: #666; }
 	font-size: 14px;
 }
 .market-subtitle { font-size: 12px; color: #666; margin-bottom: 16px; }
-.forecast-display { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px; }
+.forecast-display { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #f9f9f9; border: 1px solid #e6eaf0; border-radius: 8px; margin-bottom: 16px; }
 .forecast-label { font-size: 12px; color: #666; }
 .forecast-value { font-size: 20px; font-weight: 600; }
 .forecast-trend { display: flex; gap: 12px; align-items: center; }
@@ -74,9 +74,9 @@ header p { font-size: 15px; color: #666; }
 .trend-badge.bullish { background: rgba(0, 200, 83, 0.12); color: #00a843; }
 .trend-badge.bearish { background: rgba(255, 23, 68, 0.12); color: #d91434; }
 .trend-badge.neutral { background: rgba(0, 0, 0, 0.08); color: #666; }
-.market-stats { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #e0e0e0; }
+.market-stats { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #e6eaf0; }
 .volume { font-size: 12px; color: #666; }
-.status-badge { padding: 4px 10px; background: #f5f5f5; border-radius: 12px; font-size: 11px; border: 1px solid #e0e0e0; color: #666; }
+.status-badge { padding: 4px 10px; background: #eaf1fa; border-radius: 12px; font-size: 11px; border: 1px solid #e6eaf0; color: #2260a9; }
 .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
 .modal.active { display: flex; }
 .modal-content { background: #fff; border: 1px solid #e0e0e0; border-radius: 16px; padding: 32px; max-width: 500px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
@@ -101,116 +101,42 @@ header p { font-size: 15px; color: #666; }
 .summary-value.positive { color: #00c853; }
 .place-bet-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: #1d9bf0; color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
 .place-bet-btn:hover { background: #1a8cd8; }
-.success-message { display: none; position: fixed; top: 20px; right: 20px; background: #fff; border: 1px solid #e0e0e0; color: #1a1a1a; padding: 16px 20px; border-radius: 8px; z-index: 2000; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.success-message { display: none; position: fixed; top: 20px; right: 20px; background: #fff; border: 1px solid #e6eaf0; color: #1a1a1a; padding: 16px 20px; border-radius: 8px; z-index: 2000; box-shadow: 0 4px 16px #e6eaf0; }
 .success-message.show { display: block; }
+.basis-vote-btn {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e6eaf0;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 11px;
+  color: #2260a9;
+}
+.basis-vote-btn:hover {
+  background: #eaf1fa;
+  border-color: #c7d4e6;
+}
 </style>
 </head>
 <body>
 <div class="container">
-<header>
-<h1>上证指数涨跌博彩</h1>
-<p>押注指数涨跌，查看行业预测展示</p>
-</header>
 <div class="main-betting">
-<div class="betting-header">
-<div class="wallet-balance">
-<div class="wallet-icon">💰</div>
-<div class="balance-info">
-<h3>可用余额</h3>
-<div class="balance-amount">$<span id="balance">10000</span></div>
-</div>
-</div>
-<div class="wallet-stats">
-<div class="stat-item">
-<div class="stat-label">累计投入</div>
-<div class="stat-value" id="totalInvested">$0</div>
-</div>
-<div class="stat-item">
-<div class="stat-label">活跃持仓</div>
-<div class="stat-value" id="activeBets">0</div>
-</div>
-<div class="stat-item">
-<div class="stat-label">累计盈亏</div>
-<div class="stat-value positive" id="totalProfit">$0</div>
-</div>
-</div>
-</div>
 <div class="index-header">
-<div class="index-title">上证指数</div>
+<div class="index-title">上证指数每日9：15盘前预测（仅分析，不构成投资建议）</div>
 <div class="index-price" id="indexPrice">3245.67</div>
 <div class="index-change positive" id="indexChange">+1.23%</div>
 </div>
-<div class="betting-question">今日上证指数收盘是否上涨？</div>
-<div class="betting-actions">
-<div class="bet-action-btn rise" onclick="openBetModal('rise')">
-<div class="bet-label">押涨</div>
-<div class="bet-odds" id="riseOdds">58%</div>
-<div class="bet-label">收涨即赢</div>
-</div>
-<div class="bet-action-btn fall" onclick="openBetModal('fall')">
-<div class="bet-label">押跌</div>
-<div class="bet-odds" id="fallOdds">42%</div>
-<div class="bet-label">收跌即赢</div>
-</div>
-</div>
 </div>
 <div class="industry-forecasts">
-<div class="section-title">行业板块明日预测（仅展示）</div>
+<div class="section-title">行业板块每日9：15盘前预测（仅分析，不构成投资建议）</div>
 <div class="market-grid" id="marketGrid"></div>
 <div class="basis-section">
-<div class="section-title">行业板块预测依据</div>
+<div class="section-title">行业板块预测依据（可互动）</div>
 <div class="basis-list" id="basisList"></div>
 </div>
 </div>
 </div>
-<div class="modal" id="betModal">
-<div class="modal-content">
-<div class="modal-header">
-<h2 id="modalTitle">下单</h2>
-<button class="close-btn" onclick="closeModal()">×</button>
-</div>
-<div class="modal-question" id="modalQuestion"></div>
-<div>
-<div class="choice-label">选择方向</div>
-<div class="choice-buttons">
-<button class="choice-btn yes" onclick="selectChoice('yes')">
-<div class="choice-option">涨</div>
-<div class="choice-odds" id="yesOddsModal">58%</div>
-</button>
-<button class="choice-btn no" onclick="selectChoice('no')">
-<div class="choice-option">跌</div>
-<div class="choice-odds" id="noOddsModal">42%</div>
-</button>
-</div>
-</div>
-<div>
-<div class="choice-label">金额</div>
-<input type="number" class="amount-input" id="betAmountInput" placeholder="输入金额" min="10" value="100">
-<div class="quick-amounts">
-<button class="quick-amount-btn" onclick="setQuickAmount(100)">$100</button>
-<button class="quick-amount-btn" onclick="setQuickAmount(500)">$500</button>
-<button class="quick-amount-btn" onclick="setQuickAmount(1000)">$1k</button>
-<button class="quick-amount-btn" onclick="setQuickAmount(5000)">$5k</button>
-</div>
-</div>
-<div class="bet-summary">
-<div class="summary-row">
-<span class="summary-label">下注金额</span>
-<span class="summary-value" id="summaryAmount">$0</span>
-</div>
-<div class="summary-row">
-<span class="summary-label">概率</span>
-<span class="summary-value" id="summaryOdds">0%</span>
-</div>
-<div class="summary-row">
-<span class="summary-label">潜在收益</span>
-<span class="summary-value positive" id="summaryProfit">$0</span>
-</div>
-</div>
-<button class="place-bet-btn" onclick="placeBet()">确认下注</button>
-</div>
-</div>
-<div class="success-message" id="successMessage">订单已提交</div>
+<div class="success-message" id="successMessage">感谢反馈!</div>
 <script>
 const industries = [
 {id: 1, icon: '💻', title: '科技', subtitle: 'AI、云计算、半导体', trend: 'bullish', prediction: '+2.8%', confidence: 75, basis: {news: '财联社：多家龙头发布算力与AI订单动态。', factor: '资金流向：北向资金净流入科技方向。'}},
@@ -223,12 +149,10 @@ const industries = [
 {id: 8, icon: '🛢️', title: '能源化工', subtitle: '石油、天然气、化工', trend: 'bearish', prediction: '-1.8%', confidence: 69, basis: {news: '财联社：原油价格短期波动加大。', factor: '供需预期：库存上行抑制价格。'}},
 {id: 9, icon: '🚚', title: '物流运输', subtitle: '航运、配送、货运', trend: 'neutral', prediction: '+0.5%', confidence: 52, basis: {news: '财联社：运价指数维持震荡。', factor: '成本因素：燃油价格回落缓解成本。'}}
 ];
-let balance = 10000, totalInvested = 0, activeBets = 0, totalProfit = 0, betDirection = null, selectedChoice = null, indexRiseOdds = 58;
+const industryVotes = {}; // { industryId: { bullish:0, neutral:0, bearish:0 } }
 function init() {
-initBalance();
 renderIndustries();
 renderBasis();
-document.getElementById('betAmountInput').addEventListener('input', updateBetSummary);
 }
 function renderIndustries() {
 const grid = document.getElementById('marketGrid');
@@ -254,8 +178,8 @@ card.innerHTML = `
 </div>
 </div>
 <div class="market-stats">
-<div class="volume">AI 分析已更新</div>
-<span class="status-badge">仅展示</span>
+<div class="volume">AI 行业观点已更新（供观察与学习）</div>
+<span class="status-badge">系统观点</span>
 </div>
 `;
 grid.appendChild(card);
@@ -278,106 +202,38 @@ item.innerHTML = `
 </div>
 <div class="basis-text">${industry.basis.news}</div>
 <div class="basis-text">${industry.basis.factor}</div>
+<div class="basis-interact" style="margin-top:10px;padding-top:8px;border-top:1px dashed #e0e0e0;">
+<div style="font-size:12px;color:#888;margin-bottom:8px;">
+你对该行业的看法：
+</div>
+<div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+<button class="basis-vote-btn" onclick="voteIndustry('${industry.id}','bullish')">比AI更乐观</button>
+<button class="basis-vote-btn" onclick="voteIndustry('${industry.id}','neutral')">大致同意</button>
+<button class="basis-vote-btn" onclick="voteIndustry('${industry.id}','bearish')">比AI更悲观</button>
+</div>
+<div style="font-size:11px;color:#666;" id="industryVoteSummary-${industry.id}">
+暂无用户反馈
+</div>
+</div>
 `;
 list.appendChild(item);
 });
 }
-function openBetModal(direction) {
-betDirection = direction;
-selectedChoice = direction === 'rise' ? 'yes' : 'no';
-document.getElementById('modalTitle').textContent = '上证指数 - ' + (direction === 'rise' ? '押涨' : '押跌');
-document.getElementById('modalQuestion').textContent = '今日上证指数收盘是否上涨？';
-const odds = direction === 'rise' ? indexRiseOdds : (100 - indexRiseOdds);
-document.getElementById('yesOddsModal').textContent = indexRiseOdds + '%';
-document.getElementById('noOddsModal').textContent = (100 - indexRiseOdds) + '%';
-document.getElementById('betAmountInput').value = 100;
-document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('active'));
-if (direction === 'rise') {
-document.querySelector('.choice-btn.yes').classList.add('active');
-} else {
-document.querySelector('.choice-btn.no').classList.add('active');
+function voteIndustry(industryId, view) {
+if (!industryVotes[industryId]) {
+industryVotes[industryId] = { bullish: 0, neutral: 0, bearish: 0 };
 }
-updateBetSummary();
-document.getElementById('betModal').classList.add('active');
+industryVotes[industryId][view] += 1;
+const stats = industryVotes[industryId];
+const total = stats.bullish + stats.neutral + stats.bearish;
+const bullishPct = total ? Math.round(stats.bullish * 100 / total) : 0;
+const neutralPct = total ? Math.round(stats.neutral * 100 / total) : 0;
+const bearishPct = total ? Math.round(stats.bearish * 100 / total) : 0;
+const summaryEl = document.getElementById('industryVoteSummary-' + industryId);
+if (summaryEl) {
+summaryEl.textContent = `用户观点：乐观 ${bullishPct}% · 同意 ${neutralPct}% · 悲观 ${bearishPct}%（共 ${total} 次反馈，仅本地统计）`;
 }
-function closeModal() {
-document.getElementById('betModal').classList.remove('active');
-}
-function selectChoice(choice) {
-selectedChoice = choice;
-betDirection = choice === 'yes' ? 'rise' : 'fall';
-document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('active'));
-document.querySelector(`.choice-btn.${choice}`).classList.add('active');
-updateBetSummary();
-}
-function setQuickAmount(amount) {
-document.getElementById('betAmountInput').value = amount;
-updateBetSummary();
-}
-function updateBetSummary() {
-const amount = parseFloat(document.getElementById('betAmountInput').value) || 0;
-let odds = 0;
-if (selectedChoice === 'yes') odds = indexRiseOdds;
-else if (selectedChoice === 'no') odds = 100 - indexRiseOdds;
-const multiplier = 100 / odds;
-const potentialProfit = amount * multiplier - amount;
-document.getElementById('summaryAmount').textContent = '$' + amount.toFixed(0);
-document.getElementById('summaryOdds').textContent = odds + '%';
-document.getElementById('summaryProfit').textContent = '$' + potentialProfit.toFixed(0);
-}
-function placeBet() {
-const amount = parseFloat(document.getElementById('betAmountInput').value) || 0;
-if (!selectedChoice) { alert('请选择涨或跌'); return; }
-if (amount < 10) { alert('最低下注为 $10'); return; }
-if (amount > window.balanceAmount) { alert('余额不足'); return; }
-window.balanceAmount -= amount;
-window.totalInvestedAmount += amount;
-window.activeBetsCount += 1;
-updateWalletDisplay();
-closeModal();
-showSuccess('下单成功，3 秒后结算...');
-setTimeout(() => {
-const won = Math.random() > 0.5;
-if (won) {
-const odds = selectedChoice === 'yes' ? indexRiseOdds : (100 - indexRiseOdds);
-const profit = amount * (100 / odds) - amount;
-window.balanceAmount += amount + profit;
-window.totalProfitAmount += profit;
-showSuccess('赢了！盈利 $' + profit.toFixed(0));
-} else {
-window.totalProfitAmount -= amount;
-showSuccess('亏损：-$' + amount.toFixed(0));
-}
-window.activeBetsCount -= 1;
-const priceChange = (Math.random() - 0.5) * 50;
-const currentPrice = parseFloat(document.getElementById('indexPrice').textContent);
-const newPrice = currentPrice + priceChange;
-document.getElementById('indexPrice').textContent = newPrice.toFixed(2);
-const changePercent = ((newPrice - 3245.67) / 3245.67 * 100).toFixed(2);
-const changeEl = document.getElementById('indexChange');
-changeEl.textContent = (changePercent >= 0 ? '+' : '') + changePercent + '%';
-changeEl.className = changePercent >= 0 ? 'index-change positive' : 'index-change negative';
-updateWalletDisplay();
-}, 3000);
-if (selectedChoice === 'yes') indexRiseOdds = Math.min(95, indexRiseOdds + Math.random() * 2);
-else indexRiseOdds = Math.max(5, indexRiseOdds - Math.random() * 2);
-document.getElementById('riseOdds').textContent = indexRiseOdds.toFixed(0) + '%';
-document.getElementById('fallOdds').textContent = (100 - indexRiseOdds).toFixed(0) + '%';
-}
-function updateWalletDisplay() {
-document.getElementById('balance').textContent = window.balanceAmount.toFixed(0);
-document.getElementById('totalInvested').textContent = '$' + window.totalInvestedAmount.toFixed(0);
-document.getElementById('activeBets').textContent = window.activeBetsCount;
-const profitElement = document.getElementById('totalProfit');
-profitElement.textContent = (window.totalProfitAmount >= 0 ? '$' : '-$') + Math.abs(window.totalProfitAmount).toFixed(0);
-profitElement.className = window.totalProfitAmount >= 0 ? 'stat-value positive' : 'stat-value negative';
-}
-function initBalance() {
-window.balanceAmount = 10000;
-window.totalInvestedAmount = 0;
-window.activeBetsCount = 0;
-window.totalProfitAmount = 0;
-updateWalletDisplay();
+showSuccess('感谢反馈！');
 }
 function showSuccess(message) {
 const msg = document.getElementById('successMessage');
