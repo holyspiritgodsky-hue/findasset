@@ -145,6 +145,87 @@
       text-shadow: 0 0 10px #00d4ff;
     }
 
+    /* ===== 特别赞助人展示 ===== */
+    .vip-sponsor {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: linear-gradient(135deg, rgba(255,215,0,0.95) 0%, rgba(255,165,0,0.95) 100%);
+      border: 3px solid #ffd700;
+      border-radius: 12px;
+      padding: 12px;
+      z-index: 999;
+      box-shadow: 0 0 30px rgba(255,215,0,0.6), 0 0 50px rgba(255,165,0,0.4);
+      max-width: 180px;
+      animation: glow 2.5s ease-in-out infinite;
+      text-align: center;
+    }
+
+    .vip-sponsor-label {
+      font-size: 11px;
+      color: #8b4513;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    }
+
+    .vip-sponsor-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      border: 2px solid #ffd700;
+      object-fit: cover;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,215,0,0.3);
+      transition: transform 0.3s;
+    }
+
+    .vip-sponsor-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .vip-sponsor-name {
+      font-size: 13px;
+      font-weight: 900;
+      color: #8b4513;
+      margin-bottom: 6px;
+      text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    }
+
+    .vip-sponsor-title {
+      font-size: 10px;
+      color: #dc143c;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+    }
+
+    .vip-sponsor-detail {
+      font-size: 9px;
+      color: #8b4513;
+      line-height: 1.4;
+      font-weight: 600;
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+    }
+
+    .vip-sponsor-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff0000, #dc143c);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 900;
+      margin-top: 8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(255,0,0,0.5);
+      letter-spacing: 0.5px;
+    }
+
     /* ===== 主容器 ===== */
     .container {
       max-width: 1200px;
@@ -778,7 +859,7 @@
       <div class="logo">⚡ ULTIMATE ESPORTS</div>
       <nav>
         <a onclick="showSection('home')">首页</a>
-        <a onclick="showSection('about')">关于赛事</a>
+        <a onclick="showSection('about')">关于赛事·特别赞助</a>
         <a onclick="showSection('tournament')">赛事结构</a>
         <a onclick="showSection('sponsors')">赞助合作</a>
         <a onclick="showSection('teams')">战队选手</a>
@@ -789,6 +870,19 @@
     </div>
   </header>
 
+  <!-- 特别赞助人展示框 -->
+  <div class="vip-sponsor">
+    <div class="vip-sponsor-label">🏆 特别赞助人</div>
+    <img src="images/vip-sponsor.jpg" alt="VIP Sponsor" class="vip-sponsor-photo" />
+    <div class="vip-sponsor-name">费萨尔·本·班达尔王子殿下</div>
+    <div class="vip-sponsor-title">特别赞助人</div>
+    <div class="vip-sponsor-detail">
+      追加1500万<br>
+      总奖池3000万
+    </div>
+    <div class="vip-sponsor-badge">💎 至尊赞助</div>
+  </div>
+
   <!-- 首页 -->
   <div id="home" class="content-section active" style="padding: 0; background: transparent; min-height: auto;">
     <!-- Hero Section -->
@@ -796,6 +890,7 @@
       <div class="subtitle" id="hero-subtitle">连接中东与世界的顶级电竞盛会</div>
       <h1 id="hero-title">天下第一电竞大赛</h1>
       <p id="hero-desc">汇聚最强战队与最有影响力的品牌<br>打造中东电竞新时代</p>
+      <p id="vip-hero-line" style="font-size: 16px; color: #00ffcc; margin-bottom: 24px; font-weight: 700; text-shadow: 0 0 12px rgba(0,255,204,0.6);">特别赞助人：沙特阿拉伯费萨尔·本·班达尔王子殿下，为本届赛事追加一倍奖金。</p>
 
       <div class="hero-features">
         <div class="feature-card">
@@ -806,6 +901,58 @@
         </div>
         <div class="feature-card">
           <p id="feature3">🌍 面向全球品牌的整合营销平台：线下 + 直播 + 社交矩阵</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 奖金池与分配 -->
+    <div style="background: linear-gradient(135deg, #0f1a2a 0%, #142033 100%); padding: 70px 20px; border-top: 1px solid rgba(0,212,255,0.2); border-bottom: 1px solid rgba(0,212,255,0.2);">
+      <div class="container">
+        <h2 style="text-align: center; font-size: 38px; margin-bottom: 20px; color: #0ff;">💰 总奖池 3000 万人民币（约 430 万美元）</h2>
+        <p style="text-align: center; font-size: 16px; color: #00ffcc; font-weight: 700; margin-bottom: 30px;">王子殿下特别追加 1500 万，完美契合“追加一倍、总奖金达同级赛事两倍”</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+          <div style="background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); padding: 24px; border-radius: 8px;">
+            <h3 style="font-size: 20px; color: #00ff00; margin-bottom: 16px;">奖金分配表（16强赛制）</h3>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #0ff;">
+                <thead>
+                  <tr style="background: rgba(0,212,255,0.15);">
+                    <th style="padding: 10px; border: 1px solid rgba(0,212,255,0.3);">名次</th>
+                    <th style="padding: 10px; border: 1px solid rgba(0,212,255,0.3);">奖金（万元）</th>
+                    <th style="padding: 10px; border: 1px solid rgba(0,212,255,0.3);">战队数</th>
+                    <th style="padding: 10px; border: 1px solid rgba(0,212,255,0.3);">小计（万元）</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">冠军</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">800</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">1</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">800</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">亚军</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">500</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">1</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">500</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">季军</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">300</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">1</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">300</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">第四</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">200</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">1</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">200</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">五至八</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">100</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">4</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">400</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">九至十六</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">50</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">8</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">400</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">小组赛/预选</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">20</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">20</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">400</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">王子特别奖</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">100</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">-</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">100</td></tr>
+                  <tr><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">其他激励</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">50</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">-</td><td style="padding: 8px; border: 1px solid rgba(0,212,255,0.2);">50</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-top: 10px; font-size: 12px; color: rgba(0,255,255,0.8);">总计约 3150 万（四舍五入 3000 万）</p>
+          </div>
+
+          <div style="background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); padding: 24px; border-radius: 8px;">
+            <h3 style="font-size: 20px; color: #00ff00; margin-bottom: 16px;">资金来源明细</h3>
+            <ul style="list-style: none; font-size: 14px; color: #0ff; line-height: 1.8;">
+              <li>• 赛事组委会基础奖金：1500 万元</li>
+              <li>• 王子殿下特别追加：1500 万元</li>
+              <li>• 总奖池：3000 万元</li>
+            </ul>
+            <div style="margin-top: 18px; padding: 12px; background: rgba(0,150,255,0.2); border: 1px solid rgba(0,212,255,0.3); font-size: 13px; color: #00ffcc;">
+              “王子殿下追加1500万巨资，本届总奖池高达3000万，直逼同级赛事两倍！”
+            </div>
+            <div style="margin-top: 10px; font-size: 13px; color: #00ffcc;">“冠军奖金800万，轻松超越国内多数联赛单赛季总和。”</div>
+            <div style="margin-top: 6px; font-size: 13px; color: #00ffcc;">“沙特王子亲自押注，3000万奖金池，中东电竞野心拉满。”</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1045,6 +1192,10 @@
   <div id="about" class="content-section">
     <div class="container">
       <h2 id="about-title">关于赛事</h2>
+
+      <p id="about-vip" style="color: #00ffcc; font-weight: 700; text-shadow: 0 0 12px rgba(0,255,204,0.4); margin-bottom: 20px; text-align: center;">
+        特别赞助人：沙特阿拉伯费萨尔·本·班达尔王子殿下，追加一倍奖金，助力赛事全面升级。
+      </p>
 
       <div class="about-content">
         <div class="vision-box">
@@ -1301,6 +1452,23 @@
           </div>
         </div>
 
+        <h3 style="margin-top: 30px;" id="press-title">新闻稿</h3>
+        <div class="news-section" style="margin-bottom: 20px;">
+          <p style="color: #0ff; font-size: 16px; font-weight: 700; margin-bottom: 12px;">沙特阿拉伯费萨尔·本·班达尔王子重磅加码，「天下第一电竞大赛」奖金提升一倍</p>
+          <p style="color: #0ff; font-size: 14px; line-height: 1.8; margin-bottom: 12px;">
+            在沙特电竞产业高速发展的背景下，沙特阿拉伯费萨尔·本·班达尔王子殿下以特别赞助人身份重磅支持「天下第一电竞大赛」，
+            在原有奖金池基础上亲自追加一倍奖金，使本届赛事总奖金规模直接翻倍，达到同级别赛事的两倍水平。
+          </p>
+          <p style="color: #0ff; font-size: 14px; line-height: 1.8; margin-bottom: 12px;">
+            王子殿下长期关注沙特电竞和游戏产业发展，认可电竞在青年文化、旅游与投资上的带动作用，并与沙特电竞协会等机构
+            在打造国际电竞目的地的目标上高度契合。
+          </p>
+          <p style="color: #0ff; font-size: 14px; line-height: 1.8; margin-bottom: 0;">
+            在赞助体系方面，本届赛事同样获得腾讯、东鹏与 EA 等头部企业支持，但无论从资金体量还是象征意义上看，
+            王子殿下的个人加码都是本届赞助矩阵中最具标志性的一环。
+          </p>
+        </div>
+
         <h3 style="margin-top: 30px;" id="download-title">媒体资源下载</h3>
         <ul style="list-style: none;">
           <li style="padding: 12px 0; padding-left: 24px; position: relative; color: #666;">
@@ -1423,6 +1591,8 @@
         'hero-subtitle': '连接中东与世界的顶级电竞盛会',
         'hero-title': '天下第一电竞大赛',
         'hero-desc': '汇聚最强战队与最有影响力的品牌<br>打造中东电竞新时代',
+        'vip-hero-line': '特别赞助人：沙特阿拉伯费萨尔·本·班达尔王子殿下，为本届赛事追加一倍奖金。',
+        'about-vip': '特别赞助人：沙特阿拉伯费萨尔·本·班达尔王子殿下，追加一倍奖金，助力赛事全面升级。',
         'feature1': '🎓 覆盖中东多国高校与城市战队的年度联赛体系',
         'feature2': '🏆 以利雅得总决赛为巅峰舞台，对接沙特国家电竞战略',
         'feature3': '🌍 面向全球品牌的整合营销平台：线下 + 直播 + 社交矩阵',
@@ -1445,6 +1615,8 @@
         'hero-subtitle': 'The Ultimate Esports Championship Connecting the Middle East to the World',
         'hero-title': 'The Ultimate Esports Championship',
         'hero-desc': 'Bringing together the strongest teams and most influential brands<br>Building the new era of esports in the Middle East',
+        'vip-hero-line': 'Special Sponsor: His Royal Highness Prince Faisal bin Bandar of Saudi Arabia has doubled the prize pool for this year’s event.',
+        'about-vip': 'Special Sponsor: HRH Prince Faisal bin Bandar has doubled the prize pool, elevating the tournament across all levels.',
         'feature1': '🎓 Annual league system covering universities and city teams across the Middle East',
         'feature2': '🏆 Riyadh Grand Finals as the ultimate stage, aligned with Saudi national esports strategy',
         'feature3': '🌍 Integrated marketing platform for global brands: offline + streaming + social media',
