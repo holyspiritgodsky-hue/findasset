@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>星际殖民官 - 太阳系开拓者</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>⭐ 星际殖民官</h1>
+      <p class="subtitle">掌控人类在太阳系的未来</p>
+      <div class="status-bar">
+        <div class="stat">
+          <span class="label">💰 基金</span>
+          <span id="credits">0</span>
+        </div>
+        <div class="stat">
+          <span class="label">👥 人口</span>
+          <span id="population">100</span>
+        </div>
+        <div class="stat">
+          <span class="label">⚙️ 产能</span>
+          <span id="production">0</span>/s
+        </div>
+        <div class="stat">
+          <span class="label">🔬 科技</span>
+          <span id="tech-level">Lv.1</span>
+        </div>
+      </div>
+
+      <!-- 进度条 -->
+      <div class="progress-section">
+        <div class="progress-info">
+          <span id="stageName">近地轨道与月球前哨</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="core">
+        <!-- 地点切换标签 -->
+        <div class="location-tabs">
+          <button class="location-tab active" onclick="switchLocation('earth')">🌍 地球</button>
+          <button class="location-tab" id="moonTab" onclick="switchLocation('moon')" style="display:none;">🌙 月球</button>
+          <button class="location-tab" id="marsTab" onclick="switchLocation('mars')" style="display:none;">🔴 火星</button>
+          <button class="location-tab" id="asteroidTab" onclick="switchLocation('asteroid')" style="display:none;">🪨 小行星带</button>
+          <button class="location-tab" id="europaTab" onclick="switchLocation('europa')" style="display:none;">❄️ 木卫二</button>
+          <button class="location-tab" id="uranusTab" onclick="switchLocation('uranus')" style="display:none;">🌀 天王星</button>
+          <button class="location-tab" id="neptuneTab" onclick="switchLocation('neptune')" style="display:none;">🔷 海王星</button>
+          <button class="location-tab" id="kuiperTab" onclick="switchLocation('kuiper')" style="display:none;">⭐ 柯伊伯带</button>
+        </div>
+
+        <!-- 行动区 -->
+        <div class="action-panel">
+          <h2>🎯 核心行动</h2>
+          <button id="harvestBtn" class="big-btn">开采资源</button>
+          <p class="btn-hint">消耗工人获取基金 | 每次 +<span id="harvestGain">10</span></p>
+        </div>
+
+        <!-- 日志区 -->
+        <div class="log-container">
+          <h2>📋 任务日志</h2>
+          <div id="log"></div>
+        </div>
+      </section>
+
+      <section class="side">
+        <!-- 建筑升级面板 -->
+        <div class="panel">
+          <h2>🏢 建筑升级</h2>
+          <div id="buildingsList"></div>
+        </div>
+
+        <!-- 行星征服面板 -->
+        <div class="panel">
+          <h2>🪐 太阳系殖民</h2>
+          <div id="planetsList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 行星详情弹窗 -->
+  <div id="planetModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePlanetModal()">×</button>
+      <h2 id="modalPlanetName"></h2>
+      <div class="modal-info">
+        <p id="modalPlanetDesc"></p>
+        <p id="modalPlanetReq"></p>
+        <div id="modalPlanetMission"></div>
+      </div>
+      <div class="modal-buttons">
+        <button id="colonizeBtn">发起殖民</button>
+        <button id="closeModalBtn" onclick="closePlanetModal()">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 阶段解锁弹窗 -->
+  <div id="stageModal" class="modal hidden">
+    <div class="modal-content stage-modal">
+      <button class="modal-close" onclick="closeStageModal()">×</button>
+      <div class="stage-visual" id="stageVisual"></div>
+      <h2 id="modalStageTitle"></h2>
+      <p class="stage-mood" id="stageMood"></p>
+      <div class="stage-text" id="stageText"></div>
+      <button class="stage-continue-btn" onclick="closeStageModal()">继续探索</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
