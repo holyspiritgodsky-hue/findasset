@@ -6,6 +6,14 @@
   <title>地月航空霸业</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+<body><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>地月航空霸业</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
   <div class="app">
     <header class="top-bar">
@@ -76,3 +84,74 @@
   <script src="game.js"></script>
 </body>
 </html>
+
+  <div class="app">
+    <header class="top-bar">
+      <div class="title">航空霸业 · 地月航线管制中心</div>
+      <div class="meta">
+        <div>资金: <span id="money">1亿</span></div>
+        <div class="top-time">时间: <span id="time">2026年12月</span></div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="map-area">
+        <canvas id="mapCanvas"></canvas>
+        <div class="hover-tip" id="hoverTip"></div>
+      </section>
+    </main>
+
+    <footer class="bottom"></footer>
+
+    <section class="company-panel" id="companyPanel">
+      <div class="company-info">
+        <div class="company-title">蓝剑航天公司</div>
+        <div class="company-subtitle">初始资金 1 亿</div>
+      </div>
+      <div class="company-actions">
+        <button class="company-action" id="btn-finance">资本市场融资</button>
+        <div class="turn-action">
+          <button class="company-action" id="btn-next-month">进入下个月</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="fleet">
+      <h3>公司航线</h3>
+      <div class="fleet-table" id="fleetTable">
+        <div class="fleet-row">
+          <div>航线: 武汉 → 月港</div>
+          <div>状态: 开通</div>
+          <div>载客: 20</div>
+          <div>客单价: 0.05亿（月收入 1 亿）</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="finance">
+      <h3>收入支出</h3>
+      <div class="finance-table">
+        <div class="finance-row">
+          <div>航线收入</div>
+          <div id="rev-routes">0.0 亿</div>
+        </div>
+        <div class="finance-row">
+          <div>运营成本</div>
+          <div id="cost-ops">0.0 亿</div>
+        </div>
+        <div class="finance-row">
+          <div>固定支出</div>
+          <div id="cost-fixed">0.0 亿</div>
+        </div>
+        <div class="finance-row total">
+          <div>净收益</div>
+          <div id="net-profit">0.0 亿</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+
