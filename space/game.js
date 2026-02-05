@@ -14,6 +14,13 @@ const revRoutesEl = document.getElementById("rev-routes");
 const costOpsEl = document.getElementById("cost-ops");
 const costFixedEl = document.getElementById("cost-fixed");
 const netProfitEl = document.getElementById("net-profit");
+const rewardModal = document.getElementById("rewardModal");
+const rewardClose = document.getElementById("rewardClose");
+const stageVisual = document.getElementById("stageVisual");
+const rewardTitle = document.getElementById("rewardTitle");
+const rewardTag = document.getElementById("rewardTag");
+const rewardText = document.getElementById("rewardText");
+const rewardAction = document.getElementById("rewardAction");
 
 const btnRoute = document.getElementById("btn-route");
 const btnShip = document.getElementById("btn-ship");
@@ -71,6 +78,41 @@ function renderRoutesList() {
       <div>客单价: ${baseShip.ticketPrice}亿（月收入 ${formatMoney(routeRevenue)})</div>
     `;
     fleetTable.appendChild(row);
+  });
+}
+
+function showReward(message, title = "航线已开通", tag = "哲学") {
+  if (!rewardModal || !rewardText) return;
+  if (rewardTitle) rewardTitle.textContent = title;
+  if (rewardTag) rewardTag.textContent = tag;
+  rewardText.textContent = message;
+  if (stageVisual) {
+    stageVisual.setAttribute(
+      "style",
+      "background-image: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1000&h=700&fit=crop'); background-size: cover; background-position: center center;"
+    );
+  }
+  rewardModal.classList.add("active");
+  rewardModal.setAttribute("aria-hidden", "false");
+}
+
+function closeReward() {
+  if (!rewardModal) return;
+  rewardModal.classList.remove("active");
+  rewardModal.setAttribute("aria-hidden", "true");
+}
+
+if (rewardClose) {
+  rewardClose.addEventListener("click", closeReward);
+}
+
+if (rewardAction) {
+  rewardAction.addEventListener("click", closeReward);
+}
+
+if (rewardModal) {
+  rewardModal.addEventListener("click", event => {
+    if (event.target === rewardModal) closeReward();
   });
 }
 
@@ -376,7 +418,7 @@ mapCanvas.addEventListener("click", event => {
       if (!exists) {
         const totalCost = baseShip.purchaseCost + baseInfrastructureCost;
         if (money < totalCost) {
-          window.alert("资金不足，请先进行资本市场融资");
+          window.alert("资金不足，请过回合或者资本市场融资");
           return;
         }
         money = Math.max(0, money - totalCost);
@@ -386,6 +428,7 @@ mapCanvas.addEventListener("click", event => {
         shipCount = routes;
         if (routesEl) routesEl.textContent = routes;
         renderRoutesList();
+        showReward("星途漫漫，唯有坚持让航线抵达彼岸。", "✨");
       }
     }
   }
