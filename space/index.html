@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>地月航空霸业</title>
+  <title>航天时代</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -19,8 +19,8 @@
 
     <section class="company-panel" id="companyPanel">
       <div class="company-info">
-        <div class="company-title">蓝剑航天公司</div>
-        <div class="company-subtitle">蓝箭航天已于 2025年12月31日 正式递交科创板 IPO 申请并获受理，有望成为“中国商业火箭第一股”。</div>
+        <div class="company-title">蓝箭航天（本公司）</div>
+        <div class="company-subtitle">蓝箭航天：聚焦中小型运载火箭与快速发射，适合稳健发展。</div>
       </div>
       <div class="company-actions" id="companyActions">
         <div id="companyStats" style="margin-top:8px;color:#dfefff;font-size:13px">请选择起始支持者以查看公司简介与初始资源。</div>
@@ -95,6 +95,63 @@
 
   <script src="main.js"></script>
   <script src="game.js"></script>
+
+<!-- 地月文明数据库区域开始 -->
+<section id="database" style="margin:18px 12px;padding:12px;border:2px solid rgba(143,182,255,0.06);border-radius:8px;background:linear-gradient(180deg,rgba(5,12,26,0.6),rgba(3,8,18,0.6));color:#dfefff">
+  <h2 style="margin:0 0 10px 0;color:#7de3ff">地月文明数据库</h2>
+
+  <div class="db-grid" style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+    <!-- 股票面板 -->
+    <div class="db-card" id="db-stocks" style="padding:10px;border-radius:8px;background:rgba(10,20,36,0.35);">
+      <h3 style="margin:0 0 8px 0;color:#acd7ff">航天相关股票指数</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#e7f0ff">
+        <tr><th style="text-align:left;padding:6px">代码</th><th style="text-align:left;padding:6px">名称</th><th style="text-align:right;padding:6px">价格</th><th style="text-align:right;padding:6px">涨跌</th></tr>
+        <tr><td style="padding:6px">688698</td><td style="padding:6px">蓝箭航天（科创板待上市）</td><td style="padding:6px;text-align:right">102.3</td><td style="padding:6px;text-align:right;color:#7ef08a">+1.8%</td></tr>
+        <tr><td style="padding:6px">00031.HK</td><td style="padding:6px">中国航天国际控股</td><td style="padding:6px;text-align:right">7.68</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.3%</td></tr>
+        <tr><td style="padding:6px">SPCE</td><td style="padding:6px">Virgin Galactic（美股）</td><td style="padding:6px;text-align:right">1.80</td><td style="padding:6px;text-align:right;color:#7ef08a">+2.5%</td></tr>
+        <tr><td style="padding:6px">RKLB</td><td style="padding:6px">Rocket Lab USA（美股）</td><td style="padding:6px;text-align:right">4.50</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.9%</td></tr>
+        <tr><td style="padding:6px">NOC</td><td style="padding:6px">Northrop Grumman（美股）</td><td style="padding:6px;text-align:right">480.6</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.4%</td></tr>
+        <tr><td style="padding:6px">LMT</td><td style="padding:6px">Lockheed Martin（美股）</td><td style="padding:6px;text-align:right">455.2</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.2%</td></tr>
+        <tr><td style="padding:6px">UFO</td><td style="padding:6px">Procure Space ETF（美股太空 ETF）</td><td style="padding:6px;text-align:right">37.6</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.6%</td></tr>
+        <tr><td style="padding:6px">XAR</td><td style="padding:6px">SPDR S&P 航空航天防务 ETF</td><td style="padding:6px;text-align:right">130.4</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.3%</td></tr>
+      </table>
+    </div>
+
+    <!-- 机器人产能面板 -->
+    <div class="db-card" id="db-robots" style="padding:10px;border-radius:8px;background:rgba(10,20,36,0.35);">
+      <h3 style="margin:0 0 8px 0;color:#acd7ff">机器人产能</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#e7f0ff">
+        <tr><th style="text-align:left;padding:6px">基地</th><th style="text-align:left;padding:6px">型号</th><th style="text-align:right;padding:6px">年产量</th><th style="text-align:right;padding:6px">在役数量</th></tr>
+        <tr><td style="padding:6px">地球工厂 A</td><td style="padding:6px">R-1 装配机器人</td><td style="padding:6px;text-align:right">1,000 台</td><td style="padding:6px;text-align:right">10,000 台</td></tr>
+        <tr><td style="padding:6px">月面工厂 α</td><td style="padding:6px">L-3 采矿机器人</td><td style="padding:6px;text-align:right">100 台</td><td style="padding:6px;text-align:right">500 台</td></tr>
+      </table>
+    </div>
+
+    <!-- 电力产能面板 -->
+    <div class="db-card" id="db-power" style="padding:10px;border-radius:8px;background:rgba(10,20,36,0.35);">
+      <h3 style="margin:0 0 8px 0;color:#acd7ff">电力产能</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#e7f0ff">
+        <tr><th style="text-align:left;padding:6px">区域</th><th style="text-align:left;padding:6px">电站类型</th><th style="text-align:right;padding:6px">装机容量</th><th style="text-align:right;padding:6px">状态</th></tr>
+        <tr><td style="padding:6px">地球低轨</td><td style="padding:6px">空间太阳能电站阵列</td><td style="padding:6px;text-align:right">10 GW</td><td style="padding:6px;text-align:right;color:#7ef08a">运行</td></tr>
+        <tr><td style="padding:6px">月球极区</td><td style="padding:6px">核裂变电站</td><td style="padding:6px;text-align:right">2 GW</td><td style="padding:6px;text-align:right;color:#7ef08a">运行</td></tr>
+        <tr><td style="padding:6px">月球赤道</td><td style="padding:6px">光伏农场</td><td style="padding:6px;text-align:right">0.5 GW</td><td style="padding:6px;text-align:right;color:#ffd28a">建设中</td></tr>
+      </table>
+    </div>
+
+    <!-- 城市与公司面板 -->
+    <div class="db-card" id="db-cities" style="padding:10px;border-radius:8px;background:rgba(10,20,36,0.35);">
+      <h3 style="margin:0 0 8px 0;color:#acd7ff">地球与月球城市网络</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#e7f0ff">
+        <tr><th style="text-align:left;padding:6px">城市/基地</th><th style="text-align:left;padding:6px">类型</th><th style="text-align:left;padding:6px">驻场公司</th><th style="text-align:left;padding:6px">功能</th></tr>
+        <tr><td style="padding:6px">武汉</td><td style="padding:6px">地球航天港</td><td style="padding:6px">蓝剑航天</td><td style="padding:6px">地月客运枢纽</td></tr>
+        <tr><td style="padding:6px">圣保罗</td><td style="padding:6px">地球航天港</td><td style="padding:6px">联合航天集团</td><td style="padding:6px">货运与补给</td></tr>
+        <tr><td style="padding:6px">月港一号</td><td style="padding:6px">月球轨道站</td><td style="padding:6px">多家公司</td><td style="padding:6px">中转 / 旅游</td></tr>
+        <tr><td style="padding:6px">月面极区基地</td><td style="padding:6px">月球基地</td><td style="padding:6px">矿业联合体</td><td style="padding:6px">采矿 / 电力</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- 地月文明数据库区域结束 -->
 
     <div id="feedback" style="margin:12px 16px;padding:10px 12px;border-top:1px dashed rgba(200,220,255,0.06);font-size:13px;color:#dfefff;display:flex;align-items:center;gap:8px;justify-content:flex-end">
       <span style="opacity:0.9">游戏反馈：</span>
