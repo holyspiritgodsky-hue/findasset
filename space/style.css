@@ -131,6 +131,37 @@ body {
   box-shadow: 0 0 10px rgba(125, 227, 255, 0.8);
 }
 
+/* Make the primary "next year" button large and prominent (only interactive button) */
+#next-year {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #06b6d4, #0ea5a4);
+  color: #001;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(6, 182, 180, 0.14), inset 0 -2px 0 rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+  transform-origin: center;
+}
+#next-year:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(6, 182, 180, 0.18);
+}
+#next-year:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(6, 182, 180, 0.12);
+}
+
+@media (max-width: 768px) {
+  #next-year {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+}
+
 
 .reward-modal {
   position: fixed;
