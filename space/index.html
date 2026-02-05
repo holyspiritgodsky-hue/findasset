@@ -7,19 +7,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <header class="top-bar">
-      <div class="title">航空霸业 · 地月航线管制中心</div>
-      <div class="meta">
-        <div>资金: <span id="money">1亿</span></div>
-        <div class="top-time">时间: <span id="time">2026年12月</span></div>
-        <button class="company-action top-turn" id="btn-next-month">进入下个月</button>
-      </div>
-    </header>
+  <!-- space canvas will be placed inside .map-area for tighter layout -->
 
+  <div class="app">
     <main class="main">
       <section class="map-area">
-        <canvas id="mapCanvas"></canvas>
+        <canvas id="space-canvas" width="800" height="400"></canvas>
         <div class="hover-tip" id="hoverTip"></div>
       </section>
     </main>
@@ -80,6 +73,7 @@
     </section>
   </div>
 
+  <script src="main.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
