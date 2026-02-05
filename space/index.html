@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>地月航空霸业</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -22,58 +22,86 @@
         <div class="company-title">蓝剑航天公司</div>
         <div class="company-subtitle">蓝箭航天已于 2025年12月31日 正式递交科创板 IPO 申请并获受理，有望成为“中国商业火箭第一股”。</div>
       </div>
-      <div class="company-actions">
-        <button class="company-action" id="btn-finance">资本市场融资</button>
+      <div class="company-actions" id="companyActions">
+        <div id="companyStats" style="margin-top:8px;color:#dfefff;font-size:13px">请选择起始支持者以查看公司简介与初始资源。</div>
       </div>
     </section>
 
-    <div class="reward-modal" id="rewardModal" aria-live="polite" aria-hidden="true">
-      <div class="reward-dialog" role="dialog" aria-modal="true">
-        <button class="reward-close" id="rewardClose" aria-label="关闭">×</button>
-        <div class="stage-visual" id="stageVisual" style="background-image: url(&quot;https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1000&amp;h=700&amp;fit=crop&quot;); background-size: cover; background-position: center center;"></div>
-        <div class="reward-title" id="rewardTitle">航线已开通</div>
-        <div class="reward-tag" id="rewardTag">哲学</div>
-        <div class="reward-text" id="rewardText">每一次起航，都是对未知的温柔回答。</div>
-        <button class="reward-action" id="rewardAction">继续探索</button>
+      <!-- reward modal: shows a space photo and a short philosophical text when construction completes -->
+      <div id="rewardModal" class="reward-modal" role="dialog" aria-hidden="true">
+        <div class="reward-dialog" role="document">
+          <button id="rewardClose" class="reward-close" aria-label="关闭">✕</button>
+          <div class="reward-title">建设完成 — 奖励已解锁</div>
+          <div class="stage-visual" id="rewardImageWrapper">
+            <img id="rewardImage" src="" alt="太空照片" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block" />
+          </div>
+          <div class="reward-text" id="rewardText">这里将显示一段哲学文字，用以激励你继续拓展航线与想象。</div>
+          <div style="text-align:center;margin-top:6px">
+            <button id="rewardAction" class="reward-action">继续</button>
+          </div>
+        </div>
+      </div>
+
+    <!-- start modal: choose starting backing -->
+    <div id="startModal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:10020">
+      <div style="background:#071227;color:#fff;padding:18px;border-radius:10px;max-width:920px;width:92%;box-shadow:0 12px 36px rgba(0,0,0,0.6);display:flex;gap:12px;align-items:center;">
+        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&h=700&fit=crop" alt="start" style="width:56%;border-radius:8px;object-fit:cover;max-height:360px"/>
+        <div style="flex:1;padding-left:8px;">
+          <h2 style="margin:0 0 8px 0;color:#46c0ff">从这里开始你的航天帝国</h2>
+          <p style="margin:0 0 12px 0;line-height:1.4;opacity:0.92">我们第一次从太空俯视自己的家园，城市的灯光像一层薄薄的霜，文明在黑暗的背景上显得格外脆弱。选择你的启动支持者，决定公司起步的资源与规模。</p>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button id="start_blue" style="padding:10px;border-radius:6px;border:none;background:#0ea5a4;color:#001;">参股未上市蓝箭航空 — 资金 10 亿，机器人 1 万</button>
+            <button id="start_spacex" style="padding:10px;border-radius:6px;border:none;background:#06b6d4;color:#001;">参股上市 SPACEX — 资金 1000 亿，机器人 100 万</button>
+            <button id="start_sanhua" style="padding:10px;border-radius:6px;border:none;background:#7c3aed;color:#fff;">参股上市三花智控 — 资金 100 亿，机器人 10 万</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <section class="fleet">
-      <h3>公司航线</h3>
-      <div class="fleet-table" id="fleetTable">
-        <div class="fleet-row">
-          <div>航线: 武汉 → 月港</div>
-          <div>状态: 开通</div>
-          <div>载客: 20</div>
-          <div>客单价: 0.05亿（月收入 1 亿）</div>
+    <div id="bottom-panel" class="bottom-panel">
+      <div class="bp-left">
+        <div>年份：<span id="year"></span></div>
+        <div>资金：<span id="money"></span></div>
+        <div>航线数：<span id="route-count"></span></div>
+        <div style="margin-top:8px">
+          <button id="next-year">进入下一年</button>
         </div>
+        <div id="buildArea" style="margin-top:10px">
+          <div style="font-size:13px;color:#dfefff;margin-bottom:6px">航线建设进度（点击填满）：</div>
+          <div id="buildBar" style="width:100%;height:14px;background:#122233;border-radius:8px;cursor:pointer;overflow:hidden">
+            <div id="buildBarInner" style="width:0%;height:100%;background:linear-gradient(90deg,#46c0ff,#0ea5a4);transition:width 120ms ease"></div>
+          </div>
+          <div id="buildHint" style="font-size:12px;color:#cfe;margin-top:6px">点击进度条进行建设，进度满了将尝试开通新航线（需要足够资金）。</div>
+        </div>
+        <!-- event choices overlay (filled dynamically) -->
+        <div id="eventChoices" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(8,18,28,0.96);color:#fff;padding:14px;border-radius:8px;z-index:10010;max-width:92%;width:420px;box-shadow:0 10px 30px rgba(0,0,0,0.6)"></div>
       </div>
-    </section>
 
-    <section class="finance">
-      <h3>收入支出</h3>
-      <div class="finance-table">
-        <div class="finance-row">
-          <div>航线收入</div>
-          <div id="rev-routes">0.0 亿</div>
+      <div class="bp-right">
+        <div class="news" id="news">
+          <h4>新闻</h4>
+          <div id="newsList"></div>
         </div>
-        <div class="finance-row">
-          <div>运营成本</div>
-          <div id="cost-ops">0.0 亿</div>
-        </div>
-        <div class="finance-row">
-          <div>固定支出</div>
-          <div id="cost-fixed">0.0 亿</div>
-        </div>
-        <div class="finance-row total">
-          <div>净收益</div>
-          <div id="net-profit">0.0 亿</div>
+
+        <div class="history" id="history">
+          <h4>历史资金（最近 5 年）</h4>
+          <canvas id="historyChart" width="360" height="96" style="width:100%;max-width:360px;height:96px;border-radius:6px;background:transparent"></canvas>
+          <div id="historyList"></div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 
   <script src="main.js"></script>
   <script src="game.js"></script>
+
+    <div id="feedback" style="margin:12px 16px;padding:10px 12px;border-top:1px dashed rgba(200,220,255,0.06);font-size:13px;color:#dfefff;display:flex;align-items:center;gap:8px;justify-content:flex-end">
+      <span style="opacity:0.9">游戏反馈：</span>
+      <a href="mailto:holyspiritgodsky@gmail.com" style="color:#7de3ff;text-decoration:underline">holyspiritgodsky@gmail.com</a>
+      <span style="opacity:0.75">·</span>
+      <a href="tel:15221056162" style="color:#7de3ff;text-decoration:underline">15221056162</a>
+    </div>
+
 </body>
 </html>
