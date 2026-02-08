@@ -14,6 +14,10 @@
       <section class="map-area">
         <canvas id="space-canvas" width="800" height="400"></canvas>
         <div class="hover-tip" id="hoverTip"></div>
+        <div id="yearControls" style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(6,14,26,0.72);color:#e9f3ff;border:1px solid rgba(125,227,255,0.2);padding:8px 12px;border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,0.35);z-index:6;">
+          <div style="font-size:13px">年份：<span id="year"></span></div>
+          <button id="next-year" style="padding:6px 10px;border-radius:6px;border:none;background:#0ea5a4;color:#001;cursor:pointer;">进入下一年</button>
+        </div>
       </section>
     </main>
 
@@ -44,16 +48,18 @@
 
     <!-- start modal: choose starting backing -->
     <div id="startModal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:10020">
-      <div style="background:#071227;color:#fff;padding:18px;border-radius:10px;max-width:920px;width:92%;box-shadow:0 12px 36px rgba(0,0,0,0.6);display:flex;gap:12px;align-items:center;">
-        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&h=700&fit=crop" alt="start" style="width:56%;border-radius:8px;object-fit:cover;max-height:360px"/>
+      <div style="background:#071227;color:#fff;padding:18px;border-radius:10px;max-width:1180px;width:96%;box-shadow:0 12px 36px rgba(0,0,0,0.6);display:flex;gap:12px;align-items:center;">
+        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1200&h=700&fit=crop" alt="start" style="width:58%;border-radius:8px;object-fit:cover;max-height:420px"/>
         <div style="flex:1;padding-left:8px;">
-          <h2 style="margin:0 0 8px 0;color:#46c0ff">从这里开始你的航天帝国</h2>
-          <p style="margin:0 0 12px 0;line-height:1.4;opacity:0.92">我们第一次从太空俯视自己的家园，城市的灯光像一层薄薄的霜，文明在黑暗的背景上显得格外脆弱。选择你的启动支持者，决定公司起步的资源与规模。</p>
+          <h2 style="margin:0 0 8px 0;color:#46c0ff">选择你初始国家，开始你的太空之旅</h2>
+          <p style="margin:0 0 12px 0;line-height:1.4;opacity:0.92">我们第一次从太空俯视自己的家园，城市的灯光像一层薄薄的霜，文明在黑暗的背景上显得格外脆弱。</p>
 
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button id="start_blue" style="padding:10px;border-radius:6px;border:none;background:#0ea5a4;color:#001;">参股未上市蓝箭航空 — 资金 10 亿，机器人 1 万</button>
-            <button id="start_spacex" style="padding:10px;border-radius:6px;border:none;background:#06b6d4;color:#001;">参股上市 SPACEX — 资金 1000 亿，机器人 100 万</button>
-            <button id="start_sanhua" style="padding:10px;border-radius:6px;border:none;background:#7c3aed;color:#fff;">参股上市三花智控 — 资金 100 亿，机器人 10 万</button>
+            <button id="start_us" style="padding:10px;border-radius:6px;border:none;background:#06b6d4;color:#001;">美国 — 资金 1000 亿，机器人 100 万 (vip) </button>
+            <button id="start_ru" style="padding:10px;border-radius:6px;border:none;background:#ef4444;color:#001;">俄罗斯 — 资金 300 亿，机器人 20 万</button>
+            <button id="start_cn" style="padding:10px;border-radius:6px;border:none;background:#0ea5a4;color:#001;">中国 — 资金 200 亿，机器人 15 万  （独有事件链）</button>
+            <button id="start_de" style="padding:10px;border-radius:6px;border:none;background:#f59e0b;color:#001;">德国 — 资金 120 亿，机器人 8 万</button>
+            <button id="start_in" style="padding:10px;border-radius:6px;border:none;background:#22c55e;color:#001;">印度 — 资金 80 亿，机器人 6 万  （独有事件链） </button>
           </div>
         </div>
       </div>
@@ -61,14 +67,10 @@
 
     <div id="bottom-panel" class="bottom-panel">
       <div class="bp-left">
-        <div>年份：<span id="year"></span></div>
         <div>资金：<span id="money"></span></div>
         <div>航线数：<span id="route-count"></span></div>
-        <div style="margin-top:8px">
-          <button id="next-year">进入下一年</button>
-        </div>
         <div id="buildArea" style="margin-top:10px">
-          <div style="font-size:13px;color:#dfefff;margin-bottom:6px">航线建设进度（点击填满）：</div>
+          <div style="font-size:13px;color:#dfefff;margin-bottom:6px">地月扩张进度（点击填满）：</div>
           <div id="buildBar" style="width:100%;height:14px;background:#122233;border-radius:8px;cursor:pointer;overflow:hidden">
             <div id="buildBarInner" style="width:0%;height:100%;background:linear-gradient(90deg,#46c0ff,#0ea5a4);transition:width 120ms ease"></div>
           </div>
@@ -92,6 +94,11 @@
       </div>
     </div>
   </div>
+
+  <section id="civRank" style="position:fixed;right:14px;bottom:110px;background:rgba(8,18,28,0.86);color:#e8f2ff;padding:8px 10px;border-radius:8px;border:1px solid rgba(125,227,255,0.18);box-shadow:0 8px 20px rgba(0,0,0,0.35);font-size:12px;max-width:220px;z-index:10005;">
+    <div style="font-weight:700;color:#7de3ff;margin-bottom:6px;letter-spacing:0.5px">文明排行榜</div>
+    <div style="line-height:1.35">1. 美国联盟：月面人口 12,000，航线 18 条</div>
+  </section>
 
   <script src="main.js"></script>
   <script src="game.js"></script>
