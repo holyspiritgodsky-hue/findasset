@@ -1,6 +1,7 @@
 // =======================
 // space main.js — responsive starfield, Earth/Moon, and auto-ship
 // =======================
+(() => {
 const canvas = document.getElementById('space-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -1315,4 +1316,6 @@ window.addEventListener('resize', () => {
 	initStars();
 	initShip();
 });
+
+})();
 
