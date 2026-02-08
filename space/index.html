@@ -95,10 +95,6 @@
     </div>
   </div>
 
-  <section id="civRank" style="position:fixed;right:14px;bottom:110px;background:rgba(8,18,28,0.86);color:#e8f2ff;padding:8px 10px;border-radius:8px;border:1px solid rgba(125,227,255,0.18);box-shadow:0 8px 20px rgba(0,0,0,0.35);font-size:12px;max-width:220px;z-index:10005;">
-    <div style="font-weight:700;color:#7de3ff;margin-bottom:6px;letter-spacing:0.5px">文明排行榜</div>
-    <div style="line-height:1.35">1. 美国联盟：月面人口 12,000，航线 18 条</div>
-  </section>
 
   <script src="main.js"></script>
   <script src="game.js"></script>
@@ -113,14 +109,14 @@
       <h3 style="margin:0 0 8px 0;color:#acd7ff">航天相关股票指数</h3>
       <table style="width:100%;border-collapse:collapse;font-size:13px;color:#e7f0ff">
         <tr><th style="text-align:left;padding:6px">代码</th><th style="text-align:left;padding:6px">名称</th><th style="text-align:right;padding:6px">价格</th><th style="text-align:right;padding:6px">涨跌</th></tr>
-        <tr><td style="padding:6px">688698</td><td style="padding:6px">蓝箭航天（科创板待上市）</td><td style="padding:6px;text-align:right">102.3</td><td style="padding:6px;text-align:right;color:#7ef08a">+1.8%</td></tr>
-        <tr><td style="padding:6px">00031.HK</td><td style="padding:6px">中国航天国际控股</td><td style="padding:6px;text-align:right">7.68</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.3%</td></tr>
-        <tr><td style="padding:6px">SPCE</td><td style="padding:6px">Virgin Galactic（美股）</td><td style="padding:6px;text-align:right">1.80</td><td style="padding:6px;text-align:right;color:#7ef08a">+2.5%</td></tr>
-        <tr><td style="padding:6px">RKLB</td><td style="padding:6px">Rocket Lab USA（美股）</td><td style="padding:6px;text-align:right">4.50</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.9%</td></tr>
+        <tr><td style="padding:6px">600118</td><td style="padding:6px">中国卫星</td><td style="padding:6px;text-align:right">31.20</td><td style="padding:6px;text-align:right;color:#7ef08a">+1.2%</td></tr>
+        <tr><td style="padding:6px">600151</td><td style="padding:6px">航天机电</td><td style="padding:6px;text-align:right">6.85</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.4%</td></tr>
+        <tr><td style="padding:6px">600343</td><td style="padding:6px">航天动力</td><td style="padding:6px;text-align:right">17.60</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.7%</td></tr>
+        <tr><td style="padding:6px">600855</td><td style="padding:6px">航天长峰</td><td style="padding:6px;text-align:right">12.40</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.6%</td></tr>
+        <tr><td style="padding:6px">600879</td><td style="padding:6px">航天电子</td><td style="padding:6px;text-align:right">8.92</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.5%</td></tr>
+        <tr><td style="padding:6px">600893</td><td style="padding:6px">航发动力</td><td style="padding:6px;text-align:right">42.30</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.3%</td></tr>
         <tr><td style="padding:6px">NOC</td><td style="padding:6px">Northrop Grumman（美股）</td><td style="padding:6px;text-align:right">480.6</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.4%</td></tr>
         <tr><td style="padding:6px">LMT</td><td style="padding:6px">Lockheed Martin（美股）</td><td style="padding:6px;text-align:right">455.2</td><td style="padding:6px;text-align:right;color:#ff8a8a">-0.2%</td></tr>
-        <tr><td style="padding:6px">UFO</td><td style="padding:6px">Procure Space ETF（美股太空 ETF）</td><td style="padding:6px;text-align:right">37.6</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.6%</td></tr>
-        <tr><td style="padding:6px">XAR</td><td style="padding:6px">SPDR S&P 航空航天防务 ETF</td><td style="padding:6px;text-align:right">130.4</td><td style="padding:6px;text-align:right;color:#7ef08a">+0.3%</td></tr>
       </table>
     </div>
 
@@ -159,6 +155,42 @@
   </div>
 </section>
 <!-- 地月文明数据库区域结束 -->
+
+  <section id="bottomInfo" style="margin:18px 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;align-items:start;">
+    <!-- 财联社最新航天新闻 -->
+    <section id="clsNews" style="margin:0;padding:12px;border:1px solid rgba(125,227,255,0.18);border-radius:8px;background:rgba(8,18,28,0.5);color:#e8f2ff;box-shadow:0 8px 20px rgba(0,0,0,0.3);font-size:13px;">
+      <div style="font-weight:700;color:#7de3ff;margin-bottom:10px;letter-spacing:0.5px">最新航天科研</div>
+      <div style="margin-bottom:10px">
+        <div style="line-height:1.6;font-weight:600">柯力传感</div>
+        <div style="line-height:1.55;color:#cfe7ff">德国多家科研机构宣布，新一代轻质耐高温复合材料完成地面极限测试，将率先应用于可重复使用运载火箭与月面着陆器部件，用以降低结构重量并提升寿命。</div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div style="line-height:1.6;font-weight:600">烽火通讯</div>
+        <div style="line-height:1.55;color:#cfe7ff">财联社援引行业人士消息，在轨多颗新一代宽带卫星已完成星间激光链路联调测试，可在地月空间形成高速中继网，为未来月球基地与深空探测器提供稳定通信保障。</div>
+      </div>
+      <div>
+        <div style="line-height:1.6;font-weight:600">三花智控太空机器人</div>
+        <div style="line-height:1.55;color:#cfe7ff">月面远程作业机器人样机近日完成真空、低重力环境下综合演示，具备自主巡检、设施维护及简易施工能力，后续将随货运飞船发射，用于支持极区基地长期运营。</div>
+      </div>
+    </section>
+
+    <!-- 文明排行榜：页面下方简单展示 -->
+    <section id="civRank" style="margin:0;padding:12px;border:1px solid rgba(125,227,255,0.18);border-radius:8px;background:rgba(8,18,28,0.62);color:#e8f2ff;box-shadow:0 8px 20px rgba(0,0,0,0.3);font-size:13px;">
+      <div style="font-weight:700;color:#7de3ff;margin-bottom:8px;letter-spacing:0.5px">文明排行榜</div>
+      <div style="margin-bottom:8px">
+        <div style="line-height:1.6;font-weight:600">1. 美国</div>
+        <div style="line-height:1.5;color:#cfe7ff">电力：14.2 GW · 机器人：120 万 · 地月航线：18 条</div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="line-height:1.6;font-weight:600">2. 日本</div>
+        <div style="line-height:1.5;color:#cfe7ff">电力：6.8 GW · 机器人：208 万 · 地月航线：9 条</div>
+      </div>
+      <div>
+        <div style="line-height:1.6;font-weight:600">3. 中国</div>
+        <div style="line-height:1.5;color:#cfe7ff">电力：40.1 GW · 机器人：62 万 · 地月航线：1 条</div>
+      </div>
+    </section>
+  </section>
 
     <div id="feedback" style="margin:12px 16px;padding:10px 12px;border-top:1px dashed rgba(200,220,255,0.06);font-size:13px;color:#dfefff;display:flex;align-items:center;gap:8px;justify-content:flex-end">
       <span style="opacity:0.9">游戏反馈：</span>
