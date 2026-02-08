@@ -1,3 +1,5 @@
+(() => {
+// Scoped game module to avoid polluting globals
 const mapCanvas = document.getElementById("mapCanvas");
 const miniCanvas = document.getElementById("miniCanvas");
 const hoverTip = document.getElementById("hoverTip");
@@ -29,7 +31,7 @@ const btnScan = document.getElementById("btn-scan");
 const btnFinance = document.getElementById("btn-finance");
 const btnNextMonth = document.getElementById("btn-next-month");
 
-const ctx = mapCanvas.getContext("2d");
+const mapCtx = mapCanvas.getContext("2d");
 const miniCtx = miniCanvas ? miniCanvas.getContext("2d") : null;
 
 let money = 1;
@@ -135,7 +137,7 @@ function resizeCanvas() {
   const rect = mapCanvas.parentElement.getBoundingClientRect();
   mapCanvas.width = rect.width * devicePixelRatio;
   mapCanvas.height = rect.height * devicePixelRatio;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  mapCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
 
   if (miniCanvas && miniCtx) {
     const miniRect = miniCanvas.getBoundingClientRect();
@@ -223,14 +225,14 @@ function drawMap() {
   const width = mapCanvas.clientWidth;
   const height = mapCanvas.clientHeight;
 
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "transparent";
-  ctx.fillRect(0, 0, width, height);
+  mapCtx.clearRect(0, 0, width, height);
+  mapCtx.fillStyle = "transparent";
+  mapCtx.fillRect(0, 0, width, height);
 
-  drawGrid(ctx, width, height);
-  drawRoutes(ctx, width, height);
-  drawPlanes(ctx, width, height);
-  drawCities(ctx, width, height);
+  drawGrid(mapCtx, width, height);
+  drawRoutes(mapCtx, width, height);
+  drawPlanes(mapCtx, width, height);
+  drawCities(mapCtx, width, height);
 
   requestAnimationFrame(drawMap);
 }
@@ -399,6 +401,8 @@ mapCanvas.addEventListener("mousemove", event => {
 mapCanvas.addEventListener("mouseleave", () => {
   hoverTip.style.opacity = "0";
 });
+
+})();
 
 mapCanvas.addEventListener("click", event => {
   if (moonPortIndex === -1) return;
