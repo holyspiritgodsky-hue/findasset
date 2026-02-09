@@ -17,6 +17,18 @@ let cssHeight = 400;
 // store last scene positions (earth/moon) for hover calculations
 let lastScene = { earthX: 0, earthY: 0, earthR: 0, moonX: 0, moonY: 0, moonR: 0 };
 
+const miningFx = {
+	active: false,
+	start: 0,
+	duration: 1200,
+	flameDuration: 700
+};
+
+function triggerMiningFx() {
+	miningFx.active = true;
+	miningFx.start = performance.now();
+}
+
 // (modal/image popup removed) 
 
 function resizeCanvas() {
@@ -77,7 +89,15 @@ function updateBuildUI() {
 	const buildInner = document.getElementById('buildBarInner');
 	const buildHint = document.getElementById('buildHint');
 	if (buildInner) buildInner.style.width = Math.max(0, Math.min(100, state.buildProgress)) + '%';
-	if (buildHint) buildHint.textContent = `进度：${Math.floor(state.buildProgress)}% — 点击填满以尝试开通航线（所需资金 ${formatMoney(state.nextRouteCost)})`;
+	if (buildHint) buildHint.textContent = `进度：${Math.floor(state.buildProgress)}% — 点击填满以尝试开通航线（所需资金 ${formatMoney(state.nextRouteCost)}），航线数达 15/19 将进入新阶段。`;
+}
+
+function getBuildClickIncrement() {
+	if (state.companyId === 'us') return 100;
+	if (state.companyId === 'cn') return 50;
+	const baseInc = state.buildRateBase || 12;
+	const robotBonus = Math.floor(state.robots / 100000);
+	return baseInc + robotBonus;
 }
 
 function updateBottomPanel() {
@@ -217,6 +237,7 @@ function settleOneYear() {
 
 	// random events (increase/decrease are 50/50)
 	const eventRoll = Math.random();
+	const avoidBadEvent = state.companyId === 'us' || state.companyId === 'cn';
 	const badEvents = [
 		'供应链中断，追加支出 -5 亿',
 		'关键设备故障，维修费用 -5 亿',
@@ -243,7 +264,7 @@ function settleOneYear() {
 			'印度联盟：新一代推进器测试通过，可靠性提升'
 		]
 	};
-	if (eventRoll < 0.5) {
+	if (!avoidBadEvent && eventRoll < 0.5) {
 		// bad event
 		const loss = 5;
 		state.money -= loss;
@@ -288,9 +309,9 @@ function settleOneYear() {
 
 	// Opening new routes now requires the build progress bar to be full (player clicks to build).
 	// Check and auto-complete only if buildProgress has reached 100.
-	const threshold = state.nextRouteCost * investThresholdMult;
-	if (state.buildProgress >= 100 && state.money > threshold && state.routes < allRoutes.length) {
-		state.money -= state.nextRouteCost;
+	if (state.buildProgress >= 100 && state.routes < allRoutes.length) {
+		const prevRoutes = state.routes;
+		state.money = Math.max(0, state.money - state.nextRouteCost);
 		state.routes += 1;
 		state.buildProgress = 0; // reset progress after successful opening
 		syncStageByRoutes();
@@ -299,8 +320,7 @@ function settleOneYear() {
 		showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
 		addMoonPoint();
 			addNews('公司投资开通了第 ' + state.routes + ' 条航线');
-			// show reward modal (photo + philosophical text)
-			try { showRewardModal(); } catch (e) { console.error('reward modal error', e); }
+			try { showRouteLevelReward(prevRoutes, state.routes); } catch (e) { console.error('reward modal error', e); }
 	}
 
 	// record history for this year
@@ -316,6 +336,7 @@ function settleOneYear() {
 document.addEventListener('DOMContentLoaded', () => {
 	const btn = document.getElementById('next-year');
 	if (btn) btn.addEventListener('click', () => {
+		triggerMiningFx();
 		syncStageByRoutes();
 		advanceExploration(state.viewStage);
 		// On next-year click also advance build progress (instead of clicking the bar)
@@ -326,26 +347,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		try { updateBuildUI(); } catch (e) {}
 		// if progress is full, open the route immediately (guaranteed on full progress)
 		if (state.buildProgress >= 100) {
-			const threshold = state.nextRouteCost;
 			if (state.routes < allRoutes.length) {
-				if (state.money > threshold) {
-					state.money -= state.nextRouteCost;
-					state.routes += 1;
-					state.buildProgress = 0;
-					syncStageByRoutes();
-					const newIndex = state.routes - 1;
-					highlightedRoutes[newIndex] = Date.now();
-					addMoonPoint();
-					addNews('通过建设完成并开通了第 ' + state.routes + ' 条航线');
-					showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
-					try { showRewardModal(); } catch (e) { console.error('reward modal error', e); }
-					updateBottomPanel();
-					updateHistoryDisplay();
-					updateBuildUI();
-				} else {
-					const lack = Math.max(0, (state.nextRouteCost - state.money));
-					showNewRouteToast('资金不足，缺少 ' + formatMoney(lack));
-				}
+				const prevRoutes = state.routes;
+				state.money = Math.max(0, state.money - state.nextRouteCost);
+				state.routes += 1;
+				state.buildProgress = 0;
+				syncStageByRoutes();
+				const newIndex = state.routes - 1;
+				highlightedRoutes[newIndex] = Date.now();
+				addMoonPoint();
+				addNews('通过建设完成并开通了第 ' + state.routes + ' 条航线');
+				showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
+				try { showRouteLevelReward(prevRoutes, state.routes); } catch (e) { console.error('reward modal error', e); }
+				updateBottomPanel();
+				updateHistoryDisplay();
+				updateBuildUI();
 			} else {
 				showNewRouteToast('当前没有可开通的航线');
 			}
@@ -366,47 +382,58 @@ document.addEventListener('DOMContentLoaded', () => {
 			try {
 				if (ev && ev.preventDefault) ev.preventDefault();
 				console.log('buildBar clicked — before:', state.buildProgress);
-				// increment per click; robots slightly speed up construction
-				const baseInc = state.buildRateBase || 12;
-				const robotBonus = Math.floor(state.robots / 100000); // +1% per 100k robots
-				const inc = baseInc + robotBonus;
+				// increment per click; US fills in 1 click, CN fills in 2 clicks
+				const inc = getBuildClickIncrement();
 				state.buildProgress = Math.min(100, state.buildProgress + inc);
 				updateBuildUI();
 				console.log('buildBar clicked — after:', state.buildProgress);
 				if (state.buildProgress >= 100) {
 					// try to open route immediately
-					const threshold = state.nextRouteCost;
 					if (state.routes >= allRoutes.length) {
 						showNewRouteToast('当前没有可开通的航线');
 						return;
 					}
-					if (state.money > threshold) {
-						state.money -= state.nextRouteCost;
-						state.routes += 1;
-						state.buildProgress = 0;
-						syncStageByRoutes();
-						const newIndex = state.routes - 1;
-						highlightedRoutes[newIndex] = Date.now();
-						addMoonPoint();
-						addNews('通过建设完成并开通了第 ' + state.routes + ' 条航线');
-						showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
-						// show reward modal (photo + philosophical text)
-						try { showRewardModal(); } catch (e) { console.error('reward modal error', e); }
-						updateBottomPanel();
-						updateHistoryDisplay();
-						updateBuildUI();
-					} else {
-						const lack = Math.max(0, (state.nextRouteCost - state.money));
-						showNewRouteToast('资金不足，缺少 ' + formatMoney(lack));
-					}
+					const prevRoutes = state.routes;
+					state.money = Math.max(0, state.money - state.nextRouteCost);
+					state.routes += 1;
+					state.buildProgress = 0;
+					syncStageByRoutes();
+					const newIndex = state.routes - 1;
+					highlightedRoutes[newIndex] = Date.now();
+					addMoonPoint();
+					addNews('通过建设完成并开通了第 ' + state.routes + ' 条航线');
+					showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
+					try { showRouteLevelReward(prevRoutes, state.routes); } catch (e) { console.error('reward modal error', e); }
+					updateBottomPanel();
+					updateHistoryDisplay();
+					updateBuildUI();
 				}
 			} catch (e) { console.error('build handler error', e); }
 		};
-		// disable direct clicks on the build bar — progress advances via "进入下一年" button
-		try { buildBar.style.pointerEvents = 'none'; buildBar.title = '通过 点击“进入下一年” 来推进建设'; } catch (e) {}
+		buildBar.addEventListener('click', doBuildClick);
+		buildBar.addEventListener('touchstart', doBuildClick, { passive: false });
 	} else {
 		console.warn('buildBar not found on DOMContentLoaded');
 	}
+
+	const techBtn = document.getElementById('tech-btn');
+	const techModal = document.getElementById('techModal');
+	const techClose = document.getElementById('techClose');
+	const techCards = document.querySelectorAll('.tech-card');
+	if (techBtn) techBtn.addEventListener('click', openTechModal);
+	if (techClose) techClose.addEventListener('click', closeTechModal);
+	if (techModal) {
+		techModal.addEventListener('click', (event) => {
+			if (event.target === techModal) closeTechModal();
+		});
+	}
+	techCards.forEach((card) => {
+		card.addEventListener('click', () => {
+			const techId = card.getAttribute('data-tech');
+			applyTechChoice(techId);
+			closeTechModal();
+		});
+	});
 
 	// initialize build UI immediately so progress text/width are correct
 	updateBuildUI();
@@ -543,6 +570,93 @@ function showNewRouteToast(text) {
 	}, 2200);
 }
 
+function getRouteLevel(routeCount) {
+	if (routeCount >= 19) return 3;
+	if (routeCount >= 15) return 2;
+	return 1;
+}
+
+function showRouteLevelReward(prevRoutes, newRoutes) {
+	if (prevRoutes < 20 && newRoutes >= 20) {
+		const victoryText = [
+			'文明排行榜',
+			'1. 美国 — 占银河系95%',
+			'2. 中国 — 占银河系5%，已飞出银河系',
+			'3. 德国 — 占银河系0.01%',
+			'',
+			'哲学：在浩瀚中前行，文明的尺度不在疆界，而在想象。'
+		].join('<br>');
+		showRewardModal('通关结算', victoryText, 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&fit=crop');
+		return;
+	}
+	const prevLevel = getRouteLevel(prevRoutes);
+	const newLevel = getRouteLevel(newRoutes);
+	if (newLevel > prevLevel) {
+		showRewardModal(`航线等级提升：Lv${newLevel}`);
+	}
+}
+
+function tryOpenRouteFromProgress() {
+	if (state.buildProgress < 100) return;
+	if (state.routes >= allRoutes.length) {
+		showNewRouteToast('当前没有可开通的航线');
+		return;
+	}
+	const prevRoutes = state.routes;
+	state.money = Math.max(0, state.money - state.nextRouteCost);
+	state.routes += 1;
+	state.buildProgress = 0;
+	syncStageByRoutes();
+	const newIndex = state.routes - 1;
+	highlightedRoutes[newIndex] = Date.now();
+	addMoonPoint();
+	addNews('通过建设完成并开通了第 ' + state.routes + ' 条航线');
+	showNewRouteToast(`新航线已开通：第 ${state.routes} 条`);
+	try { showRouteLevelReward(prevRoutes, state.routes); } catch (e) { console.error('reward modal error', e); }
+	updateBottomPanel();
+	updateHistoryDisplay();
+	updateBuildUI();
+}
+
+function openTechModal() {
+	const modal = document.getElementById('techModal');
+	if (!modal) return;
+	modal.classList.add('active');
+	modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeTechModal() {
+	const modal = document.getElementById('techModal');
+	if (!modal) return;
+	modal.classList.remove('active');
+	modal.setAttribute('aria-hidden', 'true');
+}
+
+function applyTechChoice(techId) {
+	switch (techId) {
+		case 'core-mining':
+			state.buildProgress = Math.min(100, state.buildProgress + 30);
+			updateBuildUI();
+			tryOpenRouteFromProgress();
+			showNewRouteToast('地心采矿：建设进度 +30%');
+			break;
+		case 'mind-backup':
+			state.techFlags = state.techFlags || {};
+			state.techFlags.mindBackup = true;
+			addNews('意识备份实验启动，永生线已开启');
+			showNewRouteToast('意识备份实验启动');
+			break;
+		case 'orbital-materials':
+			state.incomePerRoute += 1;
+			addNews('轨道材料实验完成，单航线收入提升');
+			showNewRouteToast('单航线收入 +1');
+			break;
+		default:
+			showNewRouteToast('研发任务已记录');
+			break;
+	}
+}
+
 // reward modal logic: show a space photo and a short philosophical text
 const rewards = [
 	{ img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&fit=crop', text: '从地心仰望，世界的边界变得模糊；人在宇宙中是短暂的见证者，却也承载着无限的想象。' },
@@ -556,17 +670,19 @@ const rewards = [
 	{ img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&fit=crop', text: '当世界沉睡，只有星光与志向继续前行。' }
 ];
 
-function showRewardModal() {
+function showRewardModal(titleText, customText, customImage) {
 	const modal = document.getElementById('rewardModal');
 	const imgEl = document.getElementById('rewardImage');
 	const textEl = document.getElementById('rewardText');
 	const closeBtn = document.getElementById('rewardClose');
 	const actionBtn = document.getElementById('rewardAction');
+	const titleEl = modal ? modal.querySelector('.reward-title') : null;
 	if (!modal || !imgEl || !textEl) return;
 	if (modal.classList && modal.classList.contains('active')) return; // already shown
 	const r = rewards[Math.floor(Math.random() * rewards.length)];
-	imgEl.src = r.img + '&auto=format&fit=crop&q=80';
-	textEl.textContent = r.text;
+	if (titleEl) titleEl.textContent = titleText || '航线等级提升';
+	imgEl.src = (customImage || r.img) + '&auto=format&fit=crop&q=80';
+	textEl.innerHTML = customText || r.text;
 	modal.classList.add('active');
 	modal.setAttribute('aria-hidden', 'false');
 
@@ -796,7 +912,87 @@ function drawPlanet(x, y, radius, mainColor, glowColor) {
 	ctx.fill();
 }
 
-function drawEarthAndMoon() {
+function drawMiningDrone(moonX, moonY, moonR, now) {
+	const hover = Math.sin(now / 520) * 2;
+	const droneX = moonX + moonR * 0.18;
+	const droneY = moonY - moonR * 1.55 + hover;
+	const bodyR = Math.max(5, moonR * 0.22);
+	const fxTime = now - miningFx.start;
+
+	if (miningFx.active && fxTime >= miningFx.duration) {
+		miningFx.active = false;
+	}
+
+	ctx.save();
+	ctx.translate(droneX, droneY);
+	ctx.fillStyle = 'rgba(190,235,255,0.95)';
+	ctx.beginPath();
+	ctx.arc(0, 0, bodyR, 0, Math.PI * 2);
+	ctx.fill();
+
+	ctx.fillStyle = 'rgba(90,170,255,0.95)';
+	ctx.fillRect(-bodyR - 6, -2, 6, 4);
+	ctx.fillRect(bodyR, -2, 6, 4);
+
+	ctx.fillStyle = 'rgba(15,40,80,0.9)';
+	ctx.beginPath();
+	ctx.arc(0, 0, bodyR * 0.45, 0, Math.PI * 2);
+	ctx.fill();
+
+	ctx.strokeStyle = 'rgba(180,230,255,0.9)';
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.moveTo(0, -bodyR * 0.9);
+	ctx.lineTo(0, -bodyR * 1.5);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(0, -bodyR * 1.65, 1.5, 0, Math.PI * 2);
+	ctx.fillStyle = 'rgba(210,255,240,0.95)';
+	ctx.fill();
+	ctx.restore();
+
+	if (miningFx.active && fxTime < miningFx.flameDuration) {
+		const pulse = 0.6 + 0.4 * Math.sin(fxTime / 70);
+		const flameLen = bodyR * (1.6 + 0.6 * Math.sin(fxTime / 55));
+		const flameX = droneX;
+		const flameY = droneY + bodyR * 0.9;
+		const grad = ctx.createLinearGradient(flameX, flameY, flameX, flameY + flameLen);
+		grad.addColorStop(0, `rgba(255,220,120,${0.9 * pulse})`);
+		grad.addColorStop(1, 'rgba(255,90,20,0)');
+		ctx.fillStyle = grad;
+		ctx.beginPath();
+		ctx.moveTo(flameX - bodyR * 0.35, flameY);
+		ctx.lineTo(flameX, flameY + flameLen);
+		ctx.lineTo(flameX + bodyR * 0.35, flameY);
+		ctx.closePath();
+		ctx.fill();
+	}
+
+	if (miningFx.active && fxTime < miningFx.duration) {
+		const beamPulse = 0.55 + 0.45 * Math.sin(fxTime / 80);
+		const beamWidth = 5 + 2 * Math.sin(fxTime / 60);
+		const beamStartX = droneX;
+		const beamStartY = droneY + bodyR * 0.7;
+		const beamEndX = moonX + moonR * 0.08;
+		const beamEndY = moonY + moonR * 0.35;
+		const beamGrad = ctx.createLinearGradient(beamStartX, beamStartY, beamEndX, beamEndY);
+		beamGrad.addColorStop(0, `rgba(140,255,220,${0.85 * beamPulse})`);
+		beamGrad.addColorStop(1, 'rgba(40,120,255,0)');
+		ctx.strokeStyle = beamGrad;
+		ctx.lineWidth = beamWidth;
+		ctx.beginPath();
+		ctx.moveTo(beamStartX, beamStartY);
+		ctx.lineTo(beamEndX, beamEndY);
+		ctx.stroke();
+
+		ctx.fillStyle = `rgba(170,255,235,${0.5 * beamPulse})`;
+		ctx.beginPath();
+		ctx.arc(beamEndX, beamEndY, 4 + 1.6 * Math.sin(fxTime / 45), 0, Math.PI * 2);
+		ctx.fill();
+	}
+}
+
+function drawEarthAndMoon(now) {
 	const earthX = cssWidth * 0.2;
 	const earthY = cssHeight * 0.6;
 	const earthR = 120; // doubled previously, now 1.5x again -> 120
@@ -814,6 +1010,8 @@ function drawEarthAndMoon() {
 	} else {
 		drawPlanet(moonX, moonY, moonR, '#cccccc', 'rgba(255,255,255,0.06)');
 	}
+
+	drawMiningDrone(moonX, moonY, moonR, now);
 
 	ctx.setLineDash([5, 5]);
 	ctx.strokeStyle = 'rgba(255,255,255,0.25)';
@@ -959,14 +1157,14 @@ function drawEarthAndMoon() {
 	}
 
 	// draw only the active routes (first state.routes entries)
-	const now = Date.now();
+	const highlightNow = Date.now();
 	allRoutes.slice(0, state.routes).forEach((rt, idx) => {
 		// compute base alpha and optionally pulse if recently opened
 		let baseAlpha = 0.22;
 		let lineW = 1;
 		const startTs = highlightedRoutes[idx];
 		if (startTs) {
-			const elapsed = now - startTs;
+			const elapsed = highlightNow - startTs;
 			if (elapsed < 2000) {
 				const t = elapsed / 2000;
 				baseAlpha = 0.6 + 0.4 * Math.abs(Math.sin(t * Math.PI * 2));
@@ -1004,8 +1202,8 @@ function drawNodeList(list, count, color) {
 	}
 }
 
-function drawEarthMoonView() {
-	return drawEarthAndMoon();
+function drawEarthMoonView(now) {
+	return drawEarthAndMoon(now);
 }
 
 function drawSolarSystemView() {
@@ -1064,9 +1262,9 @@ function drawGalaxyView() {
 }
 
 function syncStageByRoutes() {
-	if (state.routes >= 8) {
+	if (state.routes >= 19) {
 		state.viewStage = 'galaxy';
-	} else if (state.routes >= 5) {
+	} else if (state.routes >= 15) {
 		state.viewStage = 'solar_system';
 	} else {
 		state.viewStage = 'earth_moon';
@@ -1244,6 +1442,7 @@ function drawShip() {
 }
 
 function animate() {
+	const now = performance.now();
 	updateStars();
 	drawStars();
 	let pos;
@@ -1252,7 +1451,7 @@ function animate() {
 	} else if (state.viewStage === 'solar_system') {
 		pos = drawSolarSystemView();
 	} else {
-		pos = drawEarthMoonView();
+		pos = drawEarthMoonView(now);
 	}
 	// update and draw ships moving along precomputed routes
 	function quadPoint(p0, cp, p2, t) {
