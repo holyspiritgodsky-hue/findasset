@@ -4,7 +4,7 @@ const mapCanvas = document.getElementById("mapCanvas");
 const miniCanvas = document.getElementById("miniCanvas");
 const hoverTip = document.getElementById("hoverTip");
 
-if (!mapCanvas) {
+if (!mapCanvas || typeof mapCanvas.getContext !== "function") {
   return;
 }
 
@@ -406,8 +406,6 @@ mapCanvas.addEventListener("mouseleave", () => {
   hoverTip.style.opacity = "0";
 });
 
-})();
-
 mapCanvas.addEventListener("click", event => {
   if (moonPortIndex === -1) return;
   const rect = mapCanvas.getBoundingClientRect();
@@ -440,5 +438,6 @@ mapCanvas.addEventListener("click", event => {
       }
     }
   }
-
 });
+
+})();
