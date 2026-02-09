@@ -17,6 +17,7 @@
         <div id="yearControls" style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(6,14,26,0.72);color:#e9f3ff;border:1px solid rgba(125,227,255,0.2);padding:8px 12px;border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,0.35);z-index:6;">
           <div style="font-size:13px">年份：<span id="year"></span></div>
           <button id="next-year" style="padding:6px 10px;border-radius:6px;border:none;background:#0ea5a4;color:#001;cursor:pointer;">进入下一年</button>
+          <button id="tech-btn" class="tech-btn">科技研发</button>
         </div>
       </section>
     </main>
@@ -42,6 +43,28 @@
           <div class="reward-text" id="rewardText">这里将显示一段哲学文字，用以激励你继续拓展航线与想象。</div>
           <div style="text-align:center;margin-top:6px">
             <button id="rewardAction" class="reward-action">继续</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="techModal" class="tech-modal" role="dialog" aria-hidden="true">
+        <div class="tech-dialog" role="document">
+          <button id="techClose" class="tech-close" aria-label="关闭">✕</button>
+          <div class="tech-title">科技研发</div>
+          <div class="tech-subtitle">选择一项科技推进</div>
+          <div class="tech-grid">
+            <button class="tech-card" data-tech="core-mining">
+              <div class="tech-name">地心采矿</div>
+              <div class="tech-desc">进度条增长 +30%</div>
+            </button>
+            <button class="tech-card" data-tech="mind-backup">
+              <div class="tech-name">开启意识备份实验</div>
+              <div class="tech-desc">通往永生线</div>
+            </button>
+            <button class="tech-card" data-tech="orbital-materials">
+              <div class="tech-name">轨道材料实验</div>
+              <div class="tech-desc">单航线收入 +1</div>
+            </button>
           </div>
         </div>
       </div>
