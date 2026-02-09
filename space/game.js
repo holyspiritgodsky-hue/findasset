@@ -4,6 +4,10 @@ const mapCanvas = document.getElementById("mapCanvas");
 const miniCanvas = document.getElementById("miniCanvas");
 const hoverTip = document.getElementById("hoverTip");
 
+if (!mapCanvas) {
+  return;
+}
+
 const moneyEl = document.getElementById("money");
 const timeEl = document.getElementById("time");
 const routesEl = document.getElementById("routes");
@@ -376,7 +380,7 @@ if (btnFinance) {
     updateMoneyDisplay();
   });
 }
-
+ 
 if (btnNextMonth) {
   btnNextMonth.addEventListener("click", () => {
     advanceTurn();
