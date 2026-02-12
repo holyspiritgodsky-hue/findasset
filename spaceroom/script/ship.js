@@ -165,7 +165,7 @@ var Ship = {
 	},
 	
 	liftOff: function () {
-		$('#outerSlider').animate({top: '700px'}, 300);
+		$('#outerSlider').animate({top: Engine.getPanelHeight() + 'px'}, 300);
 		Space.onArrival();
 		Engine.activeModule = Space;
 		AudioEngine.playSound(AudioLibrary.LIFT_OFF);
