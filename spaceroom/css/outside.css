@@ -61,6 +61,11 @@ div.storeRow div.tooltip {
 }
 
 @media (max-width: 900px) {
+	div#outsidePanel {
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
 	div#village {
 		position: relative;
 		top: auto;
