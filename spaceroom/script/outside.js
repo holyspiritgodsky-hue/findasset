@@ -172,6 +172,23 @@ var Outside = {
 		}).appendTo('div#outsidePanel');
 
 		Outside.updateTrapButton();
+		Outside.repositionWorkersPanel();
+	},
+
+	repositionWorkersPanel: function() {
+		var workers = $('div#workers');
+		if(!workers.length) {
+			return;
+		}
+
+		var anchor = $('div#trapsButton');
+		if(anchor.length === 0) {
+			anchor = $('div#gatherButton');
+		}
+
+		if(anchor.length > 0) {
+			workers.insertAfter(anchor.last());
+		}
 	},
 	
 	getMaxPopulation: function() {
@@ -330,6 +347,8 @@ var Outside = {
 		if(needsAppend && workers.children().length > 0) {
 			workers.appendTo('#outsidePanel').animate({opacity:1}, 300, 'linear');
 		}
+
+		Outside.repositionWorkersPanel();
 	},
 	
 	getNumGatherers: function() {
@@ -547,10 +566,12 @@ var Outside = {
 			} else {
 				Button.setDisabled(btn, false);
 			}
+			Outside.repositionWorkersPanel();
 		} else {
 			if(btn.length > 0) {
 				Button.setDisabled(btn, true);
 			}
+			Outside.repositionWorkersPanel();
 		}
 	},
 	
