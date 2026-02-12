@@ -117,13 +117,9 @@
 	function draw(now) {
 		ctx.clearRect(0, 0, width, height);
 
-		if (width < 760) {
-			return;
-		}
-
-		var moonX = width * 0.9;
-		var moonY = height * 0.34;
-		var moonR = Math.min(width, height) * 0.045;
+		var moonX = width * 0.5;
+		var moonY = height * 0.72;
+		var moonR = Math.min(width, height) * 0.09;
 
 		if (moonImg.complete && moonImg.naturalWidth > 0) {
 			ctx.save();
