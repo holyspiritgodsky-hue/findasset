@@ -211,7 +211,6 @@ var Outside = {
 			if(trapsBtn.length) {
 				targetWidth = Math.max(targetWidth, trapsBtn.outerWidth());
 			}
-			targetWidth += 36;
 			if(targetWidth > 0) {
 				workers.css('width', targetWidth + 'px');
 			}
