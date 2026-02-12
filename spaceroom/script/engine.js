@@ -78,6 +78,8 @@
       doubleTime: false
     },
 
+    _audioInitialized: false,
+
     init: function(options) {
       this.options = $.extend(
         this.options,
@@ -199,24 +201,9 @@
       $.Dispatch('stateUpdate').subscribe(Engine.handleStateUpdates);
 
       $SM.init();
-      AudioEngine.init();
       Notifications.init();
       Events.init();
       Room.init();
-
-
-      if(typeof $SM.get('stores.wood') != 'undefined') {
-        Outside.init();
-      }
-      if($SM.get('stores.compass', true) > 0) {
-        Path.init();
-      }
-      if ($SM.get('features.location.fabricator')) {
-        Fabricator.init();
-      }
-      if($SM.get('features.location.spaceShip')) {
-        Ship.init();
-      }
 
       Engine.turnLightsOff();
 
@@ -224,18 +211,75 @@
         Engine.triggerHyperMode();
       }
 
-      Engine.toggleVolume(Boolean($SM.get('config.soundOn')));
-      if(!AudioEngine.isAudioContextRunning()){
-        document.addEventListener('click', Engine.resumeAudioContext, true);
-      }
-      
       Engine.saveLanguage();
       Engine.travelTo(Room);
 
-      setTimeout(notifyAboutSound, 3000);
+      Engine.initDeferredSystems();
 
     },
+    initDeferredSystems: function() {
+      setTimeout(function() {
+        if(typeof $SM.get('stores.wood') != 'undefined') {
+          Outside.init();
+        }
+        if($SM.get('stores.compass', true) > 0) {
+          Path.init();
+        }
+        if ($SM.get('features.location.fabricator')) {
+          Fabricator.init();
+        }
+        if($SM.get('features.location.spaceShip')) {
+          Ship.init();
+        }
+
+        if(Engine.isMobile()) {
+          $SM.set('config.soundOn', false);
+          $('.volume').text(_('sound on.'));
+          Engine.enableAudioOnFirstInteraction();
+        } else {
+          Engine.initAudioIfNeeded();
+          Engine.toggleVolume(Boolean($SM.get('config.soundOn')));
+          if(!AudioEngine.isAudioContextRunning()){
+            document.addEventListener('click', Engine.resumeAudioContext, true);
+          }
+          setTimeout(notifyAboutSound, 3000);
+        }
+      }, 0);
+    },
+    initAudioIfNeeded: function() {
+      if(Engine._audioInitialized) {
+        return;
+      }
+      AudioEngine.init();
+      Engine._audioInitialized = true;
+    },
+    enableAudioOnFirstInteraction: function() {
+      if(Engine._audioInitHandlerBound) {
+        return;
+      }
+
+      var bootAudio = function() {
+        Engine.initAudioIfNeeded();
+        if($SM.get('config.soundOn')) {
+          AudioEngine.setMasterVolume(1.0);
+        } else {
+          AudioEngine.setMasterVolume(0.0);
+        }
+        AudioEngine.tryResumingAudioContext();
+
+        document.removeEventListener('click', bootAudio, true);
+        document.removeEventListener('touchstart', bootAudio, true);
+        document.removeEventListener('keydown', bootAudio, true);
+        Engine._audioInitHandlerBound = false;
+      };
+
+      Engine._audioInitHandlerBound = true;
+      document.addEventListener('click', bootAudio, true);
+      document.addEventListener('touchstart', bootAudio, true);
+      document.addEventListener('keydown', bootAudio, true);
+    },
     resumeAudioContext: function () {
+      Engine.initAudioIfNeeded();
       AudioEngine.tryResumingAudioContext();
       
       // turn on music!
@@ -800,8 +844,11 @@
       if (!enabled) {
         $('.volume').text(_('sound on.'));
         $SM.set('config.soundOn', false);
-        AudioEngine.setMasterVolume(0.0);
+        if(Engine._audioInitialized) {
+          AudioEngine.setMasterVolume(0.0);
+        }
       } else {
+        Engine.initAudioIfNeeded();
         $('.volume').text(_('sound off.'));
         $SM.set('config.soundOn', true);
         AudioEngine.setMasterVolume(1.0);
