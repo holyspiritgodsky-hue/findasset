@@ -10,7 +10,11 @@
 	}
 
 	var moonImg = new Image();
-	moonImg.src = 'img/moon.jpg';
+	moonImg.onerror = function () {
+		moonImg.onerror = null;
+		moonImg.src = 'img/moon.jpg';
+	};
+	moonImg.src = 'img/moon.png';
 
 	var width = 0;
 	var height = 0;
@@ -123,7 +127,10 @@
 
 		if (moonImg.complete && moonImg.naturalWidth > 0) {
 			ctx.save();
-			ctx.globalAlpha = 0.75;
+			ctx.globalAlpha = 0.85;
+			ctx.beginPath();
+			ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+			ctx.clip();
 			ctx.drawImage(moonImg, moonX - moonR, moonY - moonR, moonR * 2, moonR * 2);
 			ctx.restore();
 		} else {
