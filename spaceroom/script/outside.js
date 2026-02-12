@@ -172,49 +172,6 @@ var Outside = {
 		}).appendTo('div#outsidePanel');
 
 		Outside.updateTrapButton();
-		Outside.repositionWorkersPanel();
-	},
-
-	repositionWorkersPanel: function() {
-		var gatherBtn = $('div#gatherButton');
-		var trapsBtn = $('div#trapsButton');
-		var village = $('div#village');
-		var isMobile = Engine.isMobile && Engine.isMobile();
-		var workers = $('div#workers');
-
-		if(isMobile) {
-			if(village.length && gatherBtn.length) {
-				gatherBtn.insertBefore(village);
-			}
-			if(gatherBtn.length && trapsBtn.length) {
-				trapsBtn.insertAfter(gatherBtn);
-			}
-			var mobileAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
-			if(mobileAnchor.length && workers.length) {
-				workers.insertAfter(mobileAnchor.last());
-			}
-		} else {
-			var anchor = trapsBtn.length ? trapsBtn : gatherBtn;
-
-			if(anchor.length > 0 && workers.length) {
-				workers.insertAfter(anchor.last());
-			}
-		}
-
-		if(!workers.length) {
-			return;
-		}
-
-		var widthAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
-		if(widthAnchor.length > 0) {
-			var targetWidth = gatherBtn.length ? gatherBtn.outerWidth() : widthAnchor.outerWidth();
-			if(trapsBtn.length) {
-				targetWidth = Math.max(targetWidth, trapsBtn.outerWidth());
-			}
-			if(targetWidth > 0) {
-				workers.css('width', targetWidth + 'px');
-			}
-		}
 	},
 	
 	getMaxPopulation: function() {
@@ -373,8 +330,6 @@ var Outside = {
 		if(needsAppend && workers.children().length > 0) {
 			workers.appendTo('#outsidePanel').animate({opacity:1}, 300, 'linear');
 		}
-
-		Outside.repositionWorkersPanel();
 	},
 	
 	getNumGatherers: function() {
@@ -592,12 +547,10 @@ var Outside = {
 			} else {
 				Button.setDisabled(btn, false);
 			}
-			Outside.repositionWorkersPanel();
 		} else {
 			if(btn.length > 0) {
 				Button.setDisabled(btn, true);
 			}
-			Outside.repositionWorkersPanel();
 		}
 	},
 	
