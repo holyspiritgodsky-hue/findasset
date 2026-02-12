@@ -16,19 +16,14 @@
 	<meta itemprop="name" property="og:title" content="A Dark Room" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="image_src" href="img/adr.png" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script>
-		if(!window.jQuery) {
-			document.write('<script src="lib/jquery.min.js"><\/script>')
-		}
-	</script>
-	<script src="lib/jquery.color-2.1.2.min.js"></script>
-	<script src="lib/jquery.event.move.js"></script>
-	<script src="lib/jquery.event.swipe.js"></script>
-	<script src="lib/base64.js"></script>
+	<script src="lib/jquery.min.js" defer></script>
+	<script src="lib/jquery.color-2.1.2.min.js" defer></script>
+	<script src="lib/jquery.event.move.js" defer></script>
+	<script src="lib/jquery.event.swipe.js" defer></script>
+	<script src="lib/base64.js" defer></script>
 	<script src="lib/translate.js?v=20260213"></script>
 	
-	<script src="lang/langs.js"></script>
+	<script src="lang/langs.js" defer></script>
 	
 	<script>
 		var defaultLang = 'zh_cn';
@@ -44,33 +39,31 @@
 			document.write('<link rel="stylesheet" type="text/css" href="lang/'+lang+'/main.css" \/>');
 		}
 	</script>
-	<script src="script/space_zh_override.js?v=20260213"></script>
+	<script src="script/space_zh_override.js?v=20260213" defer></script>
 	
-	<script src="script/Button.js"></script>
-	<script src="script/audioLibrary.js"></script>
-	<script src="script/audio.js"></script>
-	<script src="script/engine.js"></script>
-	<script src="script/state_manager.js"></script>
-	<script src="script/header.js"></script>
-	<script src="script/notifications.js"></script>
-	<script src="script/events.js"></script>
-	<script src="script/room.js"></script>
-	<script src="script/outside.js"></script>
-	<script src="script/world.js"></script>
-	<script src="script/path.js"></script>
-	<script src="script/ship.js"></script>
-  <script src="script/space.js"></script>
-  <script src="script/fabricator.js"></script>
-	<script src="script/prestige.js"></script>
-	<script src="script/scoring.js"></script>
+	<script src="script/Button.js" defer></script>
+	<script src="script/audioLibrary.js" defer></script>
+	<script src="script/audio.js" defer></script>
+	<script src="script/engine.js" defer></script>
+	<script src="script/state_manager.js" defer></script>
+	<script src="script/header.js" defer></script>
+	<script src="script/notifications.js" defer></script>
+	<script src="script/events.js" defer></script>
+	<script src="script/room.js" defer></script>
+	<script src="script/outside.js" defer></script>
+	<script src="script/world.js" defer></script>
+	<script src="script/path.js" defer></script>
+	<script src="script/ship.js" defer></script>
+  <script src="script/space.js" defer></script>
+  <script src="script/fabricator.js" defer></script>
+	<script src="script/prestige.js" defer></script>
+	<script src="script/scoring.js" defer></script>
 	<!-- Event modules -->
-	<script src="script/events/global.js"></script>
-	<script src="script/events/room.js"></script>
-	<script src="script/events/outside.js"></script>
-	<script src="script/events/encounters.js"></script>
-  <script src="script/events/setpieces.js"></script>
-  <script src="script/events/marketing.js"></script>
-	<script src="script/events/executioner.js"></script>
+	<script src="script/events/global.js" defer></script>
+	<script src="script/events/room.js" defer></script>
+	<script src="script/events/outside.js" defer></script>
+	<script src="script/events/encounters.js" defer></script>
+  <script src="script/events/marketing.js" defer></script>
 	
 	<script type='text/javascript'>
 		var oldIE = false;
@@ -88,16 +81,8 @@
   <link rel="stylesheet" type="text/css" href="css/space.css" />
   <link rel="stylesheet" type="text/css" href="css/fabricator.css" />
 	
-	<script src="script/localization.js"></script>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-606P6J79WH"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'G-606P6J79WH');
-	</script>
+	<script src="script/localization.js" defer></script>
+	<!-- analytics disabled for faster mobile startup -->
 	
 </head>
 <body>
@@ -113,7 +98,34 @@
 			</div>
 		</div>
   </div>
-	<script src="script/star_bg.js?v=20260213"></script>
-	<script src="script/earth_moon_overlay.js?v=20260213"></script>
+	<script>
+		var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+
+		function loadDeferredEventScripts() {
+			var deferredScripts = [
+				'script/events/setpieces.js',
+				'script/events/executioner.js'
+			];
+			for (var i = 0; i < deferredScripts.length; i++) {
+				var script = document.createElement('script');
+				script.src = deferredScripts[i];
+				script.defer = true;
+				document.body.appendChild(script);
+			}
+		}
+
+		if (document.readyState === 'complete') {
+			setTimeout(loadDeferredEventScripts, isMobileDevice ? 1200 : 400);
+		} else {
+			window.addEventListener('load', function() {
+				setTimeout(loadDeferredEventScripts, isMobileDevice ? 1200 : 400);
+			});
+		}
+
+		if (!isMobileDevice) {
+			document.write('<script src="script/star_bg.js?v=20260213"><\/script>');
+			document.write('<script src="script/earth_moon_overlay.js?v=20260213"><\/script>');
+		}
+	</script>
 </body>
 </html>
