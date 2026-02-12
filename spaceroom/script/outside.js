@@ -176,15 +176,11 @@ var Outside = {
 	},
 
 	repositionWorkersPanel: function() {
-		var workers = $('div#workers');
-		if(!workers.length) {
-			return;
-		}
-
 		var gatherBtn = $('div#gatherButton');
 		var trapsBtn = $('div#trapsButton');
 		var village = $('div#village');
 		var isMobile = Engine.isMobile && Engine.isMobile();
+		var workers = $('div#workers');
 
 		if(isMobile) {
 			if(village.length && gatherBtn.length) {
@@ -194,15 +190,19 @@ var Outside = {
 				trapsBtn.insertAfter(gatherBtn);
 			}
 			var mobileAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
-			if(mobileAnchor.length) {
+			if(mobileAnchor.length && workers.length) {
 				workers.insertAfter(mobileAnchor.last());
 			}
 		} else {
 			var anchor = trapsBtn.length ? trapsBtn : gatherBtn;
 
-			if(anchor.length > 0) {
+			if(anchor.length > 0 && workers.length) {
 				workers.insertAfter(anchor.last());
 			}
+		}
+
+		if(!workers.length) {
+			return;
 		}
 
 		var widthAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
