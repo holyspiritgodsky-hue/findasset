@@ -113,7 +113,7 @@ var Space = {
 		else
 			c = 'H';
 		
-		var x = Math.floor(Math.random() * 700);
+		var x = Math.floor(Math.random() * Engine.getPanelWidth());
 		var a = $('<div>').addClass('asteroid').text(c).appendTo('#spacePanel').css('left', x + 'px');
 		a.data({
 			xMin: x,
@@ -121,7 +121,7 @@ var Space = {
 			height: a.height()
 		});
 		a.animate({
-			top: '740px'
+			top: (Engine.getPanelHeight() + 40) + 'px'
 		}, {
 			duration: Space.BASE_ASTEROID_SPEED - Math.floor(Math.random() * (Space.BASE_ASTEROID_SPEED * 0.65)),
 			easing: 'linear', 
