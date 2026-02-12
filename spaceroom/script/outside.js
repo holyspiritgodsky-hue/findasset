@@ -181,13 +181,19 @@ var Outside = {
 			return;
 		}
 
-		var anchor = $('div#trapsButton');
-		if(anchor.length === 0) {
-			anchor = $('div#gatherButton');
-		}
+		var gatherBtn = $('div#gatherButton');
+		var trapsBtn = $('div#trapsButton');
+		var anchor = trapsBtn.length ? trapsBtn : gatherBtn;
 
 		if(anchor.length > 0) {
 			workers.insertAfter(anchor.last());
+			var targetWidth = gatherBtn.length ? gatherBtn.outerWidth() : anchor.outerWidth();
+			if(trapsBtn.length) {
+				targetWidth = Math.max(targetWidth, trapsBtn.outerWidth());
+			}
+			if(targetWidth > 0) {
+				workers.css('width', targetWidth + 'px');
+			}
 		}
 	},
 	
