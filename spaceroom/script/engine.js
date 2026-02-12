@@ -101,14 +101,7 @@
         Engine.loadGame();
       }
 
-      // start loading music and events early
-      for (var key in AudioLibrary) {
-        if (
-          key.toString().indexOf('MUSIC_') > -1 ||
-          key.toString().indexOf('EVENT_') > -1) {
-            AudioEngine.loadAudioFile(AudioLibrary[key]);
-          }
-      }
+      // Disabled eager audio preloading to improve startup speed on mobile.
 
       $('<div>').attr('id', 'locationSlider').appendTo('#main');
 
