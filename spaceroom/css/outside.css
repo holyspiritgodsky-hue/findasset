@@ -37,23 +37,13 @@ div#workers {
 
 .workerRow > .row_val {
 	position: relative;
-	padding-right: 36px;
+	padding-right: 20px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-
-div#workers .upBtn,
-div#workers .dnBtn {
-	right: 16px;
-}
-
-div#workers .upManyBtn,
-div#workers .dnManyBtn {
-	right: 0;
 }
 
 .workerRow {
