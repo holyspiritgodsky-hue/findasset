@@ -91,10 +91,7 @@
         window.location = 'browserWarning.html';
       }
 
-      // Check for mobile
-      if(Engine.isMobile()) {
-        window.location = 'mobileWarning.html';
-      }
+      // Mobile redirect disabled: allow opening on mobile browsers.
 
       Engine.disableSelection();
 
