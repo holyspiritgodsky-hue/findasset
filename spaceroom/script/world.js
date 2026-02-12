@@ -571,12 +571,29 @@ var World = {
     if(curTile == World.TILE.VILLAGE) {
       World.goHome();
     } else if(curTile === World.TILE.EXECUTIONER) {
+      if(!Events.Executioner) {
+        Notifications.notify(null, _('long-range scan calibrating. try again.'));
+        return;
+      }
       const scene = World.state.executioner ? 'executioner-antechamber' : 'executioner-intro';
       const sceneData = Events.Executioner[scene];
+      if(!sceneData) {
+        Notifications.notify(null, _('signal incomplete. try again.'));
+        return;
+      }
       Events.startEvent(sceneData);
     } else if(typeof World.LANDMARKS[curTile] != 'undefined') {
       if(curTile != World.TILE.OUTPOST || !World.outpostUsed()) {
-        Events.startEvent(Events.Setpieces[World.LANDMARKS[curTile].scene]);
+        if(!Events.Setpieces) {
+          Notifications.notify(null, _('scan data syncing. try again.'));
+          return;
+        }
+        const setpiece = Events.Setpieces[World.LANDMARKS[curTile].scene];
+        if(!setpiece) {
+          Notifications.notify(null, _('anomaly unresolved. move and retry.'));
+          return;
+        }
+        Events.startEvent(setpiece);
       }
     } else {
       if(World.useSupplies()) {
