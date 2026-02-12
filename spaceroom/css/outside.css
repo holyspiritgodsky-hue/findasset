@@ -69,3 +69,29 @@ div#workers .dnManyBtn {
 div.storeRow div.tooltip {
 	width: 160px;
 }
+
+@media (max-width: 900px) {
+	div#village {
+		position: relative;
+		top: auto;
+		right: auto;
+		left: auto;
+		width: auto;
+		margin-bottom: 10px;
+	}
+
+	div#workers {
+		position: relative;
+		top: auto;
+		left: auto;
+		margin-top: 10px;
+	}
+
+	div#outsidePanel > div#gatherButton,
+	div#outsidePanel > div#trapsButton {
+		display: block;
+		position: relative;
+		z-index: 2;
+		margin-top: 8px;
+	}
+}
