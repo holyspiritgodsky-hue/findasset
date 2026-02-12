@@ -183,11 +183,31 @@ var Outside = {
 
 		var gatherBtn = $('div#gatherButton');
 		var trapsBtn = $('div#trapsButton');
-		var anchor = trapsBtn.length ? trapsBtn : gatherBtn;
+		var village = $('div#village');
+		var isMobile = Engine.isMobile && Engine.isMobile();
 
-		if(anchor.length > 0) {
-			workers.insertAfter(anchor.last());
-			var targetWidth = gatherBtn.length ? gatherBtn.outerWidth() : anchor.outerWidth();
+		if(isMobile) {
+			if(village.length && gatherBtn.length) {
+				gatherBtn.insertBefore(village);
+			}
+			if(gatherBtn.length && trapsBtn.length) {
+				trapsBtn.insertAfter(gatherBtn);
+			}
+			var mobileAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
+			if(mobileAnchor.length) {
+				workers.insertAfter(mobileAnchor.last());
+			}
+		} else {
+			var anchor = trapsBtn.length ? trapsBtn : gatherBtn;
+
+			if(anchor.length > 0) {
+				workers.insertAfter(anchor.last());
+			}
+		}
+
+		var widthAnchor = trapsBtn.length ? trapsBtn : gatherBtn;
+		if(widthAnchor.length > 0) {
+			var targetWidth = gatherBtn.length ? gatherBtn.outerWidth() : widthAnchor.outerWidth();
 			if(trapsBtn.length) {
 				targetWidth = Math.max(targetWidth, trapsBtn.outerWidth());
 			}
